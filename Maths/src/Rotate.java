@@ -25,6 +25,13 @@ public class Rotate {
 	      temp/=10;
 	    }
 	    
+	    k = k%len;
+	    
+	    if(k<0) {
+	    	k = k+len;
+	    }
+	    
+	    /*
 	    while(k<0) {
 	    	k = len+k;
 	    }
@@ -32,6 +39,7 @@ public class Rotate {
 	    while(k>len) {
 	    	k = k-len;
 	    }
+	    */
 	    
 	    int div = (int) Math.pow(10, k);
 	    int mul = (int) Math.pow(10, len-k);
