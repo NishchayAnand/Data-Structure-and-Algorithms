@@ -8,14 +8,26 @@ public class PrimeFactorisation {
 		System.out.print("Enter a number: ");
 		int num = scn.nextInt();
 		
-		System.out.println("Prime Factors: ");
-		for(int i=2; i*i<=num; i++) {
-			if(num==1) {
-				break;
-			}
+		System.out.print("Prime Factors: ");
+		
+		/* This code shows that the conditional variable of the for loop can be changed
+		for(int i=2; i<=num; i++) {
 			while(num%i==0) {
 				num/=i;
+				//System.out.print(i+" ");
+			}
+		}
+		*/
+		
+		// In case code, calculating time complexity will be difficult, i.e., can't be deduced 
+		// by just seeing the code  
+		int i = 2;
+		while(i*i<num) {
+			if(num%i==0) {
+				num/=i;
 				System.out.print(i+" ");
+			} else {
+				i++;
 			}
 		}
 		
