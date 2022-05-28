@@ -1,9 +1,9 @@
 import java.util.Scanner;
 
-public class SubArrays {
+public class Subsets {
 
 	public static void main(String[] args) {
-		
+
 		Scanner scn = new Scanner(System.in);
 		System.out.print("Enter size of array: ");
 		int size = scn.nextInt();
@@ -15,19 +15,36 @@ public class SubArrays {
 			A[i] = scn.nextInt();
 		}
 		
-		System.out.println("\nSubarrays of the array are:");
-		for(int i=0; i<size; i++) {
-			for(int end=i+1; end<=size; end++) {
-				for(int j=i; j<end; j++) {
-					System.out.print(A[j]+"\t");
+		System.out.println("\nSubsets of the array are:");
+		int rows = (int) Math.pow(2, size);
+		int temp, rem;
+		String str;
+		
+		for(int i=0; i<rows; i++) {
+			
+			temp=i;
+			str="";
+			
+			for(int j=size-1; j>=0; j--) {
+				
+				rem = temp%2;
+				
+				if(rem==0) {
+					str = "-\t"+str;
+				} else {
+					str = A[j]+"\t"+str;
 				}
-				System.out.println();
+				
+				temp/=2;
+				
 			}
+			
+			System.out.println(str);
+			
 		}
 		
 		scn.close();
-		
-		
+
 	}
 
 }
