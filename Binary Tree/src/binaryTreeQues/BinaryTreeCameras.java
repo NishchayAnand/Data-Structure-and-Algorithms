@@ -79,8 +79,8 @@ public class BinaryTreeCameras {
 			return 1;
 		}
 		
-		int left_status = getStatus(node.getLeftNode());
-		int right_status = getStatus(node.getRightNode());
+		int left_status = getStatus(node.left);
+		int right_status = getStatus(node.right);
 		
 		if(left_status==1 && right_status == 1) {
 			return -1;

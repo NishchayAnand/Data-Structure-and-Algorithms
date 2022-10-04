@@ -36,9 +36,9 @@ public class BinaryTree {
 	// node of the binary tree
 	static class Node {
 		
-		private int value;
-		private Node left;
-		private Node right;
+		int value;
+		Node left;
+		Node right;
 		
 		Node(int value){
 			this.value = value;
@@ -46,75 +46,61 @@ public class BinaryTree {
 			this.right = null;
 		}
 		
-		public int getValue() {
-			return value;
-		}
-		
-		public Node getLeftNode() {
-			return left;
-		}
-		
-		public Node getRightNode() {
-			return right;
-		}
-		
 	}
 	
-	private static class NodeInfo {
+	private static class Pair {
 		
-		private Node node;
-		private int processedChildren;
+		Node node;
+		int children;
 		
-		NodeInfo(Node node){
+		Pair(Node node){
 			this.node = node;
-			this.processedChildren = 0;
-		}
-		
-		private void setProcessedChildren(int processedChildren) {
-			this.processedChildren = processedChildren;
-		}
-		
-		private int getProcessedChildren() {
-			return processedChildren;
-		}
-		
-		private Node getNode() {
-			return node;
+			this.children = 0;
 		}
 		
 	}
 	
 	public static Node buildBinaryTree(Integer[] arr) {
 		
-		Stack<NodeInfo> st = new Stack<>();
+		Stack<Pair> st = new Stack<>();
 		
 		Node rootNode =  new Node(arr[0]);
-		st.add(new NodeInfo(rootNode));
 		
-		for(int i=1; i<arr.length; i++) {
+		st.add(new Pair(rootNode));
+		
+		int index = 1;
+		
+		while(st.size()>0) {
 			
-			NodeInfo topNodeInfo = st.peek();
+			Pair top = st.peek();
 			
-			Node topNode = topNodeInfo.getNode();
-			int processedChildren = topNodeInfo.getProcessedChildren();
-			
-			topNodeInfo.setProcessedChildren(processedChildren++);
-			
-			if(processedChildren == 2) {
-				st.pop();
-			}
-			
-			if(arr[i]!=null) {
+			if(top.children == 0) {
 				
-				Node node = new Node(arr[i]);
+				//System.out.println("Pre ->" + top.node.value);
+				if(arr[index]!=null) {
+					Node node = new Node(arr[index]);
+					top.node.left = node;
+					st.add(new Pair(node));
+				}
+				top.children++;
+				index++;
 				
-				if(processedChildren == 1) {
-					topNode.left = node;
-				} else if(processedChildren == 2) {
-					topNode.right = node;
+			} else if(top.children == 1) {
+				
+				//System.out.println("In ->" + top.node.value);
+				if(arr[index]!=null) {
+					Node node = new Node(arr[index]);
+					top.node.right = node;
+					st.add(new Pair(node));
 				}
 				
-				st.add(new NodeInfo(node));
+				top.children++;
+				index++;
+				
+			} else { // top.children == 2
+				
+				//System.out.println("Post ->" + top.node.value);
+				st.pop();
 				
 			}
 			
@@ -126,11 +112,12 @@ public class BinaryTree {
 	
 	public static void main(String args[]) {
 		
-		Integer[] arr = {50, 25, 12, null, null, 37, 30, null, null, null, 75, null, null};
+		//Integer[] arr = {50, 25, 12, null, null, 37, 30, null, null, null, 75, null, null};
 		
+		Integer[] arr = {1, 2, 3, null, 6, 8, null, null, null, 4, null, 7, 9, null, null, 10, null, null};
 		Node rootNode = buildBinaryTree(arr);
 		
-		System.out.println("Binary tree created successfully");
+		// System.out.println("Binary tree created successfully");
 		
 	}
 }

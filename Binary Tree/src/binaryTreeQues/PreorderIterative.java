@@ -6,48 +6,41 @@ import binaryTreeQues.BinaryTree.Node;
 
 public class PreorderIterative {
 	
-	private static class NodeInfo {
+	private static class Pair {
 		
 		Node node;
-		boolean isPrinted;
-		int processedChildren;
+		int state;
 		
-		NodeInfo(Node node){
+		Pair(Node node){
 			this.node = node;
-			this.isPrinted = false;
-			this.processedChildren = 0;
+			this.state = 1;
 		}
 		
 	}
 	
 	public static void printPreOrderIterative(Node rootNode) {
 		
-		Stack<NodeInfo> st = new Stack<>();
+		Stack<Pair> st = new Stack<>();
 		
-		st.add(new NodeInfo(rootNode));
+		st.add(new Pair(rootNode));
 		
 		while(!st.isEmpty()) {
 			
-			NodeInfo topNodeInfo = st.peek();
+			Pair top = st.peek();
 			
-			// print the top of the stack if it is not printed before.
-			if(topNodeInfo.isPrinted==false) {
-				System.out.print(topNodeInfo.node.getValue()+" ");
-				topNodeInfo.isPrinted=true;
-			}
-			
-			topNodeInfo.processedChildren++;
-			
-			// removing node from stack if both children have been visited
-			if(topNodeInfo.processedChildren == 2) {
+			if(top.state == 1) {
+				System.out.print(top.node.value + " ");
+				if(top.node.left!=null) {
+					st.add(new Pair(top.node.left));
+				}
+				top.state++;
+			} else if (top.state == 2) {
+				if(top.node.right!=null) {
+					st.add(new Pair(top.node.right));
+				}
+				top.state++;
+			} else {
 				st.pop();
-			}
-			
-			// adding left/right child node to the stack.
-			if(topNodeInfo.processedChildren == 1 && topNodeInfo.node.getLeftNode()!=null) {
-				st.add(new NodeInfo(topNodeInfo.node.getLeftNode()));
-			} else if(topNodeInfo.processedChildren == 2 && topNodeInfo.node.getRightNode()!=null) {
-				st.add(new NodeInfo(topNodeInfo.node.getRightNode()));
 			}
 			
 		}
@@ -56,7 +49,7 @@ public class PreorderIterative {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		Integer[] arr = {10, 20, 30, null, null, 40, null, null, 50, null, null};
+		Integer[] arr = {50, 20, 40, null, null, 30, null, null, 10, null, null};
 		
 		Node rootNode = BinaryTree.buildBinaryTree(arr);
 		
