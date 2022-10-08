@@ -11,7 +11,7 @@ public class SolveSudokuOptimized {
     }
   }
   
-  public static boolean isValidOptimized(int[][] board, int i, int j, int digit){
+  public static boolean isValid(int[][] board, int i, int j, int digit){
       
       int block_rst = i - i%3;
       int block_cst = j - j%3;
@@ -41,7 +41,7 @@ public class SolveSudokuOptimized {
       
   }
 
-  public static boolean solveSudokuOptimized(int[][] board, int i, int j) {
+  public static boolean solveSudokuOptimized1(int[][] board, int i, int j) {
     
 	// base condition
     if(i == board.length){
@@ -55,14 +55,14 @@ public class SolveSudokuOptimized {
         
         for(int dig=1; dig<=9; dig++){
             
-            if(isValidOptimized(board, i,j,dig)){
+            if(isValid(board, i,j,dig)){
                 
                 board[i][j] = dig;
                 
                 if(j!=board[0].length-1){
-                    found = solveSudokuOptimized(board, i, j+1);
+                    found = solveSudokuOptimized1(board, i, j+1);
                 } else {
-                    found = solveSudokuOptimized(board, i+1, 0);
+                    found = solveSudokuOptimized1(board, i+1, 0);
                 }
                 
                 // no need to check any further
@@ -78,15 +78,47 @@ public class SolveSudokuOptimized {
     } else {
         
         if(j!=board[0].length-1){
-            found = solveSudokuOptimized(board, i, j+1);
+            found = solveSudokuOptimized1(board, i, j+1);
         } else {
-            found = solveSudokuOptimized(board, i+1, 0);
+            found = solveSudokuOptimized1(board, i+1, 0);
         }
         
     }
     
     return found;
     
+  }
+  
+  public static boolean solveSudokuOptimized2(int[][] board) {
+	  
+	  for(int i=0; i<board.length; i++) {
+		  
+		  for(int j=0; j<board[0].length; j++) {
+			  
+			  if(board[i][i]==0) {
+				  
+				  for(int dig=1; dig<=9; dig++) {
+					  
+					  if(isValid(board, i, j, dig)) {
+						  board[i][j] = dig;
+						  boolean found = solveSudokuOptimized2(board);
+						  if(found) {
+							  return true;
+						  }
+						  board[i][j] = 0;
+					  }
+					  
+				  }
+				  
+				  // if for loop is over, we happened found the solution yet and we need to backtrack.
+				  return false;
+			  }
+			  
+		  }
+	  }
+	  
+	  return true;
+	  
   }
 
   public static void main(String[] args) throws Exception {
@@ -98,7 +130,8 @@ public class SolveSudokuOptimized {
       }
     }
 
-    solveSudokuOptimized(arr, 0, 0);
+    //solveSudokuOptimized1(arr, 0, 0);
+    solveSudokuOptimized2(arr);
     
     scn.close();
     

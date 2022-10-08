@@ -11,6 +11,36 @@ public class SolveSudoku {
     }
   }
   
+  public static boolean isValidOptimized(int[][] board, int i, int j, int digit){
+      
+      int block_rst = i - i%3;
+      int block_cst = j - j%3;
+      
+      for(int k=0; k<9; k++){
+          
+          // row check
+          if(board[i][k] == digit){
+              return false;
+          }
+          
+          // column check
+          if(board[k][j] == digit){
+              return false;
+          }
+          
+          // block check
+          int r = block_rst + k/3;
+          int c = block_cst + k%3;
+          if(board[r][c] == digit){
+              return false;
+          }
+          
+      }
+      
+      return true;
+      
+  }
+  
   public static boolean isValid(int[][] board, int i, int j, int digit){
       
       // row check
@@ -54,7 +84,7 @@ public class SolveSudoku {
     	
         for(int dig=1; dig<=9; dig++){
         	
-            if(isValid(board, i,j,dig)){
+            if(isValidOptimized(board, i,j,dig)){
             	
                 board[i][j] = dig;
                 
