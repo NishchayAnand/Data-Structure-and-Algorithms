@@ -95,7 +95,7 @@ public class SolveSudokuOptimized {
 		  
 		  for(int j=0; j<board[0].length; j++) {
 			  
-			  if(board[i][i]==0) {
+			  if(board[i][j]==0) {
 				  
 				  for(int dig=1; dig<=9; dig++) {
 					  
