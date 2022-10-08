@@ -1,4 +1,3 @@
-import java.io.*;
 import java.util.*;
 
 /* Problem Statement: Given 3 strings, we need to map each character of the 3 input strings such 

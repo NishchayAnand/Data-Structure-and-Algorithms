@@ -152,12 +152,14 @@ public class KSubsetsWithEqualSum {
 				System.out.print(arr[i] + ", ");
 			}
 			System.out.println("]");
+			scn.close();
 			return;
 		}
 		
 		//if there are more subsets than no. of elements in array or sum of all elements is not divisible by k.
 		if(k > n || sum % k != 0) {
 			System.out.println("-1");
+			scn.close();
 			return;
 		}
 		
@@ -167,6 +169,9 @@ public class KSubsetsWithEqualSum {
 			ans.add(new ArrayList<>());
 		}
 		solution(arr,0,n,k,subsetSum,0,ans);
+		
+		scn.close();
+		
 	}
 	
 }
