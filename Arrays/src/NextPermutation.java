@@ -24,6 +24,32 @@ public class NextPermutation {
 			end--;
 		}
 	}
+	
+	public void nextPermutationClearComplexity(int[] nums) {
+        
+        int i=-1;
+        for(int idx=nums.length-2; idx>=0; idx--){
+            if(nums[idx]<nums[idx+1]){
+                i=idx;
+                break;
+            }
+        }
+        
+        if(i==-1){
+            reverse(nums, 0, nums.length-1);
+        } else {
+            int j=-1;
+            for(int idx=nums.length-1; idx>i; idx--){
+                if(nums[i]<nums[idx]){
+                    j=idx;
+                    break;
+                }
+            }
+            swap(nums, i, j);
+            reverse(nums, i+1, nums.length-1);
+        }
+        
+    }
 
 	public static void main(String[] args) {
 		
@@ -39,30 +65,28 @@ public class NextPermutation {
 		}
 		
 		// to check if next greater permutation is possible or not.
-		boolean isPossible = false;
+		boolean found = false;
 		
-		for(int i=size-2; i>=0; i--) {
+		for(int i=size-2; i>=0; i--){
 			
-			if(A[i]<A[i+1]) {
-				
-				isPossible = true;				
-				int nextGreatestIdx = i+1;
-				for(int k=i+2; k<size; k++) {
-					if(A[k]>A[i]) {
-						nextGreatestIdx = k;
-					}
-				}
-				
-				swap(A, i, nextGreatestIdx);
-				reverse(A, i+1, size-1);
-				
-				break;
-				
-			}
-			
-		}
+            if(A[i]<A[i+1]){           	
+                for(int j=size-1; j>=(i+1); j--){
+                    if(A[i]<A[j]){
+                        found = true;
+                        swap(A, i, j);
+                        reverse(A, i+1, size-1);
+                        break;
+                    }
+                }                
+            }
+            
+            if(found){
+                break;
+            }
+            
+        }
 		
-		if(!isPossible) {
+		if(!found) {
 			reverse(A, 0, size-1);
 		}
 		
