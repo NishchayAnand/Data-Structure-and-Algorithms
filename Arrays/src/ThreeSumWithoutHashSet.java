@@ -4,7 +4,7 @@ import java.util.List;
 
 public class ThreeSumWithoutHashSet {
 	
-public List<List<Integer>> threeSumCleansed2(int[] nums) {
+	public List<List<Integer>> threeSumCleansed2(int[] nums) {
         
         Arrays.sort(nums);
         
