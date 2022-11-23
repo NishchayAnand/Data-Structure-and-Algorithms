@@ -67,23 +67,30 @@ public class BuySellStockInfinite {
     
     public int maxProfitTabulationSpaceOptimized(int[] prices) { 
         
-        int n = prices.length;
+    	int n = prices.length;
         
-        int buyOptionProfit = 0;
-        int sellOptionProfit = 0;
+        int futureBuyOptionProfit = 0;
+        int currentBuyOptionProfit = 0;
+        int futureSellOptionProfit = 0;
+        int currentSellOptionProfit = 0;
         
         for(int i=n-1; i>=0; i--){
+            
             for(int j=0; j<=1; j++){
                 if(j==1) { // we have the option to buy
-                    buyOptionProfit = Math.max(sellOptionProfit-prices[i], buyOptionProfit);
+                    currentBuyOptionProfit = Math.max(currentSellOptionProfit-prices[i], futureBuyOptionProfit);
                 } else { // we have the option to sell
-                    sellOptionProfit = Math.max(buyOptionProfit+prices[i], sellOptionProfit);
+                    currentSellOptionProfit = Math.max(futureBuyOptionProfit+prices[i], futureSellOptionProfit);
                 }
             }
+            
+            futureBuyOptionProfit = currentBuyOptionProfit;
+            futureSellOptionProfit = currentSellOptionProfit;
+            
         }
         
                
-        return buyOptionProfit;
+        return currentBuyOptionProfit;
         
     }
     
