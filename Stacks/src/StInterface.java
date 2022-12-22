@@ -1,4 +1,4 @@
-public interface StIterface<AnyType> {
+public interface StInterface<AnyType> {
 
    public boolean isEmpty();
 

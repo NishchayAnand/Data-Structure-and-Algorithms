@@ -1,7 +1,10 @@
-//Static-size fixed array implementation...
+/*****************************************************************************
+ * An array implementation of a stack.
+ *
+ *****************************************************************************/
 
 @SuppressWarnings("unchecked")
-public class ArrayStack<AnyType> implements StIterface<AnyType> {
+public class ArrayStack<AnyType> implements StInterface<AnyType> {
 
 	private static final int DEFAULT_CAPACITY = 15;
 	private int top;  // reference to the top element  
