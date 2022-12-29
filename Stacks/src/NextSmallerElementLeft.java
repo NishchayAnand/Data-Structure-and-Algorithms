@@ -1,6 +1,10 @@
 import java.util.ArrayList;
 import java.util.Stack;
 
+/* NOTE: We will traverse from left to right and use Stack data structure to maintain the decreasing
+ *       order subsequence as viewed from right to left.  
+ * */
+
 public class NextSmallerElementLeft {
 	
     public ArrayList<Integer> prevSmaller(ArrayList<Integer> A) {

@@ -1,5 +1,9 @@
 import java.util.Stack;
 
+/* NOTE: We will traverse from left to right and use Stack data structure to maintain the increasing
+ *       order subsequence as viewed from right to left.  
+ * */
+
 public class NextGreaterElementLeft {
 	
 	public static int[] solve(int[] arr) {
