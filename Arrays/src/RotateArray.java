@@ -1,79 +1,54 @@
-import java.util.Scanner;
 
 public class RotateArray {
 	
-	public static void reverse(int[] A, int start, int end) {
-		
-		int temp;
-		while(start<end) {
-			
-			temp = A[start];
-			A[start] = A[end];
-			A[end] = temp;
-			
-			start++;
-			end--;
-		}
-		
-	}
+	private void display(int[] nums) {
+        for(int i=0; i<nums.length; i++){
+            System.out.print(nums[i]+" ");
+        }
+    }
 	
-	public static void printRotatedArrayUsingReverseAlgo(int[] A, int k) {
-		
-		reverse(A, 0, A.length-1);
-		reverse(A, 0, k-1);
-		reverse(A, k, A.length-1);
-		
-		System.out.print("\nRotated Array (using reversal algorithm): ");
-		for(int i=0; i<A.length; i++) {
-			System.out.print(A[i]+" ");
-		}
-		
-	}
-	
-	public static void printRotatedArrayUsingExtraArray(int[] A, int k) {
-		
-		int[] R = new int[A.length];
-		int idx;
-		
-		for(int i=0; i<A.length; i++) {
-			idx = (i+k)%A.length;
-			R[idx] = A[i];
-		}
-		
-		System.out.print("\nRotated Array (using additional array): ");
-		for(int i=0; i<A.length; i++) {
-			System.out.print(R[i]+" ");
-		}
-		
-	}
+    private void reverse(int[] nums, int start, int end){
+        while(start<end){
+            int temp = nums[start];
+            nums[start] = nums[end];
+            nums[end] = temp;
 
-	public static void main(String[] args) {
-		
-		Scanner scn = new Scanner(System.in);
-		System.out.print("Enter the size of an array: ");
-		int size = scn.nextInt();
-		
-		int[] A = new int[size];
-		System.out.println("\nPlease input the elements of the array:");
-		for(int i=0; i<size; i++) {
-			System.out.print("Enter Element "+(i+1)+" : ");
-			A[i] = scn.nextInt();
-		}
-		
-		System.out.print("\nEnter the number of rotations: ");
-		int k = scn.nextInt();
-		
-		k = k%size;
-		if(k<0) {
-			k = k + size;
-		}
-		
-		printRotatedArrayUsingExtraArray(A, k);
-		
-		printRotatedArrayUsingReverseAlgo(A, k);
-		
-		scn.close();
+            start++;
+            end--;
+        }
+    }
 
-	}
+    private void reversalAlgorithm(int[] nums, int n, int k) {
+        reverse(nums, 0, n-1);
+        reverse(nums,0,k-1);
+        reverse(nums,k,n-1);  
+    }
 
+
+    private void bruteForceAlgorithm(int[] nums, int n, int k) {
+        int[] temp = new int[n];
+        // 1. copy last k elements to [0...k-1] indices of the temporary array.  
+        for(int i=0, j=(n-k); i<k; i++, j++){
+            temp[i] = nums[j];
+        }
+
+        // 2. copy the first (n-k) elements to [k...n-1] indices of the temporary array.
+        for(int i=k, j=0; i<n; i++, j++){
+            temp[i] = nums[j];
+        }
+
+        // 3. copy back the rotated elements from the temporary array to the original array.
+        for(int i=0; i<n; i++){
+            nums[i] = temp[i];
+        }
+
+    }
+
+    public void rotate(int[] nums, int k) {
+        int n = nums.length; 
+        k = k%n;
+
+        bruteForceAlgorithm(nums, n, k);
+        reversalAlgorithm(nums, n, k);
+    }
 }
