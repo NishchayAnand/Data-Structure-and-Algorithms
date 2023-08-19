@@ -16,7 +16,7 @@ import java.util.Scanner;
  * 
  */
 
-public class Rotated_Simple_Pyramid_1 {
+public class Rotated_Simple_Pyramid {
 
 	public static void main(String[] args) {
 		

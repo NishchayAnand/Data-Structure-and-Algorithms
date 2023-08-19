@@ -10,7 +10,7 @@ import java.util.Scanner;
  * 							* _ * _ * _ * _ *	-> i = 5, nsp = 0, nst = 5
  */
 
-public class Triangle_2 {
+public class Triangle_With_Space {
 
 	public static void main(String[] args) {
 		
