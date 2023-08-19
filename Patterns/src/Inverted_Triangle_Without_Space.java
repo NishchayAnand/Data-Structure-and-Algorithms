@@ -4,11 +4,11 @@ import java.util.Scanner;
     Problem Statement: Given the number of row count, print an inverted triangle without any space.
     				   For n = 5,
     
-            			********* -> i = 0, nsp = 0 [i], nst = 9 [(5-0)*2-1]  
-            			_*******  -> i = 1, nsp = 1 [i], nst = 7 [(5-1)*2-1] 
-            			__*****   -> i = 2, nsp = 2 [i], nst = 5 [(5-2)*2-1]  
-            			___***    -> i = 3, nsp = 3 [i], nst = 3 [(5-3)*2-1] 
-            			____*     -> i = 4, nsp = 4 [i], nst = 1 [(5-4)*2-1] 
+            			* * * * * * * * * -> i = 0, nsp = 0 [i], nst = 9 [(5-0)*2-1]  
+            			_ * * * * * * *   -> i = 1, nsp = 1 [i], nst = 7 [(5-1)*2-1] 
+            			_ _ * * * * *     -> i = 2, nsp = 2 [i], nst = 5 [(5-2)*2-1]  
+            			_ _ _ * * *       -> i = 3, nsp = 3 [i], nst = 3 [(5-3)*2-1] 
+            			_ _ _ _ *         -> i = 4, nsp = 4 [i], nst = 1 [(5-4)*2-1] 
             
     General Observation:
     1. We can set nsp = 0 and nst = 2*n-1 (nth odd number) in the start and [increment nsp by 1, decrement nst 
