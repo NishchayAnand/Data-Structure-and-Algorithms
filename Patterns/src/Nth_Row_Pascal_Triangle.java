@@ -69,7 +69,7 @@ public class Nth_Row_Pascal_Triangle {
 		// input
 		int numRows = 6;
 		
-		List<List<Integer>> rows = new ArrayList<List<Integer>>();
+		List<List<Integer>> rows = new ArrayList<>();
 
         List<Integer> row = new ArrayList<>();
         row.add(1);
