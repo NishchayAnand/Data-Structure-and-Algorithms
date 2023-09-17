@@ -13,7 +13,7 @@ public class CountPrimes {
         isPrime[0] = isPrime[1] = false;
 
         for(int i=2; i<n; i++){ // time complexity = O(N)
-            if(isPrime[i] && (long)i*i<n){
+            if(isPrime[i] && (long)i*i<n){  // NOTE: explore (long)i*i<n in the next iteration
                 for(int j = i*i; j<n; j+=i){ // time complexity = ?
                     isPrime[j] = false;
                 }
