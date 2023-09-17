@@ -9,8 +9,11 @@ General Observations:
                         - check if (A%i==0) and (B%i==0) = true: -> i.e., whether i is the factor of A and B
                             - return i                         -> i.e., i is the GCD of A and B.
     
+    - If we take 2 numbers and repeatedly subtract the larger number from the smaller number, we will reach
+      a point where the smaller number will become 0. (to be explored in the next iteration) ???
+    
     - Given 2 non-negative integers A and B such that A>B and B!=0, A can be written as A = BQ + R, where  0<=R<=B.
-    - Euclidean Division Method: 
+    - Optimized approach based on Euclidean Division Method: 
                 - If x = GCD(A, B), then:
                     -> A%x == 0 and B%x == 0
                     -> (BQ+R)%x == 0 and B%x == 0
