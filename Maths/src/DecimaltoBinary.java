@@ -53,7 +53,9 @@ import java.util.Scanner;
                                                   |   |    which can be placed in the 6th chamber.
                                                   |___|                                                                        
 
-- Therefore, decimal number N = 54 can be represented as 0x1 + 1x10 + 1x100 + 0x1000 + 1x10000 + 1x100000 => 110110.                                                                                                                     
+- Therefore, decimal number N = 54 can be represented as 0x1 + 1x10 + 1x100 + 0x1000 + 1x10000 + 1x100000 => 110110 
+
+NOTE: Above representation can be thought of as a binary number but computer will treat it as a decimal number.                                                                                                                     
                                                               
 */
 
