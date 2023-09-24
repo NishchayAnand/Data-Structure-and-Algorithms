@@ -17,18 +17,23 @@ import java.util.List;
  
  - Brute Force: Generate next row using the previous row for (N-1) times.
  
- -           1(0C0)                      -> n = 1, number of digits = 1
-             1(1C0) 1(1C1)               -> n = 2, number of digits = 2
-             1(2C0) 2(2C1) 1(2C2)        -> n = 3, number of digits = 3
-             1(3C0) 3(3C1) 3(3C2) 1(3C3) -> n = 4, number of digits = 4
+ -           1(0C0)                      -> i = 0,
+             1(1C0) 1(1C1)               -> i = 1, 
+             1(2C0) 2(2C1) 1(2C2)        -> i = 2, 
+             1(3C0) 3(3C1) 3(3C2) 1(3C3) -> i = 3,
              
- - nCr = n!/r!(n-r)! => n!/r!(n-r)(n-r-1)!
+ - iCj = i!/j!(i-j)!
  
- - nCr+1 = n!/(r+1)!(n-r-1)! => n!/(r+1)r!(n-r-1)!
+ - iCj+1 = i!/(j+1)!(i-j-1)!
  
- - nCr+1/nCr = (n-r)/(r+1) => nCr = nCr-1*(n-r+1)/(r)
+ - iCj+1/iCj = (i-j)/(j+1) => iCj+1 = iCj*(i-j)/(j+1)
+  						   => iCj = iCj-1*(i-j+1)/(j)=> next_cal = prev_val*(i-j+1)/(j).
 
- - n-1Cr = n-1Cr-1*(n-1-r+1)/r -> (n-1Cr-1*(n-r))/(r)
+ NOTE: While calculating prev_val*(i-j+1)/(j), first perform multiplication, then division, otherwise
+ 	   you may get wrong results. Consider the below example to understand the nature:
+ 	   
+ 	   - 2*[3/2] = 1 (since Java will round off 3/2=1.5 to 1 while converting float answer to integer type).
+ 	   - [2*3]/2 = 2 (here 2 in numerator will be considered while performing division).
  
 */
 
@@ -49,15 +54,16 @@ public class Nth_Row_Pascal_Triangle {
         
     }
     
-	private static List<Integer> generateNextRowUsingBinomialCoefficients(int n){
+	private static List<Integer> generateNextRowUsingBinomialCoefficients(int i){
         
         List<Integer> next = new ArrayList<Integer>();
-        int element = 1;
-        next.add(element);
+        int prev = 1;
+        next.add(prev);
         
-        for(int r=1; r<=(n-1); r++){ // time complexity = O(N-1) ~ O(N)
-            element = (element*(n-r))/r;
-            next.add(element);
+        for(int j=1; j<=i; j++){ // time complexity = O(N-1) ~ O(N)
+            int curr = (prev*(i-j+1))/(j);
+            next.add(curr);
+            prev = curr;
         }
            
         return next; // space complexity = O(N+1) ~ O(N)
@@ -76,7 +82,7 @@ public class Nth_Row_Pascal_Triangle {
 
         rows.add(row);
         
-        for(int i=2; i<=numRows; i++){ // time complexity = O(N-1) ~ O(N)
+        for(int i=1; i<numRows; i++){ // time complexity = O(N-1) ~ O(N)
             //row = generateNextRowUsingPrevious(row); // time complexity = O(N)
             row = generateNextRowUsingBinomialCoefficients(i); // time complexity = O(N)
             rows.add(row); // O(N*2)
