@@ -27,7 +27,15 @@
  *
  *	- Time Complexity:
  *
- *		- For worst case scenario:
+ *		- Best case scenario:
+ *				- For already sorted array, for example, A = [1,2,3,4,5], the algorithm will perform 1 
+ *				  pass through the data, therefore, time complexity = O(n).
+ *				- For nearly sorted array, for example, A = [2,1,3,4,5], the algorithm will perform 2
+ *				  passes through the data, therefore, time complexity = O(n).
+ *		
+ *		- Worst case scenario:
+ *				- Reverse sorted array, for example, A = [5,4,3,2,1], the algorithm will perform n^2 
+ *				  of swaps, therefore, time complexity = O(n^2).   
  *   
  * */
 
