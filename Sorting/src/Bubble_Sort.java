@@ -16,7 +16,18 @@
  *    the minimum element at A[0], i.e., start of the array.
  *    
  *  - Algorithm:
- *  	- 
+ *  	- Loop from i = [0, n-2] --> for i=n-1, left sorted sub-array = A[0...n-2] and right unsorted sub-
+ *                                              array = A[n-1] where A[n-1] is greater than all elements
+ *                                              in left sub-array, therefore, at the correct location.
+ *      	- Loop from j=[n-1, i+1]:
+ *      		- if A[j] < A[j-1]:
+ *      			- swap A[j], A[j-1] 
+ *      
+ *	- For any ith iteration, if no swaps happens, then we can say that the array is already sorted.
+ *
+ *	- Time Complexity:
+ *
+ *		- For worst case scenario:
  *   
  * */
 
@@ -33,9 +44,9 @@ public class Bubble_Sort {
     {
         for(int i=0; i<n-1; i++){
             boolean swapped = false;
-            for(int j=0; j<n-i-1; j++){
-                if(arr[j]>arr[j+1]){
-                    swap(arr, j, j+1);
+            for(int j=n-1; j>i; j--){
+                if(arr[j] < arr[j-1]){
+                    swap(arr, j, j-1);
                     swapped= true;
                 }
             }
