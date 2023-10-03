@@ -11,9 +11,9 @@
  *  		- Take the minimum element from the unsorted sub-array and place it at the end of the sorted 
  *   		  sub-array. 
  *     
- *  - For an array A[0....n-1], looping from j=[n-1:1] and swapping the A[j] element with A[j-1] element 
- *    (i.e., element to its immediately left) if A[j] is smaller than A[j-1] will always end up placing 
- *    the minimum element at A[0], i.e., start of the array.
+ *  	- For an array A[0....n-1], looping from j=[n-1:1] and swapping the A[j] element with A[j-1] 
+ *        element (i.e., element to its immediately left) if A[j] is smaller than A[j-1] will always end 
+ *        up placing the minimum element at A[0], i.e., start of the array.
  *    
  *  - Algorithm:
  *  	- Loop from i = [0, n-2] --> for i=n-1, left sorted sub-array = A[0...n-2] and right unsorted sub-
@@ -23,7 +23,8 @@
  *      		- if A[j] < A[j-1]:
  *      			- swap A[j], A[j-1] 
  *      
- *	- For any ith iteration, if no swaps happens, then we can say that the array is already sorted.
+ *	- Optimization: For any ith iteration, if no swaps happens, then we can say that the array is already 
+ *					sorted and there is no need to process further.
  *
  *	- Time Complexity:
  *
@@ -50,7 +51,7 @@ public class Bubble_Sort {
     //Function to sort the array using bubble sort algorithm.
 	public static void bubbleSort(int arr[], int n)
     {
-        for(int i=0; i<n-1; i++){
+        for(int i=0; i<n; i++){
             boolean swapped = false;
             for(int j=n-1; j>i; j--){
                 if(arr[j] < arr[j-1]){

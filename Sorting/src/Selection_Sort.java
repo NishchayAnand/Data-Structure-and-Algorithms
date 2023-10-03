@@ -1,13 +1,55 @@
 
 /*
+ * General Observations:
+ * 
+ * - Ideology:
+ * 
+ * 		- Consider the array as 2  halves: 
+ *    		(i) a group of sorted elements a.k.a "sorted sub-array"
+ *          (ii) a group of unsorted elements a.k.a "unsorted sub-array".
+ *  
+ *  	- While the size of the unsorted array is not reduced to 0:
+ *  		- Take the minimum element from the unsorted sub-array and place it at the end of the sorted 
+ *   		  sub-array.
+ *  
+ * 		- Simply finding the minimum element in the unsorted array and swapping it with its first element 
+ *        will do the trick, increasing/decreasing the size of sorted/unsorted array by 1.
+ *        
+ * - Algorithm:
+ * 	
+ * 		1. Loop from i = [0, n-2]:--> for i=n-1, left sorted sub-array = A[0...n-2] and right unsorted 
+ * 												 sub-array = A[n-1] where A[n-1] is greater than all 
+ * 												 elements in left sub-array, therefore, at the correct 
+ * 												 location.
+ * 			2. min_val_idx = i;
+ * 		 ---------------------------------------
+ * 		|	3. Loop from j = [i+1, n):          |
+ * 		|		4. if A[j] < A[min_val_idx]:    |
+ * 		|			5. min_val_idx = j;         |
+ * 		 ---------------------------------------
+ * 			6. if min_val_idx != i:
+ * 				7. swap(min_val_idx, i); 
+ * 
+ *  - Time Complexity:
+ *  
+ *  	- For every scenario, 3rd code block, i.e., the most time intensive block will run for n^2 times.
+ *  	  Since, the algorithm does not adapt to the data in any way, its runtime is always quadratic, 
+ *        i.e, time complexity = O(n^2).
+ *		
+ *	NOTE: - The algorithm will at max perform n-1 swaps (for example, consider A = [4,1,5,3,2]).
+ *
+ * */
+
+
+
+/*
     General Observations:
     
     - The ideology is to consider the array as 2  halves: 
             (i) a group of sorted elements a.k.a "sorted subarray"
             (ii) a group of unsorted elements a.k.a "unsorted subarray".
             
-    - The idea is to find the minimum element in the unsorted array and place it at the start of it, increasing the length of sorted array by 1 and decreasing
-      the length of unsorted array by 1. --> Repeat this until the length of the unsorted array becomes 0.
+    - The idea is to  --> Repeat this until the length of the unsorted array becomes 0.
       
     - All the elements in the sorted array will be less or equal to the elements in th unsorted array.
       
@@ -26,15 +68,7 @@
             
     Time Complexity Analysis:
         
-        #1: for i = 0, it will run for n-1 times.
-            for i = 1, it will run for n-2 times.
-            .
-            .
-            for i=n-2, it will run for 1 time.
-            
-            Therefore, total operations: (n-1) + (n-2) + ...... + 1 = (n-1)/2*(2 + n-1) = f(n^2).
-            
-        - Time Complexity = O(n^2)
+        
         - Additional Space Complexity = O(1)
         
     Advantage:
