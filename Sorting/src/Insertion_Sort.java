@@ -1,45 +1,46 @@
 
 /*
-    General Observations:
-    
-        - An array with 1 element is always sorted.
-    
-        - Assuming the array as 2  halves: 
-            (i) a group of sorted elements a.k.a "sorted subarray".
-            (ii) a group of unsorted elements a.k.a "unsorted subarray".
-            
-        - The idea is to iterate over each element in the unsorted array and placing the element at the current position in the sorted array.
-        
-        - Algorithm:
-        
-            - Consider A[0] as sorted array and A[1.....n-1] as unsorted array.
-            - Loop from i = [1:n-1]: --> will be executed n-1 times.
-            -   Loop from j = [i:1]: --> #1
-                    - if A[j] < A[j-1]:
-                        swap(A[j], A[j-1]);
-                    - else: 
-                        break;
-            
-        - Runtime Complexities in worst case:
-        
-            - #1: for i=1, loop will run for 1 time.
-                  for i=2, loop will run for 2 times.
-                  for i=3, loop will run for 3 times.
-                  .
-                  .
-                  for i=n-1, loop will run for n-1 times.
-                  
-                  Total operations = 1 + 2 + 3 + ..... + (n-1) = (n-1)/2*(1+n-1)
-                  
-            - Total Time Complexity: O(n^2)
-            
-            - Extra Space Complexity: O(1)
-            
-        - NOTE:
-            - Adaptive Sorting Algorithm: performs well when the input data is partially sorted or already nearly sorted. In such cases, its time complexity can 
-                                          approach O(n), making it significantly faster than its worst-case time complexity.
-        
-*/
+ * General Observations:
+ * 
+ * 		- Ideology:
+ * 
+ * 			- Consider the array as 2  halves: 
+ *    			(i) a group of sorted elements a.k.a "sorted sub-array"
+ *          	(ii) a group of unsorted elements a.k.a "unsorted sub-array".
+ *  
+ *  		- While the size of the unsorted array is not reduced to 0:
+ *  			- Take the first element from the unsorted sub-array and place it at the correct location 
+ *  		  	  in the sorted sub-array.
+ *  	
+ *  		- Taking the first element from the unsorted sub-array and repeatedly swapping it with 
+ *  		  elements greater than it in the sorted sub-array will always end up placing the element at 
+ *  		  the current position in the sorted sub-array, increasing/decreasing the size of sorted / 
+ *  		  unsorted sub-array by 1. 
+ *  
+ *  	- Algorithm:
+ *       
+ *      	- Consider A[0] as sorted array and A[1.....n-1] as unsorted array.
+ *           
+ *           1. Loop from i = [1:n-1]: 
+ *           	2. Loop from j = [i:1]:
+ *                   3. if A[j] < A[j-1]:
+ *                   	4. swap(A[j], A[j-1]);
+ *                   5. else: 
+ *                   	6. break;
+ *     
+ *     - Time Complexity:
+ *     
+ *     		- Best case scenario:
+ *				- For already sorted array, for example, A = [1,2,3,4,5], the algorithm will perform 1 
+ *				  pass through the data, therefore, time complexity = O(n).
+ *				- For nearly sorted array, for example, A = [2,1,3,4,5], the algorithm will perform 1
+ *				  pass through the data, therefore, time complexity = O(n).
+ *		
+ *			- Worst case scenario:
+ *				- Reverse sorted array, for example, A = [5,4,3,2,1], the algorithm will perform n^2 
+ *				  of swaps, therefore, time complexity = O(n^2).   
+ *  
+ * */
 
 public class Insertion_Sort {
 	
