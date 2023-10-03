@@ -40,48 +40,11 @@
  *
  * */
 
-
-
-/*
-    General Observations:
-    
-    - The ideology is to consider the array as 2  halves: 
-            (i) a group of sorted elements a.k.a "sorted subarray"
-            (ii) a group of unsorted elements a.k.a "unsorted subarray".
-            
-    - The idea is to  --> Repeat this until the length of the unsorted array becomes 0.
-      
-    - All the elements in the sorted array will be less or equal to the elements in th unsorted array.
-      
-    Algorithm: 
-    
-        - Loop from i = [1:n-2] --> n is the length of array --> consider A[0...i-1] as sorted array and A[i....n-1] as unsorted array --> will run for n-1 times.
-        
-            - min_el_idx = i --> will run for n-1 times.
-            
-            - Loop from j = [i+1:n-1]:  --> #1: will run for n^2 times.
-                - if A[j] < A[min_val_idx]: --> will run for n^2 times.
-                    - min_val_idx = j --> worst case (reverse): n^2 times, best case: 0 times. 
-                     
-            - if min_el_idx != i: --> will run for n-1 times.
-                - swap(min_val_idx, i) --> worst case (reverse): n-1 times, best case: 0 times.
-            
-    Time Complexity Analysis:
-        
-        
-        - Additional Space Complexity = O(1)
-        
-    Advantage:
-        - Has the property of minimizing the number of swaps. In applications where the cost of swapping items is high, selection sort very well may be the algorithm of
-          choice.
-
-*/
-
 public class Selection_Sort {
 	
 	private static void selectionSort(int arr[], int n) {
 		
-	    for(int i=0; i<n-1; i++){
+	    for(int i=0; i<n; i++){
 	    	
 	    	int min_val_idx = i;
 	    	
