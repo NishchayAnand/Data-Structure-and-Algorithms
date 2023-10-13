@@ -14,7 +14,7 @@
  *  	
  *  		- Taking the first element from the unsorted sub-array and repeatedly swapping it with 
  *  		  elements greater than it in the sorted sub-array will always end up placing the element at 
- *  		  the current position in the sorted sub-array, increasing/decreasing the size of sorted / 
+ *  		  the correct position in the sorted sub-array, increasing/decreasing the size of sorted / 
  *  		  unsorted sub-array by 1. 
  *  
  *  	- Algorithm:
