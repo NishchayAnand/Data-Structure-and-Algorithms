@@ -14,7 +14,7 @@ public class MergeSort {
 		int[] left = mergeSort(A, lo, mid);
 		int[] right = mergeSort(A, mid+1, hi);
 		
-		int[] ans = Merge2SortedArrays.mergeTwoSortedArrays(left, right);
+		int[] ans = MergeTwoSortedArraysAuxiliarySpace.mergeTwoSortedArrays(left, right);
 		
 		return ans;
 		
