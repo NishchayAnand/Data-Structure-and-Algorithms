@@ -10,9 +10,7 @@ import java.util.Scanner;
  * 	- Brute Force Approach: 
  * 
  * 		- Add all elements of A in the first m slots of the auxiliary array AUX.
- * 		- Add all elements of B in the last n slots of the auxiliary array AUX.
- * 		- Loop from i=[m, m+n) and insert every AUX[i] at the correct position in the left sorted 
- *        sub-array AUX[0....i-1].
+ * 		
  *         
  *         
  *      - Time Complexity Analysis: 
@@ -30,27 +28,7 @@ import java.util.Scanner;
  *      
  *	- Two Pointers Approach:
  *
- *		- initialize a pointer "k" pointing to the start of array AUX. // pointer will be used to iterate over the AUX array.
- *
- *		- initialize 2 pointers "i" and "j" pointing to the start of arrays A and B. // these pointers will be used to iterate over arrays A and B.
- * 
- *		- while both A[i] and B[j] exist, compare the elements A[i] and B[j]:
- *			- if A[i] <= B[j], put AUX[k] = A[i] and increment pointers "i" and "k" by 1.
- *			- if B[j] < A[i], put AUX[k] = B[j] and increment pointers "j" and "k" by 1.
- *
- *		- while A[i] exist: // in case size of A, i.e., m is greater than size of B, i.e., n.
- *			- put AUX[k] = A[i] and increment pointers "i" and "k" by 1.
- *
- *		- while B[j] exist: // in case size of B, i.e., n is greater than size of A, i.e., m.
- *			- put AUX[k] = B[j] and increment pointers "j" and "k" by 1.
- *
- *
- *		- Time Complexity Analysis: Since, we will only iterate over arrays A and B one time, time 
- *									complexity = O(m+n).
- *
  *		
- *		- Space Complexity Analysis: Since, we are using an auxiliary array to store the resultant
- *									 sorted array, space complexity = O(m+n). 
  * 
  * */
 
