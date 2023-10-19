@@ -41,48 +41,55 @@
  * 
  * 		- Algorithm:
  * 		
- * 			- let temp = array[m+n];
- *			- let i=0, j=0;// pointers to iterate over arrays A and B.
- *
- * 			- initialize a pointer "k" pointing to the start of array AUX. // pointer will be used to iterate over the AUX array.
- *
- *		- initialize 2 pointers "i" and "j" pointing to the start of arrays A and B. // these pointers will be used to iterate over arrays A and B.
+ * 			- let temp = array[m+n] 		// auxiliary array to temporarily store the output.
  * 
- *		- while both A[i] and B[j] exist, compare the elements A[i] and B[j]:
- *			- if A[i] <= B[j], put AUX[k] = A[i] and increment pointers "i" and "k" by 1.
- *			- if B[j] < A[i], put AUX[k] = B[j] and increment pointers "j" and "k" by 1.
+ *			- let i=0, j=0; 				// Two pointers to iterate over arrays A and B.
  *
- *		- while A[i] exist: // in case size of A, i.e., m is greater than size of B, i.e., n.
- *			- put AUX[k] = A[i] and increment pointers "i" and "k" by 1.
+ *			- Loop from k = [0, m+n):   	// loop to fill the auxiliary array.
  *
- *		- while B[j] exist: // in case size of B, i.e., n is greater than size of A, i.e., m.
- *			- put AUX[k] = B[j] and increment pointers "j" and "k" by 1.
+ *				- if i<m && j<n:	    	// check if both A[i] and B[j] exist.
  *
+ *					- if A[i] <= B[j]:		// finding the smallest element and filling it at kth index in the auxiliary array.
+ *						- temp[k] = A[i];
+ *						- i++;
+ *					- else:
+ *						- temp[k] = B[j];
+ *						- j++;
  *
- *		- Time Complexity Analysis: Since, we will only iterate over arrays A and B one time, time 
- *									complexity = O(m+n).
+ *				- else if i<m:				// in case array A has more elements than array B.
+ *					- temp[k] = A[i];
+ *					- i++;
  *
- *		
+ *				- else if j<n:				// in case array B has more elements than array A.
+ *					- temp[k] = B[j];
+ *					- j++;
+ *
+ * 		- Time Complexity Analysis: Since, the algorithm is only responsible for filling an auxiliary 
+ * 									array of size (m+n), time complexity = O(m+n).
+ *	
  *		- Space Complexity Analysis: Since, we are using an auxiliary array to store the resultant
  *									 sorted array, space complexity = O(m+n). 
  * 				
- * - Move the smaller element to the result array and increment the corresponding pointer. Repeat this process until you've merged both arrays.
- * 
  * */
 
 public class MergeTwoSortedArrays {
 	
 	public static void mergeUsingTwoPointers(int[] A, int m, int[] B, int n) {
 		
+		// auxiliary array to temporarily store the output.
 		int[] temp = new int[m+n];
 		
+		// Two pointers to iterate over arrays A and B.
 		int i=0, j=0;
 		
+		// loop to fill the auxiliary array.
 		for(int k=0; k<temp.length; k++) {
 			
-			if(i<m && j<n) {
+			
+			if(i<m && j<n) {			// check if both A[i] and B[j] exist.
 				
-				if(A[i] <= B[j]) {
+				
+				if(A[i] <= B[j]) { 		// finding the smallest element and filling it at kth index in the auxiliary array.
 					temp[k] = A[i];
 					i++;
 				} else {
@@ -90,12 +97,12 @@ public class MergeTwoSortedArrays {
 					j++;
 				}
 				
-			} else if(i<m) {
+			} else if(i<m) { 			// in case array A has more elements than array B.
 				
 				temp[k] = A[i];
 				i++;
 				
-			} else {
+			} else {					// in case array B has more elements than array A.
 				
 				temp[k] = B[j];
 				j++;
@@ -104,6 +111,7 @@ public class MergeTwoSortedArrays {
 			
 		}
 		
+		// copying the output from temp array to A as asked in the problem statement.
 		for(int k=0; k<temp.length; k++) {
 			A[k] = temp[k];
 		}
