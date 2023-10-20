@@ -46,22 +46,71 @@ import java.util.Scanner;
  *
  * 	- Space Complexity Analysis:
  *
- *		- Since the recursive algorithm will at max make k, i.e, logn recursive calls, the algorithm will 
- *		  at max use "logn" space of the call stack. Hence, call stack space complexity = O(logn).
+ *		- The recursive algorithm makes at most "logn" recursive calls consecutively, i.e., the 
+ *		  algorithm will at most use "logn" call stack space. Hence, call stack space complexity = O(logn).
  *
- *		- In each recursive call, we are creating a temporary array to store the merged array. The largest 
- *		  temporary array that will be created by the algorithm will be of size n. Therefore, the maximum
- *		  space that will be used by any stack frame is "n". Hence, space complexity = O(n). 
+ *		- Each recursive call creates a temporary array to store and merge the sub-arrays. However, as we 
+ *		  are processing, i.e., merging the sub-arrays in post-order, the space used by temporary arrays
+ *		  created in each recursive step will not add up in a cumulative manner. The maximum space the
+ *		  algorithm will consume will depend on the largest stack frame, i.e., the one processing the 
+ *		  main problem or the initial input. 
+ *
+ *		- Since, the largest stack frame will create a temporary array of size "n", the space complexity
+ *		  = O(n).
  *
  * */
 
 public class MergeSort {
 	
-	private static void merge(int arr[], int start, int mid, int end) {
+	private static void merge(int[] arr, int start, int mid, int end) {
+		
+		int[] temp = new int[end-start+1];
+		
+		int i=start, j=mid+1;
+		for(int k=0; k<temp.length; k++) {
+			
+			if(i<mid+1 && j<end+1) {
+				
+				if(arr[i]<=arr[j]) {
+					temp[k] = arr[i];
+					i++;
+				} else {
+					temp[k] = arr[j];
+					j++;
+				}
+				
+			} else if(i<mid+1) {
+				
+				temp[k] = arr[i];
+				i++;
+				
+			} else {
+				
+				temp[k] = arr[j];
+				j++;
+				
+			}
+			
+		}
+		
+		for(int k=0; k<temp.length; k++) {
+			arr[start+k] = temp[k];
+		}
+		
 	}
 	
-	public static int[] mergeSort(int[] A, int start, int end) {	
-		return new int[A.length];
+	public static void mergeSort(int[] arr, int start, int end) {	
+		
+		if(start==end) {
+			return;
+		}
+		
+		int mid = (start+end)/2;
+		mergeSort(arr, start, mid);
+		mergeSort(arr, mid+1, end);
+		
+		merge(arr, start, mid, end);
+		
 	}
 
 	public static void main(String[] args) {
@@ -76,10 +125,10 @@ public class MergeSort {
 			A[i] = scn.nextInt();
 		}
 		
-		int[] ans = mergeSort(A, 0, A.length-1);
+		mergeSort(A, 0, A.length-1);
 		System.out.print("\nSorted array: ");
-		for(int i=0; i<ans.length; i++) {
-			System.out.print(ans[i]+" ");
+		for(int i=0; i<A.length; i++) {
+			System.out.print(A[i]+" ");
 		}
 		
 		scn.close();
