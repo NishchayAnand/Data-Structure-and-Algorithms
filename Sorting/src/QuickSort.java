@@ -1,4 +1,57 @@
-import java.util.Scanner;
+
+/* Problem Statement: Given an array A, its starting position "start" and its ending position "end", sort
+ * 					  the array using quick sort algorithm. 
+ * 
+ * General Observations:
+ * 
+ * 	- Partitioning an array using a pivot element positions the pivot element at its appropriate index in 
+ *    the resulting sorted array.
+ * 
+ * 	- Ideology: 
+ * 
+ * 		- Repeatedly divide the unsorted array into two sub-arrays (one containing elements less than a 
+ * 		  chosen pivot, and the other containing elements greater than the pivot) and apply the same 
+ * 		  sorting algorithm to these sub-arrays until the entire array is sorted.
+ * 
+ * 	- Algorithm:
+ * 
+ * 		- Hypothesis: F(A, start, end) will sort the elements of array A in the given range [start, end].
+ * 
+ * 		- Recursive Steps: - choose A[end] as the pivot element and re-arrange sub-array A[start, end]
+ * 							 such that all elements less than or equal to pivot lie on the left side of 
+ * 							 pivot and all elements greater than pivot lie on the right side of pivot. 
+ * 							 
+ * 							 	-> pivot_idx = partition(A, start, end);
+ * 						   
+ * 						   - go and sort left sub-array.
+ * 
+ *    							-> F(A, start, pivot_idx-1);
+ *    
+ * 						   - go and sort the right sub-array.
+ * 
+ * 								-> F(A, pivot_idx+1, end);
+ * 
+ * 		- Base Condition: - pivot element in an array of size 1 will already be at the correct position, 
+ * 							hence no operation required. 
+ * 				
+ * 								-> if start == end, return;
+ * 
+ * 						  - no operations needed if sub-array reduces to an empty array (consider the 
+ * 							right sub-array of an already sorted array).
+ * 
+ * 								-> if start > end, return; 
+ * 
+ *  - Time Complexity Analysis:
+ *  
+ *  	- Average Case Time Complexity: O(nlogn)
+ *  	- Worst Case (for example, reverse sorted array) Time Complexity: O(n^2)
+ *  
+ *  - Space Complexity Analysis:
+ *  
+ *  	- Average Case Space Complexity: O(logn)
+ *  	- Worst Case (for example, reverse sorted array) Space Complexity: O(n)
+ *  
+ * */
 
 public class QuickSort {
 	
@@ -8,19 +61,26 @@ public class QuickSort {
 		A[j] = temp;
 	}
 	
+	
 	public static int partitionArray(int[] A, int start, int end) {
 		
-		int j=0, pivot = A[end];
-		for(int i=0; i<=end; i++) {
+		int pivot = A[end];
+		
+		int idx = start; // idx represent the start of elements greater than the pivot element.
+		for(int i=start; i<end; i++) {
 			if(A[i]<=pivot) {
-				swap(A, i, j);
-				j++;
+				swap(A, i, idx);
+				idx++;
 			}
 		}
 		
-		return j-1;
+		swap(A, idx, end);
+		
+		// return the position of the pivot element.
+		return idx;
 		
 	}
+	
 	
 	public static void quickSort(int[] A, int start, int end) {
 		
@@ -34,28 +94,19 @@ public class QuickSort {
 		
 	}
 
+	
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 		
-		Scanner scn = new Scanner(System.in);
-		System.out.print("Enter the size of array: ");
-		int size = scn.nextInt();
-		
-		int[] A = new int[size];
-		for(int i=0; i<size; i++) {
-			System.out.print("Enter A["+i+"]: ");
-			A[i] = scn.nextInt();
-		}
+		int[] A = {4, 1, 3, 9, 7};
 		
 		quickSort(A, 0, A.length-1);
 		
-		System.out.print("\nSorted Array: ");
-		for(int i=0; i<size; i++) {
+		System.out.print("Sorted Array: ");
+		for(int i=0; i<A.length; i++) {
 			System.out.print(A[i]+" ");
 		}
-		
-		scn.close();
 
 	}
+	
 
 }
