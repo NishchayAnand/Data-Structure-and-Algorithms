@@ -43,13 +43,16 @@
  * 
  *  - Time Complexity Analysis:
  *  
- *  	- Average Case Time Complexity: O(nlogn)
- *  	- Worst Case (for example, reverse sorted array) Time Complexity: O(n^2)
+ *  	- Average-Case Time Complexity: O(nlogn)
+ *  	- Worst-Case (for example, already sorted array, reverse sorted array) Time Complexity: O(n^2)
  *  
  *  - Space Complexity Analysis:
  *  
- *  	- Average Case Space Complexity: O(logn)
- *  	- Worst Case (for example, reverse sorted array) Space Complexity: O(n)
+ *  	- Since, it is an in-place sorting algorithm, the space complexity will depend on the depth of
+ *        the recursive call stack. 
+ *  	  
+ *  		- Average-Case Space Complexity: O(logn)
+ *  		- Worst Case (for example, already sorted array, reverse sorted array) Space Complexity: O(n)
  *  
  * */
 
