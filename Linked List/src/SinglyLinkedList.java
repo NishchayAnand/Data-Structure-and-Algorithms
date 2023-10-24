@@ -1,113 +1,195 @@
 
-/**
- * Your MyLinkedList object will be instantiated and called as such:
- * MyLinkedList obj = new MyLinkedList();
- * int param_1 = obj.get(index);
- * obj.addAtHead(val);
- * obj.addAtTail(val);
- * obj.addAtIndex(index,val);
- * obj.deleteAtIndex(index);
- */
+/* Problem Statement: Design your implementation of a singly linked list. 
+ * 
+ * NOTE: A node in a singly linked list should have two attributes: val and next, where:
+ * 				- val is the value of the current node, and
+ * 				- next is a pointer/reference to the next node.
+ * 
+ * General Observations:
+ * 
+ * 	- SinglyLinkedList(): 
+ * 		
+ * 		- Constructor to initialize the SinglyLinkedList object. 
+ * 		- Since no additional operation needs to be performed in the constructor, we don't need to 
+ * 		  manually define it (will be created implicitly). 
+ * 
+ *  - getIndex(index):
+ *  
+ *  	- Algorithm:
+ *  
+ *  		- If index < 0 || index >=size (will handle size = 0), return -1; 
+ *  		- Create a counter and iterate over linked list till we reach the "node" where counter == 
+ *  		  index;
+ *  		- return node.val;
+ *  
+ *   	- Time Complexity Analysis:
+ *   
+ *   		- 
+ *   
+ *  
+ *  - addAtHead(val):
+ *  
+ *  	- Algorithm:
+ *  	
+ *  		- Create a new_node.
+ *  		- if size==0:
+ *  			- point the Head and Tail references to the new_node.
+ *  		- else: 	
+ *  			- point new_node's next reference to the head.
+ *  			- point the head to the new_node.
+ *  
+ *   	- Time Complexity Analysis:
+ *   	
+ *   		-
+ *   
+ *  
+ *  - addAtTail(val):
+ *  
+ *  	- Algorithm:
+ *  	
+ *  		- Create a new_node;
+ *  		- if size == 0:
+ *  			- point the Head and Tail references to the new_node.
+ *  		- else:
+ *  			- point the next reference of tail to new_node.
+ *  			- point the tail to the new_node.
+ *  
+ *  	- Time Complexity Analysis:
+ *  	
+ *  		- 
+ *  
+ *  
+ *  - addAtIndex(index, val):
+ *  
+ *  	- Algorithm:
+ *  
+ *  		- if index < 0 || index > size, return; 
+ *  
+ *  		- if size == 0:
+ *  			- addAtHead(val);
+ *  
+ *  		- else if index == size:
+ *  			- addAtTail(val);
+ *  
+ *  		- else:
+ *  			- Create a new_node;
+ *  			- Create a counter and iterate over linked list till we reach the "node" where counter ==
+ *  		  	  index;
+ *  			- new_node.next = node.next;
+ *  			- node.next = new_node;
+ *  
+ *  	- Time Complexity:
+ *  
+ *  		- 
+ *  
+ * 
+ * */
+
+class Node {
+	
+	int val;
+	Node next;
+	
+	Node(int val){
+		this.val = val;
+	}
+	
+}
 
 public class SinglyLinkedList {
-
-    // class inside another class.
-    class Node {
-        int val;
-        Node next;
-
-        Node(int val){
-            this.val = val;
-        }
-    }
+	
+	// Properties:
 
     Node head; // start of the Linked List
     Node tail; // end of the Linked List
-    int size;
-
-    public SinglyLinkedList() { 
-        head = null; // default value was also null.
-        tail = null; // default value was also null.
-        this.size = 0; // default value was also 0.
-    }
+    int size;  // additional variable for quick retrieval of the size of linked list.
+    
+    // Methods: 
     
     public int get(int index) {
+    	
         // validating the index.
-        if(index < 0 || index >= size ){ // index >= size will handle size = 0 condition
+        if(index < 0 || index >= size ){ 
             return -1;
         }  
-
-        Node curr = head;
+        
         int pos = 0;
+        Node curr = head;
+        
         while(pos != index){
             curr = curr.next;
             pos++;
         } 
-        return curr.val;     
+        
+        return curr.val;
+        
     }
     
+    
     public void addAtHead(int val) {
+    	
         Node node = new Node(val);
+        
         if(size == 0){
-            head = node;
-            tail = node;
+            head = tail = node;
         } else {
             node.next = head;
             head = node;
         }
+        
         size++;
+        
     }
+    
     
     public void addAtTail(int val) {
-        //System.out.println(val);
-        //System.out.println(size);
+        
         Node node = new Node(val);
+        
         if(size==0){
-            head=node;
-            tail=node;
+            head = tail = node;
         } else {
-            Node curr = head;
-            //int pos = 0;
-            while(curr.next != null){ // check why curr != tail is not working 
-                //System.out.println(pos + ". curr-> " + curr);
-                //System.out.println(pos + ". tail-> " + tail);
-                curr = curr.next;
-                //pos++;
-            }
-            //System.out.println(pos + ". curr-> " + curr + ", tail-> " + tail);
-            curr.next = node;
-            tail = node;
+            tail.next = node;
+            tail = head;
         }
+        
         size++;
+        
     }
     
+    
     public void addAtIndex(int index, int val) {
+    	
         //validate the index.
         while(index < 0 || index > size){
             return;
         }
 
-        if(index == 0){ // handles the case for size==0.
+        if(index == 0) { 
             addAtHead(val);
-        } else if(index == size){ 
+            
+        } else if(index == size) { 
             addAtTail(val);
-        } else { // for adding val somewhere in between.
+            
+        } else { 
             Node node = new Node(val);
-            Node prev = null;
             Node curr = head;
             int pos = 0;
             while(pos != index){
-                prev = curr;
                 curr = curr.next;
                 pos++;
             }
-            prev.next = node;
-            node.next = curr;
+            node.next = curr.next;
+            curr.next = node;
             size++;
-        }  
+            
+        } 
+        
     }
     
+    
     public void deleteAtIndex(int index) {
+    	
         // validate the index.
         if(index < 0 || index >= size){
             return;
@@ -130,4 +212,5 @@ public class SinglyLinkedList {
         }
         size--;       
     }
+    
 }
