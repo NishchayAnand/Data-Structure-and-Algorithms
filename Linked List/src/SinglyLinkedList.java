@@ -22,9 +22,7 @@
  *  		  index;
  *  		- return node.val;
  *  
- *   	- Time Complexity Analysis:
- *   
- *   		- 
+ *   	- Time Complexity (worst-case scenario, i.e., getting last node): O(n).
  *   
  *  
  *  - addAtHead(val):
@@ -38,9 +36,7 @@
  *  			- point new_node's next reference to the head.
  *  			- point the head to the new_node.
  *  
- *   	- Time Complexity Analysis:
- *   	
- *   		-
+ *   	- Time Complexity: O(1)
  *   
  *  
  *  - addAtTail(val):
@@ -54,12 +50,10 @@
  *  			- point the next reference of tail to new_node.
  *  			- point the tail to the new_node.
  *  
- *  	- Time Complexity Analysis:
- *  	
- *  		- 
+ *  	- Time Complexity Analysis: O(1)
  *  
  *  
- *  - addAtIndex(index, val):
+ *  - addAtIndex(index, val): // Add a node of value val before the indexth node in the linked list.
  *  
  *  	- Algorithm:
  *  
@@ -73,14 +67,49 @@
  *  
  *  		- else:
  *  			- Create a new_node;
- *  			- Create a counter and iterate over linked list till we reach the "node" where counter ==
- *  		  	  index;
- *  			- new_node.next = node.next;
- *  			- node.next = new_node;
+ *  			- curr = head;
+ *  			- prev = null;
+ *  			- counter = 0;
+ *  			- while counter != index:
+ *  				- prev = curr;
+ *  				- curr = curr.next;
+ *  				- counter++;
+ *  			- node.next = curr;
+ *  			- prev.next = node;
+ *  			- size++;
  *  
- *  	- Time Complexity:
+ *  	- Time Complexity (worst-case scenario, i.e., adding element between the last 2 nodes): O(n).
  *  
- *  		- 
+ * 
+ *  
+ *  - deleteAtIndex(index):
+ *  
+ *  	- Algorithm:
+ *  
+ *  		- if index < 0 || index >=size, return;
+ *  
+ *  		- curr = head;
+ *  
+ *  		- if index == 0 & size == 1:
+ *  			- head=tail=null;
+ *  
+ *  		- else if index == 0:
+ *  			- head = head.next;
+ *  			- curr.next = null; // breaking the link with the linked list.
+ *  
+ *  		- else:
+ *  			- prev = null;
+ *  			- counter = 0;
+ *  			- while counter != index:
+ *  				- prev = curr;
+ *  				- curr = curr.next;
+ *  				- counter++;
+ *  			- prev.next = curr.next;
+ *  			- curr.next = null; // breaking the link with the linked list.
+ *  
+ *  		- size--;
+ *  
+ *  	- Time Complexity (worst case scenario, i.e., deleting the last node): O(n).
  *  
  * 
  * */
@@ -125,7 +154,6 @@ public class SinglyLinkedList {
         
     }
     
-    
     public void addAtHead(int val) {
     	
         Node node = new Node(val);
@@ -141,7 +169,6 @@ public class SinglyLinkedList {
         
     }
     
-    
     public void addAtTail(int val) {
         
         Node node = new Node(val);
@@ -150,18 +177,18 @@ public class SinglyLinkedList {
             head = tail = node;
         } else {
             tail.next = node;
-            tail = head;
+            tail = node;
         }
         
         size++;
         
     }
     
-    
     public void addAtIndex(int index, int val) {
     	
         //validate the index.
         while(index < 0 || index > size){
+        	System.out.println("Index out of bound.");
             return;
         }
 
@@ -174,34 +201,39 @@ public class SinglyLinkedList {
         } else { 
             Node node = new Node(val);
             Node curr = head;
+            Node prev = null;
             int pos = 0;
             while(pos != index){
+            	prev = curr;
                 curr = curr.next;
                 pos++;
             }
-            node.next = curr.next;
-            curr.next = node;
+            prev.next = node;
+            node.next = curr;
             size++;
             
         } 
         
     }
     
-    
     public void deleteAtIndex(int index) {
     	
         // validate the index.
         if(index < 0 || index >= size){
+        	System.out.println("Index out of bound.");
             return;
         }
+        
+        Node curr = head;
 
-        if(index == 0 && size == 1){ // handles case for single element.
+        if(index == 0 && size == 1) {  // in case we are deleting the only element present in the linked list. 
             head = tail = null;
-        } else if (index == 0){ // handles case for deletion of head when there are multiple elements
+            
+        } else if (index == 0) { 	   // in case we are deleting the first element.  
             head = head.next;
-        } else { // handles case for deletion of any other element (in between or the tail).
+            
+        } else { 					   // in case we are deleting any element other than the head node.
             Node prev = null;
-            Node curr = head;
             int pos = 0;
             while(pos != index){
                prev = curr;
@@ -209,8 +241,49 @@ public class SinglyLinkedList {
                pos++; 
             }
             prev.next = curr.next;
+            
         }
-        size--;       
+        
+        curr = null;
+        size--;  
+        
+    }
+    
+    @Override
+    public String toString() {
+    	StringBuilder list = new StringBuilder("[");
+    	Node curr = head;
+    	while(curr!=null) {
+    		list.append(curr.val+" ");
+    		curr = curr.next;
+    	}
+    	list.append("]");
+    	return list.toString();
+    }
+    
+    public static void main(String[] args) {
+    	
+    	SinglyLinkedList linkedList = new SinglyLinkedList();
+    	
+    	linkedList.deleteAtIndex(0);
+    	
+    	linkedList.addAtHead(6); // [6]
+    	
+    	linkedList.deleteAtIndex(0); // []
+    	
+    	linkedList.addAtHead(3); // [3]
+    	
+    	linkedList.addAtHead(1); // [1, 3]
+    	
+    	linkedList.addAtTail(4); // [1, 3, 4]
+    	
+    	linkedList.addAtIndex(1, 2); // [1, 2, 3, 4]
+    	
+    	linkedList.addAtTail(5); // [1, 2, 3, 4, 5]
+    	
+    	linkedList.deleteAtIndex(4);
+    	
+    	System.out.println(linkedList);
     }
     
 }
