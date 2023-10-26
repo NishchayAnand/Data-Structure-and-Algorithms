@@ -104,9 +104,15 @@
  *  				- prev = curr;
  *  				- curr = curr.next;
  *  				- counter++;
- *  			- prev.next = curr.next;
- *  			- curr.next = null; // breaking the link with the linked list.
+ *  			- if curr = tail:
+ *  				- prev.next = null;
+ *  				- tail = prev;
+ *  			- else:
+ *  				- prev.next = curr.next;
+ *  				- curr.next = null; // breaking the link with the linked list.
  *  
+ *  		- curr = null; // setting the element to be deleted to null. This helps the garbage collector
+ *  						  recognize that the node is no longer reachable.
  *  		- size--;
  *  
  *  	- Time Complexity (worst case scenario, i.e., deleting the last node): O(n).
@@ -154,6 +160,7 @@ public class SinglyLinkedList {
         
     }
     
+    
     public void addAtHead(int val) {
     	
         Node node = new Node(val);
@@ -169,6 +176,7 @@ public class SinglyLinkedList {
         
     }
     
+    
     public void addAtTail(int val) {
         
         Node node = new Node(val);
@@ -183,6 +191,7 @@ public class SinglyLinkedList {
         size++;
         
     }
+    
     
     public void addAtIndex(int index, int val) {
     	
@@ -216,6 +225,7 @@ public class SinglyLinkedList {
         
     }
     
+    
     public void deleteAtIndex(int index) {
     	
         // validate the index.
@@ -231,6 +241,7 @@ public class SinglyLinkedList {
             
         } else if (index == 0) { 	   // in case we are deleting the first element.  
             head = head.next;
+            curr.next = null;
             
         } else { 					   // in case we are deleting any element other than the head node.
             Node prev = null;
@@ -240,7 +251,13 @@ public class SinglyLinkedList {
                curr = curr.next;
                pos++; 
             }
-            prev.next = curr.next;
+            if(curr == tail) {
+            	prev.next = null;
+            	tail = prev;
+            } else {            	
+            	prev.next = curr.next;
+            	curr.next = null;
+            }
             
         }
         
@@ -249,18 +266,20 @@ public class SinglyLinkedList {
         
     }
     
+    
     @Override
     public String toString() {
     	StringBuilder list = new StringBuilder("[");
     	Node curr = head;
-    	while(curr!=null) {
-    		list.append(curr.val+" ");
+    	while(curr!=tail) {
+    		list.append(curr.val+", ");
     		curr = curr.next;
     	}
-    	list.append("]");
+    	list.append(curr.val+"]");
     	return list.toString();
     }
     
+    // for testing our singly linked list logic.
     public static void main(String[] args) {
     	
     	SinglyLinkedList linkedList = new SinglyLinkedList();
@@ -284,6 +303,7 @@ public class SinglyLinkedList {
     	linkedList.deleteAtIndex(4);
     	
     	System.out.println(linkedList);
+    	
     }
     
 }
