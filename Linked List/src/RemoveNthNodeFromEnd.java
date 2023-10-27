@@ -9,7 +9,20 @@
  *  	- Considering the size of linked list = length, nth node from last = (length-n+1)th node from 
  *  	  start.
  *  
- *  	- 
+ *  	- Brute Force Approach:
+ *  
+ *  		- Algorithm:
+ *  		
+ *  			- Iterate over linked list and calculate its size = "length";
+ *  			- Iterate over linked list till you reach the "curr" = (length-n)th element:
+ *  				- point curr.next pointer to (curr.next i.e., element to be deleted).next pointer;
+ *  
+ *  		- Time Complexity: O(n), but we are still making 2 pass (iterations) over the linked list.
+ *  
+ *  	- Two Pointers Approach:
+ *  
+ *  
+ *  	- Ideology:
  *  
  * 
  * */
