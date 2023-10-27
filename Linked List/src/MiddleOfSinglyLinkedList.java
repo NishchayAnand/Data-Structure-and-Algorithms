@@ -5,7 +5,18 @@
  *
  * General Observations:
  * 
- * 	- 
+ * 	- Ideology: Based on the concept of using two pointers, one moving faster than the other, to divide 
+ * 				the list into two halves. 
+ * 
+ * 	- Algorithm:
+ * 
+ * 		- Initialize two pointers: "slow" and "fast", both pointing to the head of the linked list;
+ * 		- Iterate over the linked list till fast is not null:
+ * 			- advance the "fast" pointer by two nodes and the "slow" pointer by one node;
+ * 		- return slow;
+ * 
+ * 		- NOTE: By the time the "fast" pointer reaches the end of the list, the "slow" pointer will be at 
+ * 				the midpoint of the list. 
  * 
  * */
 
@@ -16,16 +27,12 @@ public class MiddleOfSinglyLinkedList {
 		Node slow = head;
         Node fast = head;
 
-        while(fast.next!=null && fast.next.next!=null){
+        while(fast!=null && fast.next!=null){
             fast = fast.next.next;
             slow = slow.next;
         }
 
-        if(fast.next == null){
-            return slow;
-        } else {
-            return slow.next;
-        }
+        return slow;
         
 	}
 
