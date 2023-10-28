@@ -9,20 +9,32 @@
  *  	- Considering the size of linked list = length, nth node from last = (length-n+1)th node from 
  *  	  start.
  *  
- *  	- Brute Force Approach:
+ *  	- The main task is to reach (length-n)th node in the most optimal way. 
  *  
- *  		- Algorithm:
+ *  
+ *  Brute Force Approach:
+ *  
+ *  	- Algorithm:
  *  		
- *  			- Iterate over linked list and calculate its size = "length";
- *  			- Iterate over linked list till you reach the "curr" = (length-n)th element:
- *  				- point curr.next pointer to (curr.next i.e., element to be deleted).next pointer;
+ *  		- Iterate over linked list and calculate its size = "length";
+ *  		- Iterate over linked list till you reach the "curr" = (length-n)th element:
+ *  			- point curr.next pointer to (curr.next i.e., element to be deleted).next pointer;
  *  
- *  		- Time Complexity: O(n), but we are still making 2 pass (iterations) over the linked list.
- *  
- *  	- Two Pointers Approach:
+ *  	- Time Complexity: O(n), but we are still making 2 pass (iterations) over the linked list.
  *  
  *  
- *  	- Ideology:
+ *  Two Pointers Approach: Allow us to find the node to be removed in a single pass.
+ *  
+ *  	- Algorithm:
+ *  		
+ *  		- Take 2 pointers: "fast" and "slow" and position the "fast" pointer n nodes ahead of the 
+ *  		  "slow" pointer.
+ *  		- Move both pointers one node at a time until the "fast" pointer reaches the end of the list.
+ *  		- When the "fast" pointer reaches the end of the list, the "slow" pointer will be pointing to
+ *  		  nth node from the end of the list, i.e., the node to be deleted.
+ *  		- Adjust the references to skip the nth node. 
+ *  
+ *  	- Time Complexity: O(n), we are making only a single pass through the linked list.
  *  
  * 
  * */
