@@ -106,10 +106,10 @@ public class RemoveNthNodeFromEnd {
 		System.out.print("Original Linked List: ");
 		printLinkedList(head);
 		
-		head = removeNthFromEnd(head, 1);
+		Node new_head = removeNthFromEnd(head, 1);
 		
 		System.out.print("Modified Linked List: ");
-		printLinkedList(head);
+		printLinkedList(new_head);
 
 	}
 
