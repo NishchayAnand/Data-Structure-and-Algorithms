@@ -66,16 +66,12 @@ public class Merge2SortedList {
             c3 = c3.next;   
         }
 
-        while(c1!=null){
+        if(c1!=null){
             c3.next = c1;
-            c1 = c1.next;
-            c3 = c3.next;
         }
 
-        while(c2!=null){
+        if(c2!=null){
             c3.next = c2;
-            c2 = c2.next;
-            c3 = c3.next;
         }
 
         return list3.next;
@@ -104,33 +100,23 @@ public class Merge2SortedList {
 		return head;
 		
 	}
-	
-	private static void print(Node head) {
-		
-		Node curr = head;
-		while(curr!=null) {
-			System.out.print(curr.val+" ");
-			curr = curr.next;
-		}
-		
-	}
-	
+
 	public static void main(String[] args) {
 		
-		SinglyLinkedList list1 = new SinglyLinkedList();
-		list1.addAtTail(1);
-		list1.addAtTail(2);
-		list1.addAtTail(4);
+		int[] arr1 = {1,2,4};
+		Node list1 = LinkedListUtils.createLinkedList(arr1);
+		System.out.print("First Linked List: ");
+		LinkedListUtils.print(list1);
 		
-		SinglyLinkedList list2 = new SinglyLinkedList();
-		list2.addAtTail(1);
-		list2.addAtTail(3);
-		list2.addAtTail(4);
+		int[] arr2 = {1,3,4,5,6};
+		Node list2 = LinkedListUtils.createLinkedList(arr2);
+		System.out.print("Second Linked List: ");
+		LinkedListUtils.print(list2);
 		
-		Node new_head = mergeTwoListsRecursive(list1.head, list2.head);
+		Node new_head = mergeTwoListsRecursive(list1, list2);
 		
 		System.out.print("Merged Linked List: ");
-		print(new_head);
+		LinkedListUtils.print(new_head);
 		
 	}
 
