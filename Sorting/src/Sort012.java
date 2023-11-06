@@ -1,4 +1,20 @@
-import java.util.Scanner;
+
+/* Problem Statement: Given an array containing only 0s, 1s, and 2s, sort the array in ascending order.
+ * 
+ * General Observations:
+ * 	
+ * 	- Brute Force Approach: - Use any optimal sorting algorithm.
+ * 
+ * 	- Better Approach: - Can count the number of 0s, 1s and 2s and then override the array using the 
+ * 						 counts obtained. 
+ * 
+ * 					   - Time Complexity = O(2*N) = O(N).
+ * 
+ * 	- Optimized Approach (Dutch National Flag Algorithm): 
+ * 
+ * 		- use partition using a pivot concept.  
+ * 
+ * */
 
 public class Sort012 {
 	
@@ -28,25 +44,19 @@ public class Sort012 {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		System.out.println("NOTE: The array can only contain 0, 1 and 2.\n");
+		int[] A = {0, 2, 1, 2, 0};
 		
-		Scanner scn = new Scanner(System.in);
-		System.out.print("Enter the size of array: ");
-		int size = scn.nextInt();
-		
-		int[] A = new int[size];
-		for(int i=0; i<size; i++) {
-			System.out.print("Enter A["+i+"]: ");
-			A[i] = scn.nextInt();
-		}
-		
-		sort(A);
-		System.out.print("\nSorted Array: ");
-		for(int i=0; i<size; i++) {
+		System.out.print("Original Array: ");
+		for(int i=0; i<A.length; i++) {
 			System.out.print(A[i]+" ");
 		}
 		
-		scn.close();
+		sort(A);
+		
+		System.out.print("\nSorted Array: ");
+		for(int i=0; i<A.length; i++) {
+			System.out.print(A[i]+" ");
+		}
 
 	}
 
