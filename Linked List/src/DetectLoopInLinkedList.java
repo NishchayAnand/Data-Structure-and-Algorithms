@@ -31,6 +31,26 @@
 
 
 public class DetectLoopInLinkedList {
+	
+	public boolean hasCycle(Node head) {
+
+        Node slow = head;
+        Node fast = head;
+
+        boolean found = false;
+
+        while(fast!=null && fast.next!=null){
+            fast = fast.next.next;
+            slow = slow.next;
+            if(slow == fast){
+                found = true;
+                break;
+            }
+        }
+
+        return found;
+        
+    }
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
