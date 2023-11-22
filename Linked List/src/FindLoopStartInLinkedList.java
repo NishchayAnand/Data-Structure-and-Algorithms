@@ -57,40 +57,23 @@
 
 public class FindLoopStartInLinkedList {
 	
-	public static Node detectCycle(Node head) {
+	public static Node getLoopStartNode(Node head) {
 
-        Node fast = head;
-        Node slow = head;
-
-        if(head == null){
-            return null;
+        Node collisionNode = DetectLoopInLinkedList.detectCycle(head);
+        
+        if(collisionNode == null) {
+        	return null;
         }
 
-        if(head.next == null){
-            return null;
-        }
-
-        while(fast != null && fast.next!=null){
-            fast = fast.next.next;
-            slow = slow.next;
-
-            if(fast == slow){
-                break;
-            }
-            
-        }
-
-        if(fast != slow){
-            return null;
-        }
-
-        Node temp = head;
-        while(temp != slow){
-            temp = temp.next;
-            slow = slow.next;
+        Node listStart = head;
+        Node LoopStart = collisionNode;
+        
+        while(listStart != LoopStart){
+        	listStart = listStart.next;
+            LoopStart = LoopStart.next;
         } 
 
-        return slow;
+        return LoopStart;
         
     }
 

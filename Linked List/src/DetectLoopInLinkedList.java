@@ -32,23 +32,21 @@
 
 public class DetectLoopInLinkedList {
 	
-	public boolean hasCycle(Node head) {
+	// return node represent the node where the fast and slow pointers collided.
+	public static Node detectCycle(Node head) {
 
         Node slow = head;
         Node fast = head;
-
-        boolean found = false;
 
         while(fast!=null && fast.next!=null){
             fast = fast.next.next;
             slow = slow.next;
             if(slow == fast){
-                found = true;
-                break;
+                return slow;
             }
         }
 
-        return found;
+        return null;
         
     }
 
