@@ -1,5 +1,27 @@
 import java.util.*;
 
+/* Problem Statement: Given a Knapsack (bag) with "W" weight capacity and a list of N items each having 
+ * 					  some value: "vi" and weight: "wi", return the maximum value that can be attained
+ * 					  by placing certain items in the knapsack without exceeding the weight capacity of 
+ * 					  the Knapsack.
+ * 
+ * 					  NOTE: We have only one quantity of each item.
+ * 
+ * General Observations:
+ * 
+ * 	- Find all subset of items whose combined weight is less than or equal to "W" and pick the subset
+ *    with the maximum value.
+ * 
+ * 	- Every item has an option of being added to the knapsack or not.
+ * 
+ * 	- Brute Force Approach: 
+ *        
+ *      - The problem is naturally recursive in nature. 
+ *      
+ *      - Hypothesis: F(vals, wts, N, W) will return the 
+ * 
+ * */
+
 public class ZeroOneKnapsack {
 
     public static void main(String[] args) throws Exception {
