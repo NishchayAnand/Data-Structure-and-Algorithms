@@ -1,24 +1,35 @@
 import java.util.*;
 
-/* Problem Statement: Given a Knapsack (bag) with "W" weight capacity and a list of N items each having 
- * 					  some value: "vi" and weight: "wi", return the maximum value that can be attained
- * 					  by placing certain items in the knapsack without exceeding the weight capacity of 
- * 					  the Knapsack.
+/* Problem Statement: Given a Knapsack (bag) with "W" weight capacity and a list of N items each having some value: "vi" and weight: 
+ * 					  "wi", return the maximum value that can be attained by placing certain items in the knapsack without exceeding 
+ * 					  the weight capacity of the Knapsack.
  * 
  * 					  NOTE: We have only one quantity of each item.
  * 
  * General Observations:
  * 
- * 	- Find all subset of items whose combined weight is less than or equal to "W" and pick the subset
- *    with the maximum value.
+ * 	- Find all subset of items whose combined weight is less than or equal to "W" and pick the subset with the maximum value.
  * 
- * 	- Every item has an option of being added to the knapsack or not.
+ * 	- Every item has an option of being added to the knapsack or not. For example, for v = [1,2,3], w = [4,5,1] and W = 6,
  * 
- * 	- Brute Force Approach: 
+ * 	  	sv=[], sw=[]
+ * 		|
+ * 		include (1,4)-----------------------------------------------------------------------------exclude (1,4)
+ * 	 	sv=[1], sw=[4] 																			  sv=[], sw=[]
+ * 		|																						  |
+ * 	   	include (2,5)------------------------------------exclude (2,5)							  include (2,5)---------------------------exclude (2,5)
+ * 	  	sv=[1,2], sw=[4,5] 								 sv=[1], sw=[4]							  sv=[2], sw=[5]						  sv=[], sw=[]
+ * 		|												 |										  |										  |
+ * 		include (3,1)-------------exclude (3,1)  		 include (3,1)---------exclude(3,1)		  include (3,1)---------exclude (3,1)	  include (3,1)-----exclude (3,1)
+ * 	  	sv=[1,2,3], sw=[4,5,1]    sv=[1,2], sw=[4,5]	 sv=[1,3], sw=[4,1]	   sv=[1], sw=[4]	  sv=[2,3], sw=[5,1]    sv=[2], sw=[5]	  sv=[3], sw=[1]    sv=[], sw=[]
+ * 					
+ * 					    
+ * 	- The problem is naturally recursive in nature. 
+ * 
+ * 	- We don't need to make calls to subproblems where including an item will make the weight of knapsack > W (knapsacks weight 
+ * 	  capacity)
  *        
- *      - The problem is naturally recursive in nature. 
- *      
- *      - Hypothesis: F(vals, wts, N, W) will return the 
+ *     
  * 
  * */
 
