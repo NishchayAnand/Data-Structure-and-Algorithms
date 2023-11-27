@@ -44,7 +44,7 @@
  *  				- exc_curr_val = F(vals, wts, N-1, W);
  *  
  *  	3. Return the maximum value out of "inc_curr_val" and "exc_curr_val" to get the maximum value that can be achieved by picking 
- *  	   a subset of items from the first Nth item. 
+ *  	   a subset of items from the first N item. 
  *  
  *  				- return max(inc_curr_val, exc_curr_val); 
  *  
@@ -53,6 +53,19 @@
  *   	1. Maximum value that can be achieved if W = 0, i.e., knapsack is full = 0. 
  *   
  *   	2. Maximum value that can be achieved if N = 0, i.e., no items are left = 0.
+ *   
+ *   - Time Complexity Analysis: ??
+ *   
+ *   - Space Complexity Analysis: ??
+ *   
+ *   - If the weight of an item is equal to the sum of the weights of all the items to the right of that element, then it can lead to 
+ *     overlapping subproblems. For example, consider (i) v={1,2,3,4} & w={4,3,2,1}, (ii) v={1,2,3,4} & w={2,2,2,2}  
+ *   
+ *  - Memoization:
+ *  
+ *  	- find out if the problem has overlapping subproblems.
+ *  
+ *  	
  *
  *        
  *     
