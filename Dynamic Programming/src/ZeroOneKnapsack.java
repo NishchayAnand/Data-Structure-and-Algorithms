@@ -61,7 +61,7 @@
  *  - Overlapping Subproblems:
  *   
  *   	- If the weight of an item is equal to the sum of the weights of all the items to the right of that element, then it can lead 
- *   	  to overlapping subproblems. For example, consider v=[1,2,3], w=[3,2,1], W=5:
+ *   	  to overlapping subproblems. For example, consider v=[1,2,3], w=[3,2,1], W=6:
  *   
  *     		F(3,6)
  * 			|
@@ -80,11 +80,13 @@
  * 							
  *  - Memoization:	
  *  
- *  	- We can use a 2-D array of dimensions: [N+1, W+1] to store the results of each unique recursive function call. 
+ *  	- We can use a 2-D array A of dimensions: [N+1, W+1] to store the results of each unique recursive function call. 
  *  
- *  	- Time Complexity Analysis:
+ *  	- The required answer will get updated at A[N][W] post the code execution.
  *  
- *  	- Space Complexity Analysis:
+ *  	- Time Complexity Analysis: ??
+ *  
+ *  	- Space Complexity Analysis: ??
  *  
  *  - Tabulation:
  *  
@@ -100,16 +102,12 @@ public class ZeroOneKnapsack {
             return 0;
         }
 
-        if(mem[n][wt]>0){
+        if(mem[n][wt]!=-1){
             return mem[n][wt];
         }
 
         int exc = memoization(wts, vals, n-1, wt, mem);
-
-        int inc = Integer.MIN_VALUE;
-        if(wts[n-1]<=wt){
-            inc = vals[n-1] + memoization(wts, vals, n-1, wt-wts[n-1], mem);
-        }
+        int inc = wts[n-1] <= wt ? vals[n-1] + memoization(wts, vals, n-1, wt-wts[n-1], mem) : mem[n][wt];
 
         mem[n][wt] = Math.max(inc, exc);
 
