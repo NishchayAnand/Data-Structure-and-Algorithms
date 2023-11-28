@@ -7,31 +7,32 @@
  * 
  * General Observations:
  * 
- * 	- Find all subset of items whose combined weight is less than or equal to "W" and pick the subset with the maximum value.
+ * 	- Find all subset of items whose combined weight is less than or equal to "W" and pick the subset with the maximum value (if 
+ * 	  multiple, pick any).
  * 
- * 	- Every item has an option of being added to the knapsack or not. For example, for v = [1,2,3], w = [4,5,1] and W = 5,
+ * 	- Every item has an option of being added to the knapsack or not. For example, for v = [1,2,3] & w = [3,2,1]:
  * 
  * 	  	sv=[], sw=[]
  * 		|
- * 		include (1,4)-----------------------------------------------------------------------------exclude (1,4)
- * 	 	sv=[1], sw=[4] 																			  sv=[], sw=[]
- * 		|																						  |
- * 	   	include (2,5)------------------------------------exclude (2,5)							  include (2,5)---------------------------exclude (2,5)
- * 	  	sv=[1,2], sw=[4,5](x) 							 sv=[1], sw=[4]							  sv=[2], sw=[5]						  sv=[], sw=[]
- * 		|												 |										  |										  |
- * 		include (3,1)-------------exclude (3,1)  		 include (3,1)---------exclude(3,1)		  include (3,1)---------exclude (3,1)	  include (3,1)-----exclude (3,1)
- * 	  	sv=[1,2,3], sw=[4,5,1](x) sv=[1,2], sw=[4,5](x)	 sv=[1,3], sw=[4,1]	   sv=[1], sw=[4]	  sv=[2,3], sw=[5,1](x) sv=[2], sw=[5]	  sv=[3], sw=[1]    sv=[], sw=[]	
- * 					    
+ * 		include(1,3)------------------------------------------------------------------------exclude(1,3)
+ * 	 	sv=[1], sw=[3] 																		sv=[], sw=[]	  
+ * 		|																					|	  
+ * 	   	include(2,2)----------------------------------exclude(2,2)							include(2,2)--------------------------exclude(2,2)  
+ * 	  	sv=[1,2], sw=[3,2] 							  sv=[1], sw=[3] 						sv=[2], sw=[2]						  sv=[], sw=[]
+ * 		|											  |	 									|									  |
+ * 		include(3,1)-------------exclude(3,1)  		  include(3,1)---------exclude(3,1)		include(3,1)---------exclude(3,1)	  include(3,1)-----exclude(3,1)
+ * 	  	sv=[1,2,3], sw=[3,2,1]	 sv=[1,2], sw=[3,2]   sv=[1,3], sw=[3,1]   sv=[1], sw=[3]   sv=[2,3], sw=[2,1]	 sv=[2], sw=[2]	  sv=[3], sw=[1]   sv=[], sw=[]
+ *
  * 	- The problem is naturally recursive in nature. 
+ * 
+ * 	- We don't need to make calls to subproblems where including the Nth item will make the weight of knapsack > W (weight capacity 
+ * 	  of knapsack). For example, for W = 5, we can't perform include(3,1) when we already have items (1,3) and (2,2) in the knapsack.
  * 
  * 	- Hypothesis:
  * 
  * 		- F(vals, wts, N, W) returns the maximum value that can be achieved by picking a subset of items out of first N items such
- *  	  that their combined weight < "available" weight capacity of knapsack.  
- *  
- *  - Don't need calls to subproblems where including the Nth item will make the weight of knapsack > W (available weight capacity of 
- *    knapsack).
- *    
+ *  	  that their combined weight < "available" weight capacity of knapsack.
+ *
  *  - Recursive Steps: 
  *  
  *  	1. Find the maximum value that can be achieved by including the Nth element in the subset, making sure that weight of the Nth
@@ -51,24 +52,43 @@
  *  - Base Condition:
  *  
  *   	1. Maximum value that can be achieved if W = 0, i.e., knapsack is full = 0. 
- *   
  *   	2. Maximum value that can be achieved if N = 0, i.e., no items are left = 0.
  *   
- *   - Time Complexity Analysis: ??
+ *  - Time Complexity Analysis: ??
  *   
- *   - Space Complexity Analysis: ??
+ *  - Space Complexity Analysis: ??
  *   
- *   - If the weight of an item is equal to the sum of the weights of all the items to the right of that element, then it can lead to 
- *     overlapping subproblems. For example, consider (i) v={1,2,3,4} & w={4,3,2,1}, (ii) v={1,2,3,4} & w={2,2,2,2}  
+ *  - Overlapping Subproblems:
  *   
- *  - Memoization:
+ *   	- If the weight of an item is equal to the sum of the weights of all the items to the right of that element, then it can lead 
+ *   	  to overlapping subproblems. For example, consider v=[1,2,3], w=[3,2,1], W=5:
+ *   
+ *     		F(3,6)
+ * 			|
+ * 			include(3,1)-------------------------------------------------exclude(3,1)
+ * 	 		F(2,5) 														 F(2,6)					  
+ * 			|															 |							  
+ * 	   		include(2,2)------------------exclude(2,2)				     include(2,2)------------------exclude(2,2)
+ * 	  		F(1,3)						  F(1,5) 						 F(1,4)						   F(1,6)
+ * 			|							  |								 |							   |
+ * 			include(1,3)---exclude(1,3)   include(1,3)---exclude(1,3)	 include(1,3)---exclude(1,3)   include(1,3)---exclude(1,3)
+ * 			F(0,0)		    ------		  F(0,2)		 F(0,5)			 F(0,1)	        F(0,4)		    -----         F(0,6)
+ * 						   |F(0,3)|                                                                    |F(0,3)|
+ * 							------																		-----
+ * 							  ^																			  ^
+ * 							  |_______________________ Overlapping Subproblems ___________________________|	
+ * 							
+ *  - Memoization:	
  *  
- *  	- find out if the problem has overlapping subproblems.
+ *  	- We can use a 2-D array of dimensions: [N+1, W+1] to store the results of each unique recursive function call. 
  *  
- *  	
- *
- *        
- *     
+ *  	- Time Complexity Analysis:
+ *  
+ *  	- Space Complexity Analysis:
+ *  
+ *  - Tabulation:
+ *  
+ * 		-
  * 
  * */
 
