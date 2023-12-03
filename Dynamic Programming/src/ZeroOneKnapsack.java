@@ -80,9 +80,10 @@
  * 							
  *  - Memoization:	
  *  
- *  	- We can use a 2-D array A of dimensions: [N+1, W+1] to store the results of each unique recursive function call. 
- *  
- *  	- The required answer will get updated at A[N][W] post the code execution.
+ *  	- Create a 2-D array: DP of dimensions: [N+1, W+1] and initialize each cell with an invalid output, for example, -1.
+ *   
+ *  	- Start with the recursion and store the result of each unique recursive function call to make sure we don't compute any 
+ *  	  overlapping subproblem. 
  *  
  *  	- Time Complexity Analysis: ??
  *  
@@ -90,35 +91,53 @@
  *  
  *  - Tabulation:
  *  
- * 		-
+ * 		- Create a 2-D array: DP of dimensions: [N+1, W+1].
+ *  
+ *  	- Fill in the minimum output values for the base values of the N and W:
+ * 				
+ * 				- Loop from c=[0:W]:
+ * 					- DP[0][c] = 0;
+ * 
+ * 				- Loop from r=[0:N]:
+ * 					- DP[r][0] = 0;
+ * 
+ * 		- Iterate over the output array and fill in the entries using the "recursive steps" defined above.
+ * 	
+ * 			- Loop from r = [1:N]:
+ * 				- Loop from c = [1:W]:
+ * 					- inc_val = if wts[r-1] <= c ? then DP[r-1][c-wts[r-1]] : else -1;
+ * 					- exc_val = DP[r-1][c];
+ * 					- DP[r][c] = max(inc_val, exc_val);
+ * 		
+ * 		- DP[N][W] will hold the optimal solution to the problem.
+ * 
+ * 		NOTE: 
  * 
  * */
 
 public class ZeroOneKnapsack {
 	
-	public static int memoization(int[] wts, int[] vals, int n, int wt, int[][] mem){
+	public static int memoization(int[] wts, int[] vals, int N, int W, int[][] mem){
 
-        if(n == 0 || wt == 0){
-            return 0;
+        if(N == 0 || W == 0){
+            mem[N][W] = 0;
+            return mem[N][W];
         }
 
-        if(mem[n][wt]!=-1){
-            return mem[n][wt];
+        if(mem[N][W]!=-1){
+            return mem[N][W];
         }
 
-        int exc = memoization(wts, vals, n-1, wt, mem);
-        int inc = wts[n-1] <= wt ? vals[n-1] + memoization(wts, vals, n-1, wt-wts[n-1], mem) : mem[n][wt];
+        int exc = memoization(wts, vals, N-1, W, mem);
+        int inc = wts[N-1] <= W ? vals[N-1] + memoization(wts, vals, N-1, W-wts[N-1], mem) : mem[N][W];
 
-        mem[n][wt] = Math.max(inc, exc);
-
-        return mem[n][wt];
+        mem[N][W] = Math.max(inc, exc);
+        return mem[N][W];
 
 	}
 	
-	public static int tabulation(int[] vals, int[] wts, int N, int W) {
+	public static int tabulation(int[] wts, int[] vals, int N, int W, int[][] mem) {
 		
-		int[][] mem = new int[N+1][W+1];
-
         for(int i=1; i<=N; i++){
             for(int j=1; j<=W; j++){
                 mem[i][j] = mem[i-1][j];
@@ -133,8 +152,51 @@ public class ZeroOneKnapsack {
 	}
 
     public static void main(String[] args) {
-
-            
+    	
+    	int[] vals = {1,2,3};
+    	int[] wts = {3,2,1};
+    	
+    	int N = vals.length;
+    	
+    	int W = 4;
+    	
+    	// Initializing each cell with an invalid output = -1.
+    	int[][] mem = new int[N+1][W+1];
+    	for(int r=0; r<mem.length; r++) {
+    		for(int c=0; c<mem[0].length; c++) {
+    			mem[r][c] = -1; 
+    		}
+    	}
+    	
+    	// Memoization Approach:
+    	
+    	int mem_output = memoization(wts, vals, N, W, mem);
+    	System.out.println("Maximum value using memoization: " + mem_output);
+    	
+    	System.out.println("Output array after memoization solution:");
+    	for(int r=0; r<mem.length; r++) {
+    		for(int c=0; c<mem[0].length; c++) {
+    			System.out.print(mem[r][c] + "\t"); 
+    		}
+    		System.out.println();
+    	}
+    	
+    	System.out.println("-----------------------------------------------------------------------");
+    	
+    	// Tabulation Approach:
+    	
+    	int[][] tab = new int[N+1][W+1];
+    	
+    	int tab_output = tabulation(wts, vals, N, W, tab);
+    	System.out.println("Maximum value using tabulation: " + tab_output);
+    	
+    	System.out.println("Output array after Tabulation solution:");
+    	for(int r=0; r<tab.length; r++) {
+    		for(int c=0; c<tab[0].length; c++) {
+    			System.out.print(tab[r][c] + "\t"); 
+    		}
+    		System.out.println();
+    	}
 
     }
 
