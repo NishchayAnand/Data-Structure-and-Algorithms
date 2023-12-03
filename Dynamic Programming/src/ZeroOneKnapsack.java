@@ -101,17 +101,41 @@
  * 				- Loop from r=[0:N]:
  * 					- DP[r][0] = 0;
  * 
- * 		- Iterate over the output array and fill in the entries using the "recursive steps" defined above.
+ * 		- Iterate over the output array and fill in the entries using the "recursive steps" defined above. DP[N][W] will hold the 
+ * 		  optimal solution to the problem at the end of the computation.
  * 	
  * 			- Loop from r = [1:N]:
  * 				- Loop from c = [1:W]:
  * 					- inc_val = if wts[r-1] <= c ? then DP[r-1][c-wts[r-1]] : else -1;
  * 					- exc_val = DP[r-1][c];
  * 					- DP[r][c] = max(inc_val, exc_val);
- * 		
- * 		- DP[N][W] will hold the optimal solution to the problem.
+ * 			- return DP[r][c];
  * 
- * 		NOTE: 
+ * 		- Time Complexity Analysis:
+ * 
+ * 		- Space Complexity Analysis:
+ *  
+ * 	- Optimized tabulation:
+ * 
+ * 		- Every entry in the output array: DP[r][c] is getting computed using the cells present in the (r-1)th row.
+ * 
+ * 		- We can use a 1-D array: DP of size W to maintain the (r-1)th row and use it to compute the rth row.
+ * 
+ * 			- Loop from c=[0:W]:
+ * 				- DP[c] = 0;
+ * 
+ * 		- Updating the DP array N times using the "recursive steps" will end up placing the optimal solution to the problem at DP[W]. 
+ * 	
+ * 			- Loop from r = [1:N]:
+ * 				- Loop from c = [1:W]:
+ * 					- inc_val = if wts[r-1] <= c ? then DP[c-wts[r-1]] : else -1;
+ * 					- exc_val = DP[c];
+ * 					- DP[c] = max(inc_val, exc_val);
+ * 			- return DP[W];
+ * 		
+ * 		- Time Complexity Analysis:
+ * 
+ * 		- Space Complexity Analysis:
  * 
  * */
 
