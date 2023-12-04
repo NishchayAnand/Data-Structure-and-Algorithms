@@ -117,9 +117,11 @@
  *  
  * 	- Optimized tabulation:
  * 
- * 		- Every entry in the output array: DP[r][c] is getting computed using the cells present in the (r-1)th row.
+ * 		- When filling in the 2-D array iteratively, we only need information from the previous row to compute the current row. 
  * 
- * 		- We can use a 1-D array: DP of size W to maintain the (r-1)th row and use it to compute the rth row.
+ *  	- We can use a 1-D array to maintain the necessary information and update it row by row.
+ *  
+ *  	- Create a 1-D array: DP and fill in the minimum output values for the base conditions, i.e., N=0 and W=0:
  * 
  * 			- Loop from c=[0:W]:
  * 				- DP[c] = 0;
@@ -127,10 +129,12 @@
  * 		- Updating the DP array N times using the "recursive steps" will end up placing the optimal solution to the problem at DP[W]. 
  * 	
  * 			- Loop from r = [1:N]:
+ * 				- curr_row = new arr[W+1];
  * 				- Loop from c = [1:W]:
- * 					- inc_val = if wts[r-1] <= c ? then DP[c-wts[r-1]] : else -1;
- * 					- exc_val = DP[c];
- * 					- DP[c] = max(inc_val, exc_val);
+ * 					- exc_val = DP[c]; 
+ * 					- inc_val = if wts[r-1] <= c ? then vals[r-1] + DP[c-wts[r-1]] : else -1; 
+ * 					- curr_row[c] = max(inc_val, exc_val);
+ * 				- DP = curr_row;
  * 			- return DP[W];
  * 		
  * 		- Time Complexity Analysis:
@@ -160,18 +164,43 @@ public class ZeroOneKnapsack {
 
 	}
 	
-	public static int tabulation(int[] wts, int[] vals, int N, int W, int[][] mem) {
+	public static int tabulation(int[] wts, int[] vals, int N, int W, int[][] tab) {
 		
         for(int i=1; i<=N; i++){
             for(int j=1; j<=W; j++){
-                mem[i][j] = mem[i-1][j];
+                tab[i][j] = tab[i-1][j];
                 if(wts[i-1]<=j){
-                    mem[i][j] = Math.max(mem[i][j], vals[i-1]+mem[i-1][j-wts[i-1]]);
+                    tab[i][j] = Math.max(tab[i][j], vals[i-1]+tab[i-1][j-wts[i-1]]);
                 }
             }
         }
         
-        return mem[N][W]; 
+        return tab[N][W]; 
+		
+	}
+	
+	public static int optimizedTabulation(int[] wts, int[] vals, int N, int W, int[] otab) {
+	
+		int[] curr = new int[W+1];
+		for(int i=0; i<curr.length; i++) {
+			System.out.print(curr[i]+"\t");
+		}
+		System.out.println();
+		
+        for(int i=1; i<=N; i++){
+        	System.out.print(curr[0] + "\t");
+            for(int j=1; j<=W; j++){
+            	curr[j] = otab[j];
+                if(wts[i-1]<=j){
+                    curr[j] = Math.max(curr[j], vals[i-1]+otab[j-wts[i-1]]);
+                }
+                System.out.print(curr[j]+"\t");
+            }
+            otab = curr.clone();
+            System.out.println();
+        }
+        
+        return otab[W]; 
 		
 	}
 
@@ -195,7 +224,6 @@ public class ZeroOneKnapsack {
     	// Memoization Approach:
     	
     	int mem_output = memoization(wts, vals, N, W, mem);
-    	System.out.println("Maximum value using memoization: " + mem_output);
     	
     	System.out.println("Output array after memoization solution:");
     	for(int r=0; r<mem.length; r++) {
@@ -205,6 +233,8 @@ public class ZeroOneKnapsack {
     		System.out.println();
     	}
     	
+    	System.out.println("Maximum value using memoization: " + mem_output);
+    	
     	System.out.println("-----------------------------------------------------------------------");
     	
     	// Tabulation Approach:
@@ -212,7 +242,6 @@ public class ZeroOneKnapsack {
     	int[][] tab = new int[N+1][W+1];
     	
     	int tab_output = tabulation(wts, vals, N, W, tab);
-    	System.out.println("Maximum value using tabulation: " + tab_output);
     	
     	System.out.println("Output array after Tabulation solution:");
     	for(int r=0; r<tab.length; r++) {
@@ -221,6 +250,18 @@ public class ZeroOneKnapsack {
     		}
     		System.out.println();
     	}
+    	
+    	System.out.println("Maximum value using tabulation: " + tab_output);
+    	
+    	System.out.println("-----------------------------------------------------------------------");
+    	
+    	// Optimized Tabulation Approach:
+    	
+    	int[] otab = new int[W+1];
+    	
+    	System.out.println("Output array after optimized tabulation solution:");
+    	int otab_output = optimizedTabulation(wts, vals, N, W, otab);
+    	System.out.println("Maximum value using optimized tabulation: " + otab_output);
 
     }
 
