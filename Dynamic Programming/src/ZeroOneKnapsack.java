@@ -28,35 +28,59 @@
  * 	- We don't need to make calls to subproblems where including the Nth item will make the weight of knapsack > W (weight capacity 
  * 	  of knapsack). For example, for W = 5, we can't perform include(3,1) when we already have items (1,3) and (2,2) in the knapsack.
  * 
- * 	- Hypothesis:
  * 
- * 		- F(vals, wts, N, W) returns the maximum value that can be achieved by picking a subset of items out of first N items such
- *  	  that their combined weight < "available" weight capacity of knapsack.
+ * 	- Recursive Solution:
+ * 
+ * 		- Hypothesis:
+ * 
+ * 			- F(vals, wts, N, W) returns the maximum value that can be achieved by picking a subset of items out of first N items such
+ * 			  that their combined weight < "available" weight capacity of knapsack.
  *
- *  - Recursive Steps: 
+ *  	- Recursive Steps: 
  *  
- *  	1. Find the maximum value that can be achieved by including the Nth element in the subset, making sure that weight of the Nth
- *  	   item <= W (available weight capacity of knapsack):
+ *  		1. Find the maximum value that can be achieved by including the Nth element in the subset, making sure that weight of the 
+ *  		   Nth item <= W (available weight capacity of knapsack):
  *  
  *  				- inc_curr_val = wts[N-1] <= W? val[N-1] + F(vals, wts, N-1, W-wts[N-1]) : -1;
  *  
- *  	2. Find the maximum value that can be achieved by excluding the Nth element from the subset:
+ *  		2. Find the maximum value that can be achieved by excluding the Nth element from the subset:
  *  
  *  				- exc_curr_val = F(vals, wts, N-1, W);
  *  
- *  	3. Return the maximum value out of "inc_curr_val" and "exc_curr_val" to get the maximum value that can be achieved by picking 
- *  	   a subset of items from the first N item. 
+ *  		3. Return the maximum value out of "inc_curr_val" and "exc_curr_val" to get the maximum value that can be achieved by 
+ *  		   picking a subset of items from the first N item. 
  *  
  *  				- return max(inc_curr_val, exc_curr_val); 
  *  
- *  - Base Condition:
+ *  	- Base Condition:
  *  
- *   	1. Maximum value that can be achieved if W = 0, i.e., knapsack is full = 0. 
- *   	2. Maximum value that can be achieved if N = 0, i.e., no items are left = 0.
+ *   		1. Maximum value that can be achieved if W = 0, i.e., knapsack is full = 0.
+ *    
+ *   		2. Maximum value that can be achieved if N = 0, i.e., no items are left = 0.
  *   
- *  - Time Complexity Analysis: ??
+ *  	- Time Complexity Analysis:
+ *  
+ *  		- In worst case scenario, the weight capacity of the knapsack will be such that it can accommodate all the items. 
+ *  		  Therefore, each function call will make 2 sub function calls, 1 including the current item and 1 excluding the current 
+ *  		  item.
+ *  
+ *  		- Total operations = TO(N) = To(N-1) + TO(N-1) + 1 = 2.TO(N-1) + 1
+ *  								   = 2.{TO(N-2) + TO(N-2) + 1} + 1 = 2^2.TO(N-2) + 2 + 1
+ *  								   = 2^2.{TO(N-3) + TO(N-3) + 1} + 2 + 1 = 2^3.TO(N-3) + 2^2 + 2 + 1
+ *  								   = ...
+ *  							       = 2^N.TO(0) + 2^(N-1) + ..... + 2^2 + 2^1 + 2^0
+ *  								   = 2^N
+ *  
+ *   		- Time Complexity = O(2^N).
  *   
- *  - Space Complexity Analysis: ??
+ *  	- Space Complexity Analysis:
+ *  
+ *  		- No auxiliary space is used.
+ *  
+ *  		- The function call stack will at max hold N function calls simultaneously.
+ *  
+ *  		- Space Complexity = O(N).
+ *  
  *   
  *  - Overlapping Subproblems:
  *   
@@ -77,17 +101,22 @@
  * 							------																		-----
  * 							  ^																			  ^
  * 							  |_______________________ Overlapping Subproblems ___________________________|	
- * 							
- *  - Memoization:	
+ * 			
+ * 				
+ *  - Memoization Solution:	
  *  
  *  	- Create a 2-D array: DP of dimensions: [N+1, W+1] and initialize each cell with an invalid output, for example, -1.
  *   
  *  	- Start with the recursion and store the result of each unique recursive function call to make sure we don't compute any 
  *  	  overlapping subproblem. 
  *  
- *  	- Time Complexity Analysis: ??
+ *  	- Time Complexity Analysis: 
  *  
- *  	- Space Complexity Analysis: ??
+ *  		- 
+ *  
+ *  	- Space Complexity Analysis:
+ *  
+ *  		- 
  *  
  *  - Tabulation:
  *  
