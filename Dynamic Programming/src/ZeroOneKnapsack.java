@@ -69,13 +69,11 @@
  *  								   = 2^2.{TO(N-3) + TO(N-3) + 1} + 2 + 1 = 2^3.TO(N-3) + 2^2 + 2 + 1
  *  								   = ...
  *  							       = 2^N.TO(0) + 2^(N-1) + ..... + 2^2 + 2^1 + 2^0
- *  								   = 2^N
+ *  								   = 2^N - 1.
  *  
- *   		- Time Complexity = O(2^N).
+ *   		- Time Complexity = O(2^N). 
  *   
  *  	- Space Complexity Analysis:
- *  
- *  		- No auxiliary space is used.
  *  
  *  		- The function call stack will at max hold N function calls simultaneously.
  *  
@@ -110,13 +108,25 @@
  *  	- Start with the recursion and store the result of each unique recursive function call to make sure we don't compute any 
  *  	  overlapping subproblem. 
  *  
- *  	- Time Complexity Analysis: 
+ *  	- Time Complexity Analysis:
  *  
- *  		- 
+ *   		- The overlapping subproblems state that the time complexity of the problem is also dependent on the "available" weight
+ *   		  capacity of knapsack. 
+ *  
+ *  		- The memoization solution turns the Recursive Tree into a "Directed Acyclic Graph".
+ *  
+ *  		- The time complexity will depend on the time it takes for the algorithm to traverse the "Directed Acyclic Graph"
+ *  		  having N*W nodes, where each node represents a function call.
+ *  
+ *  		- Time Complexity: O(N*W).
  *  
  *  	- Space Complexity Analysis:
  *  
- *  		- 
+ *  		- We are using a 2-D array of dimensions: [N+1, W+1].
+ *  	
+ *  		- The function call stack will at max hold N function calls simultaneously.
+ *  
+ *  		- Space Complexity: O(N*W). ?? (why not N+1*W+1)
  *  
  *  - Tabulation:
  *  
