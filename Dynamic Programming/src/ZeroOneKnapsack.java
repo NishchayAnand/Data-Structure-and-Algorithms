@@ -110,13 +110,7 @@
  *  
  *  	- Time Complexity Analysis:
  *  
- *   		- The overlapping subproblems state that the time complexity of the problem is also dependent on the "available" weight
- *   		  capacity of knapsack. 
- *  
- *  		- The memoization solution turns the Recursive Tree into a "Directed Acyclic Graph".
- *  
- *  		- The time complexity will depend on the time it takes for the algorithm to traverse the "Directed Acyclic Graph"
- *  		  having N*W nodes, where each node represents a function call.
+ *  		- Creating a 2-D array: DP of dimensions: [N+1, W+1] and initialize each cell with -1 will involve (N+1)*(W+1) operations.
  *  
  *  		- Time Complexity: O(N*W).
  *  
@@ -126,7 +120,7 @@
  *  	
  *  		- The function call stack will at max hold N function calls simultaneously.
  *  
- *  		- Space Complexity: O(N*W). ?? (why not N+1*W+1)
+ *  		- Space Complexity: O(N*W).
  *  
  *  - Tabulation:
  *  
