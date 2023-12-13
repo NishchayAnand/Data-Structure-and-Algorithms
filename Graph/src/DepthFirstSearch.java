@@ -1,8 +1,10 @@
 import java.util.ArrayList;
+import java.util.Stack;
 
 public class DepthFirstSearch {
 	
-	private static void DFS(ArrayList<Integer>[] graph, int vertex, boolean[] visited) {
+	// Recursive Approach
+	private static void RecursiveDFS(ArrayList<Integer>[] graph, int vertex, boolean[] visited) {
 		
 		visited[vertex] = true;
 		System.out.print(vertex+" ");
@@ -10,9 +12,32 @@ public class DepthFirstSearch {
 		for(int neighbour : graph[vertex]) {
 			
 			if(visited[neighbour] == false) {
-				DFS(graph, neighbour, visited);
+				RecursiveDFS(graph, neighbour, visited);
 			}
 			
+		}
+		
+	}
+	
+	// Iterative Approach
+	private static void IterativeDFS(ArrayList<Integer>[] graph, int root, boolean[] visited) {
+		
+		Stack<Integer> stack = new Stack<>();
+		stack.add(root);
+		visited[root] = true;
+		
+		while(!stack.isEmpty()) {
+			
+			int vertex = stack.pop();
+			System.out.print(vertex+" ");
+			
+			for(int neighbour : graph[vertex]) {		
+				if(visited[neighbour] == false) {
+					stack.push(neighbour);
+					visited[neighbour] = true; // needs to be done over here overwise we can get duplicate values in stack.
+				}
+			}
+				
 		}
 		
 	}
@@ -23,7 +48,7 @@ public class DepthFirstSearch {
 		ArrayList<Integer>[] graph = new ArrayList[V];
 		
 		for(int i=0; i<V; i++) {
-			graph[i] = new ArrayList<Integer>();
+			graph[i] = new ArrayList<>();
 		}
 		
 		graph[0].add(1);
@@ -38,10 +63,14 @@ public class DepthFirstSearch {
 		graph[3].add(1);
 		graph[3].add(2);
 		
-		boolean[] visited = new boolean[V];
-
-		System.out.print("Depth-First Traversal: ");
-		DFS(graph, 0, visited);
+		boolean[] recursionVisited = new boolean[V];
+		System.out.print("Recursive Depth-First Traversal: ");
+		RecursiveDFS(graph, 0, recursionVisited);
+		System.out.println();
+		
+		boolean[] iterationVisited = new boolean[V];
+		System.out.print("Iterative Depth-First Traversal: ");
+		IterativeDFS(graph, 0, iterationVisited);
 
 	}
 
