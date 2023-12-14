@@ -1,17 +1,19 @@
 import java.util.ArrayList;
 import java.util.Stack;
 
+// Problem Statment: Given a connected undirected graph, perform a Depth First Traversal of the graph.
+
 public class DepthFirstSearch {
 	
 	// Recursive Approach
 	private static void RecursiveDFS(ArrayList<Integer>[] graph, int vertex, boolean[] visited) {
 		
-		visited[vertex] = true;
+		visited[vertex] = true; // will execute n (V) times.
 		System.out.print(vertex+" ");
 		
 		for(int neighbour : graph[vertex]) {
 			
-			if(visited[neighbour] == false) {
+			if(visited[neighbour] == false) { // will execute m (E) times.
 				RecursiveDFS(graph, neighbour, visited);
 			}
 			
@@ -28,13 +30,13 @@ public class DepthFirstSearch {
 		
 		while(!stack.isEmpty()) {
 			
-			int vertex = stack.pop();
+			int vertex = stack.pop(); // will exexute n (V) times.
 			System.out.print(vertex+" ");
 			
 			for(int neighbour : graph[vertex]) {		
-				if(visited[neighbour] == false) {
+				if(visited[neighbour] == false) { // will execute m (E) times.
 					stack.push(neighbour);
-					visited[neighbour] = true; // needs to be done over here overwise we can get duplicate values in stack.
+					visited[neighbour] = true; // needs to be done here overwise we can get duplicate values in stack.
 				}
 			}
 				
