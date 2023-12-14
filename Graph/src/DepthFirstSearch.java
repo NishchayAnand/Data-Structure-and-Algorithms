@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.util.Stack;
 
-// Problem Statment: Given a connected undirected graph, perform a Depth First Traversal of the graph.
+// Problem Statement: Given a connected undirected graph, perform a Depth First Traversal of the graph.
 
 public class DepthFirstSearch {
 	
