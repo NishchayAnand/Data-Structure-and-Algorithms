@@ -30,6 +30,7 @@ public class BreadthFirstSearch {
 	public static void main(String[] args) {
 		
 		int V = 4;
+		@SuppressWarnings("unchecked")
 		ArrayList<Integer>[] graph = new ArrayList[V];
 		
 		for(int i=0; i<V; i++) {
