@@ -14,7 +14,9 @@ import java.util.Queue;
  * 
  * General Obervations:
  * 
- * 	- 
+ * - Traverse over the graph starting from the source vertex and mark each traversed vertex as visited. If at 
+ * 	 the end of the traversal, the destination vertex is marked as visited, it simply means that there exists 
+ *   a path from the source to the destination.
  * 	
  *	- DFS Approach:
  *
@@ -23,9 +25,22 @@ import java.util.Queue;
  *
  *		- Recursive Steps: 
  *
+ *			- Mark source as visited;
+ *			- Loop over all edges:
+ *				- check if there exist any unvisited neighbour of the source:
+ *					- for each unvisited neighbour:
+ *						- if check(edges, neighbour, destination) == true:
+ *							- return true;
+ *			- return false;
+ *
  *		- Base Condition:
  *
  *			- if source == destination, return true;
+ *
+ *	- BFS Approach:
+ *
+ *		- 
+ *
  * */
 
 
