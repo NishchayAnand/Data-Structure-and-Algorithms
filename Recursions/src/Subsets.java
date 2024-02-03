@@ -39,7 +39,30 @@ import java.util.ArrayList;
  *        
  *  - Time Complexity Analysis:
  *  
- *  	- 
+ *  	- Let total number of operations performed by the above alogorithm be o(n), such that:
+ *  		
+ *  				-> o(n) = 2.o(n-1) + C
+ *  				-> 2.o(n-1) = 2^2.o(n-2) + 2.C
+ *  				-> 2^2.o(n-2) = 2^3.o(n-3) + 2^2.C
+ *  				   .
+ *  				   .
+ *  				   .
+ *  				-> 2^(n-1).o(1) = 2^n.o(0) + 2^(n-1).C
+ *  
+ *  				Summing all the equations, we get:
+ *  
+ *  				-> o(n) = C + 2.C + 2^2.C + 2^3.C + 2^4.C + .... + 2^(n-1).C
+ *  						= 2^n.C
+ *  
+ *  	- Since total number of operations is order of 2^n, Time Complexity = O(2^n).
+ *  
+ *  - Space Complexity Analysis:
+ *  
+ *  	- Maximum n stack frames will exist in the call stack simultaneously. In each stack frame, we are using
+ *        a constant space. 
+ *        
+ *      - The maximum space utilized by the algorithm at any point of time will be of the order n. Therefore, 
+ *        Space Complexity = O(n).				
  * 
  * */
 
@@ -52,16 +75,20 @@ public class Subsets {
 	public static void getSubsets(int[] arr, int n, ArrayList<Integer> subset) {
 		
 		if(n==0) {
-			powerSet.add(subset);
+			ArrayList<Integer> ans = (ArrayList<Integer>) subset.clone();
+			powerSet.add(ans);
 			return;
 		}
 		
 		// include the nth element in the subset.
-		ArrayList<Integer> inc = (ArrayList<Integer>) subset.clone();
-		inc.add(arr[arr.length - n]);
-		getSubsets(arr, n-1, inc);
+		// ArrayList<Integer> include = (ArrayList<Integer>) subset.clone(); --> this will increase the 
+		// 																		 space complexity from O(n)
+		//																		 to O(n^2).
+		subset.add(arr[n-1]); // --> Time Complexity = O(1).
+		getSubsets(arr, n-1, subset);
 		
 		// exclude the nth element.
+		subset.remove(subset.size()-1); // --> Time Complexity = O(1).
 		getSubsets(arr, n-1, subset);
 		
 	}
