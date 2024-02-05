@@ -14,8 +14,9 @@ import java.util.ArrayList;
  *  - For each element in the array, there are two choices: either (i) include it in a subset or 
  *  															  (ii) not include it.
  *  
- *  - The total number of combinations (subsets) is given by multiplying the number of choices for each element.
- *    If there are n elements in the array, each with two choices, the total number of subsets = 2^n.
+ *  - The total number of combinations (subsets) is given by multiplying the number of choices for each 
+ *    element. If there are n elements in the array, each with two choices, the total number of 
+ *    subsets = 2^n.
  *    
  *  - The problem is naturally recursive in nature, i.e., you only have to make a decision for the integer 
  *    under consideration and trust the function to do the same for the remaining integers.
@@ -72,6 +73,7 @@ public class Subsets {
 	
 	private static ArrayList<ArrayList<Integer>> powerSet;
 	
+	@SuppressWarnings("unchecked")
 	public static void getSubsets(int[] arr, int n, ArrayList<Integer> subset) {
 		
 		if(n==0) {
