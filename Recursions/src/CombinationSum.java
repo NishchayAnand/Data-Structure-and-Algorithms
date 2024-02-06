@@ -15,34 +15,33 @@ import java.util.List;
  *  - The problem is naturally recursive in nature, i.e., you only have to make a decision for the integer 
  *    under consideration and trust the function to do the same for the remaining integers.
  *    
- *  - Approach 1:
- *    
- *  	- Hypothesis:
+ *  - Hypothesis:
  *  
- *  		- F(arr, n, T) will append all unique combinations that can be generated using the first 'n' 
- *  	  	  integers of array arr such that each combination's aggregated sum = 'T'.
+ *  	- F(arr, n, T) will append all unique combinations that can be generated using the first 'n' 
+ *  	  integers of array arr such that each combination's aggregated sum = 'T'.
  *        
- *      	- Recursive Steps:  
+ *  - Recursive Steps:  
  *      
- *      		- if arr[n-1] <= T:
- *      			- subset.add(arr[n-1]); 	// --> arr[n-1] can be included in the subset. 
- *      			- F(arr, n, T-arr[n-1]);	// --> arr[n-1] can again be considered for inclusion 
- *      										   	   in the subset. 
- *      			- subset.remove(arr.size-1);// --> remove arr[n-1] from subset for the exclusion 
- *      											   condition.
- *      										
- *      		- F(arr, n-1, T); 				// --> no need to consider arr[n-1] again. 
+ *      - subset.add(arr[n-1]); 		// --> include the nth integer in the subset. 
+ *      - F(arr, n, T-arr[n-1]);		// --> nth integer can be included again in the subset. 
  *      
- *  	- Base Condition:
+ *      - subset.remove(arr.size-1);	// --> exclude the nth integer from the subset.							
+ *      - F(arr, n-1, T); 				// --> nth integer can't be included again in the subset.
+ *      
+ * 	- Base Condition:
  *  
- *  		- if T == 0:	// --> we have obtained a subset whose aggregated sum = T.
- *  			- output.add(subset.clone());
- *  			- return;
+ *  	- if T == 0:	// --> we have obtained a subset whose aggregated sum = T.
+ *  		- output.add(subset.clone());
+ *  		- return;
  *  
- *  		- if n == 0;	// --> no integer left in arr to be considered. 
- *  			- return;
+ *  	- if n == 0;	// --> no integer left in arr to be considered. 
+ *  		- return;
  *  
- *  - Issue with this approach: 
+ *  	- if T < 0:
+ *  		- return; 	// --> negative target cannot be achieved using positive integers.
+ *  
+ *  - Reducing the amount of recursive calls made in the above algorithm can improve the space and time 
+ *    complexities of the algorithm.  
  * 
  * */
 
@@ -64,7 +63,7 @@ public class CombinationSum {
 			return;
 		}
 		
-		if(arr[n-1]<=T) {
+		if(arr[n-1]<=T) { 	// --> no need to include an integer which is greater than T. 
 			subset.add(arr[n-1]);
 			combinationSum(arr, n, T-arr[n-1]);
 			subset.remove(subset.size()-1);
