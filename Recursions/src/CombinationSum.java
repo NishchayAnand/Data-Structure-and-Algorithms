@@ -19,8 +19,8 @@ import java.util.List;
  *    
  *  	- Hypothesis:
  *  
- *  		- F(arr, n, T) will append all unique combinations that can be generated using the first 'n' 
- *  	  	  integers of array arr such that each combination's aggregated sum = 'T'.
+ *  		- F(arr, n, T) will explore all unique combinations that can be generated using the first 'n' 
+ *  	  	  integers of the input array such that each combination's aggregated sum = 'T'.
  *        
  *  	- Recursive Steps:  
  *   
@@ -150,14 +150,18 @@ public class CombinationSum {
 	public static void main(String[] args) {
 		
 		output = new ArrayList<>();
-		subset = new ArrayList<>();
 		
 		int[] input = {2,3,6,7};
 		int T = 7;
 		
-		//combinationSum1(input, input.length, T);
-		combinationSum2(input, input.length, T);
+		// Approach 1:
+		subset = new ArrayList<>();
+		combinationSum1(input, input.length, T);
+		System.out.println(output);
 		
+		// Approach 2:
+		subset = new ArrayList<>();
+		combinationSum2(input, input.length, T);
 		System.out.println(output);
 
 	}

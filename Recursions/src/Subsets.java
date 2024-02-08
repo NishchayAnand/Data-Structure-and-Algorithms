@@ -23,8 +23,8 @@ import java.util.ArrayList;
  *    
  *  - Hypothesis:
  *  
- *  	- F(arr, n, subset) will append all possible subsets that can be generated using the first n integers 
- *  	  of arr to the output a.k.a power set.
+ *  	- F(arr, n, subset) will explore all possible subsets that can be generated using the first n 
+ *        integers of the input array.
  *  		
  *  	  NOTE: The return type of the above function will be void.
  *  
