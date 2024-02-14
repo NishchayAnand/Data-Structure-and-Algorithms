@@ -58,19 +58,33 @@ import java.util.List;
  *  
  *   		- o(n) = n.o(n-1) + n.C
  *   		- n.o(n-1) = n.(n-1).o(n-2) + n.(n-1).C
- *   		- o(n-2) = (n-2).
+ *   		- n.(n-1).o(n-2) = n.(n-1).(n-2).o(n-2) + n.(n-1).(n-2).C
+ *   		- .
+ *   		- .
+ *   		- .
+ *   		- n.(n-1).(n-2)....2.[o(1)] = n.(n-1).(n-2)....2.[o(0)] + n.(n-1).(n-2)....2.[C]
+ *   		- o(0) = 0
+ *   
+ *   		-> o(n) = n.C + n.(n-1).C + n.(n-1).(n-2).C + ... + n.(n-1).(n-2)....2.C
+ *   				= C.[n + n.(n-1) + ... + n.(n-1).(n-2)...3.2 + n.(n-1).(n-2)...2.1]
+ *   				= C.[n!/(n-1)! + n!/(n-2)! + ... + n!/3! + n!/2! + n!/1! + n!]
+ *   				= C.n!.[1/(n-1)! + 1/(n-2)! + ... + 1/2! + 1/1! + 1]
+ *   				~ C.n! 
+ *   
+ *   	- Since, the total operations performed by the algorithm is approx. C.n!, the time complexity
+ *   	  of the algorithm is O(n!).
  *  
  *  - Space Complexity Analysis:
  *  
- *  	- Maximum auxiliary space that can be used by the recursive call stack = n.
+ *  	- Maximum auxiliary space used by the recursive call stack will be of the order 'n'.
  *  
- *  	- The output will contain n! array lists each of size n. Hence, size of the output array will 
- *  	  be n!*n.
+ *  	- The 'chosen' hashset will store at maximum 'n' integers.
  *  
- *  	- Total space consumption = n!*n + n.
+ *  	- The output list will store 'n!' array lists each of size 'n'. Hence, size of the output list 
+ *        will be 'n!*n'.
  *  
- *   	- The higher order term in the above expression is n!*n. Hence, the space complexity of the 
- *   	  algorithm will be O(n!*n).
+ *  	- Since, the total space consumption  theby algorithm will be proportional to (n + n + n!*n), the 
+ *        space complexity of the algorithm will be O(n!*n).
  * 
  * */
 
