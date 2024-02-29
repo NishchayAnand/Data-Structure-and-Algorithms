@@ -11,12 +11,23 @@
  * 	- Rain water can flow to neighboring cells directly {"up", "bottom", "right", "left"} if the 
  *    neighboring cell's value is less than or equal to the current cell's value. 
  * 
- * 	- Return a list of coordinates from where rain water can flow to both the Pacific and Atlantic oceans.
+ * 	- Return a 2-D list of coordinates from where rain water can flow to both the Pacific and Atlantic 
+ *    oceans.
  * 
  * General Observations:
  *    
- *  - Water can flow from a 'cell' to both the Pacific and and Atlantic Oceans only if water can flow 
- *    from any of its adjacent cells to both the Pacific and and Atlantic Oceans. 
+ *  - Water can flow from a 'cell' to both Oceans only if water can flow from any of its adjacent cells 
+ *    to both Oceans. 
+ *    
+ *  - Brute Force Approach:
+ *  
+ *  	- Iterate over each cell:
+ *  
+ *  		- isPacificReachable = DFStoPacific(cell);
+ *  		- isAtlanticReachable = DFStoAtlantic(cell);
+ *  
+ *  		- if isPacificReachable == TRUE && isAtlanticReachable == TRUE:
+ *  			- output.add(cell);
  *    
  *  - Approach:
  *  

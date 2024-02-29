@@ -16,7 +16,7 @@ import java.util.ArrayList;
  *  - Hypothesis:
  *  	
  *  	- F(graph, visited, vertex) will visit all the unvisited vertices connected (directly/indirectly)
- *        to the input vertex.
+ *        to the input 'vertex'.
  *  
  *  - Recursive Steps:
  *  
