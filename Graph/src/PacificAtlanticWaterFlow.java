@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 
 /* Problem Statement: 
  * 
@@ -18,59 +21,110 @@
  * 
  * General Observations:
  * 
- * 	- Approach 1:
+ * 	- All cells on the "left" and "top" edge are connected to the Pacific Ocean.
  * 
- * 		- For any 'cell':
- *  		- use DFS to check if any of its neighbour is connected to both the Pacific and Atlantic 
- *  		  Oceans, 
- *  		- then the 'cell' is connected to both the Pacific and Atlantic Oceans.
- *  
- *  - Approach 2 (think of it as a Graph problem):
- * 
- * 		- All cells on the "left" and "top" edge are connected to the Pacific Ocean.
- * 
- * 		- All cells on the "right" and "bottom" edge are connected to the Atlantic Ocean. 
+ * 	- All cells on the "right" and "bottom" edge are connected to the Atlantic Ocean. 
  *    
- *  	- A cell is connected to both Pacific and Atlantic Oceans if it is connected (directly/indirectly)
- *  	  to [a ("left" || "top") edge cell] && [a ("right" || "bottom") edge cell].
+ *  - A cell is connected to both Pacific and Atlantic Oceans if it is connected (directly/indirectly)
+ *    to (i) [a ("left" || "top") edge cell] && 
+ *    	(ii) [a ("right" || "bottom") edge cell].
  *    
+ *  - A cell can receive water from its neighboring cells (i.e., cells "left", "up", "right" and "below" 
+ *    the current cell) if "neighboring cell's value" >= "current cell's value".  
  *  
+ *  - Algorithm:
  *  
+ *  	- Peform DFS on:
+ *  		- all ("left" & "top") edge cells to get all the cells from where water can flow to the 
+ *   		  Pacific Ocean.
+ *  		- all ("right" & "bottom") edge cells to get all the cells from where water can flow to the 
+ *  		  Atlantic Ocean.
+ *         
+ *  	- Time Complexity Analysis:
+ *  		- DFS on ("left" & "top") edge cells can lead to a maximum of (m*n) operations. Similarly, 
+ *  		  DFS on ("right" & "bottom") edge cells can lead to a maximum of (m*n) operations.
+ *  		- Hence, time complexity = O(m*n).
  *  
+ *  	- Space Complexity Analysis:
+ *  		- We are maintaining 2 boolean 2-D arrays of size m*n. Hence, space complexity = O(m*n).
  *  
- *  
- *  
- *  
- *  
- *  
- *  - Can we check if a cell is connected to a [("left" || "top") edge cell] && 
- *    [("right" || "bottom") edge cell] simultaneously?
- *   
- *    
- *  - Brute Force Approach:
- *  
- *  	- Iterate over each cell:
- *  
- *  		- isPacificReachable = DFStoPacific(cell);
- *  		- isAtlanticReachable = DFStoAtlantic(cell);
- *  
- *  		- if isPacificReachable == TRUE && isAtlanticReachable == TRUE:
- *  			- output.add(cell);
- *    
- *  - Approach:
- *  
- *  	- Iterate over input and check what all cells can reach the pacific ocean.
- *  	- Iterate over input and check what all cells can reach the atlantic ocean.
- *  	- Take the itersection of above 2 checks. 
- * 
  * */
 
 
 
 
 public class PacificAtlanticWaterFlow {
+	
+	private static int[][] directions = {
+			{0, -1},	// left
+			{-1, 0},	// up
+			{0, 1},		// right
+			{1, 0}		// down
+	};
+	
+	private static void DFS(int[][] grid, int r, int c, boolean[][] visited) {
+		
+		visited[r][c] = true;
+		
+		// visit neighbors
+		for(int[] direction: directions) {
+			
+			int nr = r + direction[0];
+			int nc = c + direction[1];
+			
+			boolean isInBound = (nr>=0) && (nr<grid.length) && (nc>=0) && (nc<grid[0].length);
+			
+			if(isInBound && (grid[nr][nc] >= grid[r][c]) && !visited[nr][nc]) {
+				DFS(grid, nr, nc, visited);
+			}
+		}
+				
+	}
 
 	public static void main(String[] args) {
+		
+		int[][] grid = {
+				{1,2,2,3,5},
+				{3,2,3,4,4},
+				{2,4,5,3,1},
+				{6,7,1,4,5},
+				{5,1,1,2,4}
+		};
+		
+		int m = grid.length;
+		int n = grid[0].length;
+		
+		boolean[][] touchPacific = new boolean[m][n];
+		boolean[][] touchAtlantic = new boolean[m][n];
+		
+		List<List<Integer>> output = new ArrayList<>();
+		
+		for(int c=0; c<n; c++) {
+			//Perform DFS on all "top" edge cells.
+			DFS(grid, 0, c, touchPacific);
+			//Perform DFS on all "bottom" edge cells.
+			DFS(grid, m-1, c, touchAtlantic);
+		}
+		
+		for(int r=0; r<m; r++) {
+			//Perform DFS on all "top" edge cells.
+			DFS(grid, r, 0, touchPacific);
+			//Perform DFS on all "bottom" edge cells.
+			DFS(grid, r, n-1, touchAtlantic);
+		}
+		
+		for(int r=0; r<m; r++) {
+			for(int c=0; c<n; c++) {
+				if(touchPacific[r][c] && touchAtlantic[r][c]) {
+					ArrayList<Integer> coordinate = new ArrayList<>();
+					coordinate.add(r);
+					coordinate.add(c);
+					output.add(coordinate);
+				}
+			}
+		}
+		
+		System.out.println(output);
 
 	}
 
