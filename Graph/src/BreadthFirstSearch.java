@@ -2,57 +2,112 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
 
-// Problem Statement: Given a connected undirected graph, perform a Breadth First Traversal of the graph.
+/* Problem Statement: Given a "connected" directed graph, perform Breadth-First-Traversal on the graph
+ * 					  and print the order of traversal.
+ * 
+ * General Observations:
+ * 
+ * 	- Based on the ideology of exploring a graph "level by level", i.e., explore all vertices at the 
+ *    current depth level before moving on to the verices at the next depth level.
+ *    
+ *  - Approach: Can be implemented using a "Queue" data structure. 
+ *  
+ *  - Algorithm:
+ *  
+ *  	- Queue.add(root_vertex);
+ *  	- visited[root_vertex] = true;
+ *  
+ *  	- While Queue is not empty:
+ *  		- current_vertex = Queue.pop();
+ *  
+ *  		- for each neighbor: curr_vertex:
+ *  			- if neighbor is unvisited:
+ *  				- Queue.add(neighbor);
+ *  				- visited[neighbor] = true;
+ *  
+ *  - Time Complexity Analyis:
+ *  
+ *  	- "current_vertex = Queue.pop();" will be executed n (no. of vertices, V) times.
+ *  	- "if neighbor is unvisited:" will be executed m (no. of edges, E) times.
+ *  	- Hence, time complexity = O(n+m).
+ *  
+ *  - Space Complexity Analysis:
+ *  
+ *  	- We are using a boolean array of size 'n' to keep a note of each visited vertex.
+ *  	- Hence, space complexity = O(n).
+ * 
+ * */
 
 public class BreadthFirstSearch {
 	
-	private static void BFS(ArrayList<Integer>[] graph, int root, boolean[] inQueue) {
+	private static ArrayList<Integer> traversalOrder = new ArrayList<>(); 
+	
+	private static ArrayList<ArrayList<Integer>> getSampleGraph(){
+		
+		ArrayList<ArrayList<Integer>> graph = new ArrayList<>();
+		
+		// Adding neighbors of vertex 0.
+		ArrayList<Integer> zero = new ArrayList<>();
+		zero.add(1);
+		zero.add(2);
+		zero.add(3);
+		graph.add(zero);
+		
+		// Adding neighbors of vertex 1.
+		ArrayList<Integer> one = new ArrayList<>();
+		graph.add(one);
+		
+		// Adding neighbors of vertex 2.
+		ArrayList<Integer> two = new ArrayList<>();
+		two.add(4);
+		graph.add(two);
+		
+		// Adding neighbors of vertex 3.
+		ArrayList<Integer> three = new ArrayList<>();
+		graph.add(three);
+		
+		// Adding neighbors of vertex 3.
+		ArrayList<Integer> four = new ArrayList<>();
+		graph.add(four);
+		
+		return graph;
+		
+	}
+	
+	private static void BFS(ArrayList<ArrayList<Integer>> graph, int root, boolean[] visited) {
 		
 		Queue<Integer> queue = new LinkedList<>();
+		
 		queue.add(root);
-		inQueue[root] = true;
+		visited[root] = true;
 		
 		while(!queue.isEmpty()) {
 			
-			int vertex = queue.remove(); // will be executed for n (V) times.
-			System.out.print(vertex+" ");
+			int vertex = queue.remove();
+			traversalOrder.add(vertex);
 			
-			for(int nbr: graph[vertex]) {
-				if(!inQueue[nbr]) {		// will be executed for m (E) times.
-					queue.add(nbr);
-					inQueue[nbr] = true;
+			for(int neighbor: graph.get(vertex)) {
+				if(!visited[neighbor]) {	
+					queue.add(neighbor);
+					visited[neighbor] = true;
 				}
 			}
+			
 		}
 		
 	}
 
 	public static void main(String[] args) {
 		
-		int V = 4;
-		@SuppressWarnings("unchecked")
-		ArrayList<Integer>[] graph = new ArrayList[V];
+		ArrayList<ArrayList<Integer>> graph = getSampleGraph(); // {{1,2,3},{},{4},{},{}}
 		
-		for(int i=0; i<V; i++) {
-			graph[i] = new ArrayList<>();
-		}
+		int vertexCount = graph.size();
+		boolean[] visited = new boolean[vertexCount];
 		
-		graph[0].add(1);
-		graph[0].add(2);
+		int root = 0;
+		BFS(graph, root, visited);
 		
-		graph[1].add(0);
-		graph[1].add(3);
-		
-		graph[2].add(0);
-		graph[2].add(3);
-		
-		graph[3].add(1);
-		graph[3].add(2);
-		
-		boolean[] visited = new boolean[V];
-		System.out.print("Breadth-First Traversal: ");
-		BFS(graph, 0, visited);
-		System.out.println();
+		System.out.println(traversalOrder);
 
 	}
 
