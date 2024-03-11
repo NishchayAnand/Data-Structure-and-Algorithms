@@ -15,8 +15,8 @@ import java.util.* ;
  *  	- opening parenthesis: "(" should mark the start of a subexpression. 
  *  	- closing parenthesis: ")" should mark the end of a subexpression. 
  *  
- *  - A set of "opening-closing" parenthesis is redundant if it encloses another set of "opening-closing"
- *    parenthesis. 
+ *  - A set of "opening-closing" parenthesis is not redundant if it encloses a subexpression (combination 
+ *    of operands and operators).
  *  
  *  - Approach:
  *  
