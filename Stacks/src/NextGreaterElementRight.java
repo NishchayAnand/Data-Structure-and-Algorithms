@@ -11,47 +11,56 @@ import java.util.ArrayDeque;
  * 
  * General Observations:
  * 
- * 	- Brute Force Approach:
+ * 	- Brute Force Approach: 
+ * 
+ * 		- Use a nested loop.
  * 
  * 		- Algorithm:
- * 		
- * 			- Loop over every 'ith' element in arr:
- * 				- Loop over every 'jth' element to the right of the 'ith' element in arr:
- * 					- if arr[j] > arr[i]:
- * 				 		- then arr[j] is the next greater element of arr[i];
- * 						- break 'jth', i.e., inner loop;
+ * 
+ * 			- Loop over each 'ith' element of the array:
+ *  
+ * 				- Loop over each 'jth' elements to the right of the current element: 
+ *  		  		- If 'jth' element > 'ith' element, 'jth' element is the next greater element to 'ith'
+ *  				  element. 
+ * 
+ * 				- If there is no greater 'jth' element, the next greater element for that 'ith' element 
+ * 				  is considered -1.
  * 
  * 		- Time Complexity Analysis:
  * 
- * 			- In worst-case scenario, i.e, if input array is sorted in descending order, the algorithm
+ * 			- In worst-case scenario, i.e, if the input array is sorted in descending order, the algorithm
  * 			  will perform n^2 operations. Hence, time complexity = O(n^2).
  * 
  * 		- Space Complexity Analysis:
  * 
  * 			- We will store the output in an array of size 'n'. Hence, space complexity = O(n).  
  * 
- * 	- The brute force approach uses nested loops, where the inner loop iterates through elements to the 
- *    right of the current element (i) searching for the next greater element. This can be inefficient 
- *    because we might revisit the same elements multiple times for different i values.
+ * 		- The brute force approach is inefficient because we might revisit the same elements multiple 
+ * 		  times for different "i" values.
+ *    
  * 
  * 	- Optimized Approach:
  * 
- * 		- We can use "Stack" to optimize the brute force solution.
+ * 		- Process the input array from 'right' to 'left' and use a 'Stack' to store potential next 
+ * 		  greater elements encountered during the iteration.
  * 
  * 		- Algorithm: 
  * 
- * 			- Iterate over each element: "current" of the input array from right to left.  
- * 				- Keep popping elements from the Stack as long as they are smaller than current.
- * 				- If Stack is not empty:
- * 					- stack.top is the next greater element of current.
- * 				- else:
- * 					- we do not have a element greater than the current element to its right.
- *				- Push current to the top of the stack to ensure that the top element is always the 
- *				  smallest among elements pushed so far. 
+ * 			- Loop over each 'ith' element of the input array from 'right' to 'left':
+ * 
+ * 				- Pop elements from the Stack until the 'ith' element is greater than the element at 
+ * 				  the top of the stack;
+ * 
+ * 				- If there's still an element left in the stack, it is the next greater element of the 
+ * 				  'ith' element.
+ * 
+ * 				- Push the 'ith' element onto the stack because as we move left in the array, 'ith' 
+ * 				  element might become the next greater element for elements encountered later. 	
  *
  *		- Time Complexity Analysis:
  * 
- * 			- In worst-case scenario, ??
+ * 			- We will loop over the input array and perform few pop operations. Average time complexity
+ *   		  = O(n).
  * 
  * 		- Space Complexity Analysis:
  * 
@@ -87,6 +96,15 @@ public class NextGreaterElementRight {
     } 
     
     public static void main(String[] args) {
+    	
+    	long[] A = {1,3,2,4};
+    	
+    	long[] output = nextLargerElement(A, A.length);
+    	
+    	System.out.print("Output: ");
+    	for(long el: output) {
+    		System.out.print(el+" ");
+    	}
     	
     }
     
