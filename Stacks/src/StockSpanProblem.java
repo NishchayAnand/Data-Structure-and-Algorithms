@@ -17,6 +17,9 @@ import java.util.List;
  *  
  * General Observations:
  * 
+ * 	- The stock span on any given day will be equal to the number of days between the given day and 
+ *    the first day before the given day when the stock price was "greater" than the given day. 
+ * 
  * 	- The span 'Si' of the stocks price on a given day 'i' is equal to:
  * 		 	- "Index of Nearest Greater Price to the Left" - Price[i]; 
  * 
