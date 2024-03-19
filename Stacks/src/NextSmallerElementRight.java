@@ -57,7 +57,7 @@ import java.util.*;
  * 				- If there's still an element left in the stack, it is the next smaller element of the 
  * 				  'ith' element.
  * 
- * 				- Push the 'ith' element onto the stack because as we move left in the array, 'ith' 
+ * 				- Push the 'ith' element onto the stack because as we move left in the array, since 'ith' 
  * 				  element might become the next smaller element for elements encountered later. 	
  *
  *		- Time Complexity Analysis:
@@ -76,21 +76,39 @@ public class NextSmallerElementRight{
     static ArrayList<Integer> nextSmallerElement(ArrayList<Integer> arr, int n){
         
         ArrayList<Integer> nse = new ArrayList<>();
-        Stack<Integer> stack = new Stack<>();
+        
+        ArrayDeque<Integer> stack = new ArrayDeque<>();
         
         for(int i=n-1; i>=0; i--){
-            while(!stack.empty() && stack.peek()>=arr.get(i)){
+        	
+            while(!stack.isEmpty() && stack.peek()>=arr.get(i)){
                 stack.pop();
             }
-            if(!stack.empty()){
-                nse.add(0,stack.peek());
+            
+            if(!stack.isEmpty()){
+                nse.add(0, stack.peek());
             } else {
                 nse.add(0,-1);
             }
+            
             stack.push(arr.get(i));
+            
         }
         
         return nse;
         
     }
+    
+    public static void main(String[] args) {
+    	
+    	Integer[] arr = {2,1,5,6,2,3};
+    	
+    	ArrayList<Integer> input = new ArrayList<>(Arrays.asList(arr));
+    	
+    	ArrayList<Integer> result = nextSmallerElement(input, input.size());
+    	
+    	System.out.println("Next Smaller Elements to the Right: " + result);
+    	
+    }
+    
 }
