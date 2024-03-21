@@ -1,5 +1,26 @@
 import java.util.Scanner;
 
+/* Problem Statement: Given an 'n x n' 2D matrix representing an image, rotate the image by 90 degrees 
+ * 					  (clockwise).
+ * 
+ * General Observations:
+ * 
+ * 	- The transpose of a matrix is the matrix flipped over its "main diagonal", switching the matrix's 
+ * 	  "row" and "column" indices.
+ * 
+ * 	- For all elements in the matrix:
+ * 		- below the "main diagonal", the (row index) > (column index).
+ * 		- above the "main diagonal", the (row index) < (column index).
+ * 
+ * 	- Algorithm:
+ * 	
+ * 		- Loop over each 'row' index:
+ * 			- Loop over each 'column' index:
+ * 				- if row < column:
+ * 					- swap matrix[row][columm] and matrix[column][row];
+ * 
+ * */
+
 public class RotateBy90 {
 
 	public static void main(String[] args) {
