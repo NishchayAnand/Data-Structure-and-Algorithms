@@ -44,8 +44,8 @@ public class TransposeMatrix {
 		
 		int[][] transpose = new int[m][n];
 		
-		for(int r=0; r<matrix.length; r++) {
-			for(int c=0; c<matrix[0].length; c++) {
+		for(int r=0; r<n; r++) {
+			for(int c=0; c<m; c++) {
 				if(r==c) {
 					transpose[r][c] = matrix[r][c];
 				} else {

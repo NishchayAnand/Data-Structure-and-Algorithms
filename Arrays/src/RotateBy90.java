@@ -5,19 +5,22 @@ import java.util.Scanner;
  * 
  * General Observations:
  * 
- * 	- The transpose of a matrix is the matrix flipped over its "main diagonal", switching the matrix's 
- * 	  "row" and "column" indices.
+ * 	- Number of rows = Number of columns = 'n'. 
  * 
- * 	- For all elements in the matrix:
- * 		- below the "main diagonal", the (row index) > (column index).
- * 		- above the "main diagonal", the (row index) < (column index).
+ * 	- Approach 1: 
  * 
- * 	- Algorithm:
+ * 		- Every 'ith' row becomes the '(n-1-i)th' column in the rotated matrix, where 0<=i<n. 
+ * 
+ * 		- Brute Force Approach:
+ * 
+ * 			- Algorithm:
  * 	
- * 		- Loop over each 'row' index:
- * 			- Loop over each 'column' index:
- * 				- if row < column:
- * 					- swap matrix[row][columm] and matrix[column][row];
+ * 				- Loop from i = [0, n-1]:
+ * 					- 
+ * 
+ * 	- Approach 2:
+ *  		
+ *  	- Rotating the layers 
  * 
  * */
 
