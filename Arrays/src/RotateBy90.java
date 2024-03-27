@@ -41,12 +41,23 @@
  * 		- Consider the matrix as divided into concentric layers, similar to the rings of an onion. The 
  * 		  outermost layer consists of the border elements, and each subsequent layer moves one step 
  * 		  inwards.
+ * 
+ * 		- Use 4 pointers: 'Top', 'Bottom', 'Left' and 'Right' to represent the layers of the matrix.
+ * 
+ * 		- Algorithm:
  *  		
- *  	- Loop through each layer:
- *  		- Shift top row elements to the right;
- *  		- Shift right column elements down;
- *  		- Shift bottom column elements to the left;
- *  		- Shift left column elements up;
+ *  		- Loop through each layer:
+ *  			- Shift top row (Right-Left) elements to the right colum;
+ *  			- Shift right column (Bottom-Top) elements to the bottom row;
+ *  			- Shift bottom row (Right-Left) elements to the left column;
+ *  			- Shift left column (Bottom-Top) elements to the top row;
+ *  
+ *  	- Time Complexity = O(n).
+ *  
+ *  	- Space Complexity = O(1).
+ *  
+ *  - NOTE: The first approach, i.e., the 'transpose' and 'reverse' approach might be easier to 
+ *  	    understand due to its clear separation of steps.
  *  
  * */
 
@@ -88,6 +99,44 @@ public class RotateBy90 {
 		}
 		
 	}
+	
+	private static void approach2(int[][] matrix, int n) {
+		
+		int top = 0, left = 0;
+		int bottom = n-1, right = n-1;
+		
+		while(top<bottom) {
+			
+			int elementsToSwap = bottom-top; // (bottom-top) = (right-left) 
+			
+			for(int step=0; step<elementsToSwap; step++) {
+				
+				// Storing matrix[top][left+step] element for future reference. 
+				int temp = matrix[top][left+step];
+				
+				// Move left column (bottom-step) element to top row (left+step) index.
+				matrix[top][left+step] = matrix[bottom-step][left];
+				
+				// Move bottom row (right-step) element to the left column (bottom-step) index.
+				matrix[bottom-step][left] = matrix[bottom][right-step];
+				
+				// Move right column (top+step) element to the bottom row (right-step) index.
+				matrix[bottom][right-step] = matrix[top+step][right]; 
+				
+				// Move top row (left+step) element to right column (top+step) index.
+				matrix[top+step][right] = temp;
+				
+			}
+			
+			// Moving to the inward layer. 
+			top++;
+			left++;
+			bottom--;
+			right--;
+				
+		}
+			
+	}
 
 	public static void main(String[] args) {
 		
@@ -102,7 +151,8 @@ public class RotateBy90 {
 		display(matrix);
 		
 		System.out.println("Rotated Matrix:");
-		approach1(matrix, matrix.length);
+		//approach1(matrix, matrix.length);
+		approach2(matrix, matrix.length);
 		display(matrix);	
 	     
 	}
