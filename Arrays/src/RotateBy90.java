@@ -52,7 +52,7 @@
  *  			- Shift bottom row (Right-Left) elements to the left column;
  *  			- Shift left column (Bottom-Top) elements to the top row;
  *  
- *  	- Time Complexity = O(n).
+ *  	- Time Complexity = O(n^2).
  *  
  *  	- Space Complexity = O(1).
  *  
