@@ -65,7 +65,67 @@
 
 
 public class MyHashMap {
+	
+	private Node[] buckets;
+	private static final double LOAD_FACTOR = 0.75;
+	private int size;
+	private int capacity;
+	
+	public MyHashMap() {
+		this.capacity = 16;
+		this.buckets = new Node[capacity];
+		this.size = 0;
+	}
+	
+	private static class Node {
+		final int key;
+		int value;
+		Node next;
+		
+		public Node(int key, int value) {
+			this.key = key;
+			this.value = value;
+		}
+	}
 
+	private int hash(int key) {
+		return Math.abs(Integer.valueOf(key).hashCode() % capacity);
+	}
+	
+	private void rehash() {
+		capacity *= 2;
+		Node[] newBuckets = new Node[capacity];
+		buckets = newBuckets;
+		
+		size = 0;
+		
+		// Re-insert all existing key-value pairs into the new buckets
+		for(Node node: buckets) {
+			
+		}
+	}
+	
+	// Insertion
+	public void put(int key, int value) {
+		int index = hash(key);
+		Node newNode = new Node(key, value);
+		
+		if(buckets[index]==null) {
+			buckets[index] = newNode;
+		} else {
+			Node head = buckets[index];
+			// Chaining - add the new entry to the beginning of the linked list at the bucket
+			newNode.next = head;
+			buckets[index] = newNode;
+		}
+		size++;
+		
+		if(size > capacity*LOAD_FACTOR) {
+			rehash();
+		}
+	}
+	
+	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 
