@@ -244,9 +244,6 @@ public class MyHashMap {
 		
 		hm.remove(3);
 		System.out.println("All Keys After Removing 3: " + hm.keySet());
-		
-		
-		
 
 	}
 
