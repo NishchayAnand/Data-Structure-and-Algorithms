@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+import java.util.List;
 
 /* General Observations:
  * 
@@ -60,6 +62,8 @@
  *  				  - Defined in the java.lang.Object class. 
  *  				  - Returns an integer that serves as a hash code for an object. 
  *  				  - Different objects can have the same hash code (collision). 
+ *  
+ *  	- HashMap cannot have duplicate keys. 
  * 
  * */
 
@@ -92,42 +96,157 @@ public class MyHashMap {
 		return Math.abs(Integer.valueOf(key).hashCode() % capacity);
 	}
 	
-	private void rehash() {
-		capacity *= 2;
-		Node[] newBuckets = new Node[capacity];
-		buckets = newBuckets;
+	// Searching
+	private Node getNode(int key) {
 		
-		size = 0;
+		// get the bucket index where the key could be present. 
+		int index = hash(key);
 		
-		// Re-insert all existing key-value pairs into the new buckets
-		for(Node node: buckets) {
-			
+		Node curr = buckets[index];
+		
+		// Traverse the linked list at the bucket index.
+		while(curr!=null) {
+			if(curr.key==key) {
+				return curr;
+			}
+			curr = curr.next;
 		}
+		
+		return null;
+		
 	}
 	
-	// Insertion
+	public int get(int key) {
+		Node node = getNode(key);
+		return node==null ? -1 : node.value;
+	}
+	
+	// Insertion 
 	public void put(int key, int value) {
-		int index = hash(key);
-		Node newNode = new Node(key, value);
 		
+		Node node = getNode(key); // O(1) operation. 
+		
+		if(node!=null) {
+			// key-value pair already exists in the hashMap.
+			node.value = value;
+			return;
+		}
+		
+		Node newNode = new Node(key, value); // O(1) operation.
+		
+		int index = hash(key);
+
 		if(buckets[index]==null) {
 			buckets[index] = newNode;
 		} else {
 			Node head = buckets[index];
-			// Chaining - add the new entry to the beginning of the linked list at the bucket
+			// Chaining - add the new entry to the beginning of the linked list at the bucket index. 
 			newNode.next = head;
 			buckets[index] = newNode;
 		}
 		size++;
-		
+			
 		if(size > capacity*LOAD_FACTOR) {
 			rehash();
-		}
+		}	
+			
 	}
 	
+	// Rehashing
+	private void rehash() {
+		
+		// copy the buckets array.
+		Node[] copy = buckets;
+		
+		// create the new buckets array with double the capacity.
+		capacity *= 2;
+		buckets = new Node[capacity];
+		size = 0;
+		
+		// Re-insert all existing key-value pairs into the new buckets
+		for(Node node: copy) {
+			Node curr = node;
+			while(curr!=null) {
+				put(curr.key, curr.value);
+				curr = curr.next;
+			}
+		}
+		
+	}
+	
+	// Deletion
+	public void remove(int key) {
+		
+		// get the bucket index where the key could be present. 
+		int index = hash(key);
+		
+		Node curr = buckets[index];
+		Node prev = null;
+		
+		// Traverse the linked list at the bucket index.
+		while(curr!=null) {
+			
+			if(curr.key==key) {
+				if(prev==null) {
+					// Key-value pair is the head of the list.
+					buckets[index] = curr.next;
+				} else {
+					// Key-value pair is in the middle or tail of the list.
+					prev.next = curr.next;
+				}
+				size--;
+				return;
+			}
+			
+			prev = curr;
+			curr = curr.next;
+			
+		}
+		
+	}
+	
+	// --------------------------- Additional Functionalities ---------------------------------
+	
+	public boolean containsKey(int key) {
+		int value = get(key);
+		return value == -1 ? false: true;
+	}
+	
+	public int size() {
+		return size;
+	}
+	
+	public List<Integer> keySet() {
+		List<Integer> output = new ArrayList<>();
+		for(Node node: buckets) {
+			Node curr = node;
+			while(curr!=null) {
+				output.add(curr.key);
+				curr = curr.next;
+			}
+		}
+		return output;
+	}
 	
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+		
+		MyHashMap hm = new MyHashMap();
+		
+		hm.put(1, 2);
+		hm.put(1, 3);
+		hm.put(2, 4);
+		hm.put(3, 3);
+		
+		System.out.println("Key 1 Value: " + hm.get(1));
+		System.out.println("Key 2 Value: " + hm.get(2));
+		System.out.println("Key 3 Value: " + hm.get(3));
+		System.out.println("All Keys: " + hm.keySet());
+		
+		hm.remove(3);
+		System.out.println("All Keys After Removing 3: " + hm.keySet());
+		
+		
+		
 
 	}
 
