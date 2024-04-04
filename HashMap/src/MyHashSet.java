@@ -1,4 +1,11 @@
 
+/* General Observations:
+ * 
+ * 	- 
+ * 
+ * */
+
+
 public class MyHashSet {
 
 	public static void main(String[] args) {
