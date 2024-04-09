@@ -22,14 +22,16 @@ import java.util.HashMap;
  *  
  *  	- Algorithm:
  *  		
- *  		- Store each character and its count in the two strings ('s' and 't') as key-value pairs 
- *  		  in two hashmaps ('s_hm' and 't_hm').
+ *  		- Create two HashMap to store characters of the two input strings ('s' and 't') along with 
+ *  		  their frequency. 
  *  
- *  		- Iterate through each 'key' in 's_hm':
- *  			- If (key does not exist in 't_hm') or (value of key in s_hm != value of key in t_hm):
- *  				- return false as 't' is not an anagram of 's';
+ *  		- NOTE: Above HashMaps are usually called Frequency HashMaps.
  *  
- * 			- return true since all characters in 's' exist in 't'; 
+ *  		- If Frequency HashMap of string 's' == Frequency HashMap of string 't', then 't' is a 
+ *  		  anagram of 's'.
+ *  
+ *  		- NOTE: The built-in equals() method for HashMaps can be used to check if both Frequency 
+ *  			    HashMaps have the exact same key-value pairs.
  * 
  * 		- Time Complexity = O(n) where n = length of 's' and 't'.
  * 
@@ -50,39 +52,17 @@ public class ValidAnagram {
 		
 		// populating s_hm
 		for(int i=0; i<s.length(); i++) {
-			
-			char key = s.charAt(i);
-			
-			if(s_hm.containsKey(key)) {
-				s_hm.put(key, s_hm.get(key)+1);
-			} else {
-				s_hm.put(key, 1);
-			}
-			
+			Character key = s.charAt(i);
+			s_hm.put(key, s_hm.getOrDefault(key, 0)+1);
 		}
 		
 		// populating t_hm
-		for(int i=0; i<t.length(); i++) {
-					
-			char key = t.charAt(i);
-					
-			if(t_hm.containsKey(key)) {
-				t_hm.put(key, t_hm.get(key)+1);
-			} else {
-				t_hm.put(key, 1);
-			}
-					
+		for(int i=0; i<t.length(); i++) {	
+			char key = t.charAt(i);		
+			t_hm.put(key, t_hm.getOrDefault(key, 0)+1);		
 		}
 		
-		for(Character key: s_hm.keySet()) {
-			// check if key character does not exist in 't' or if the count of key character in 's' does 
-			// not equal to its count in 't'
-			if( !t_hm.containsKey(key) || !s_hm.get(key).equals(t_hm.get(key)) ) {
-				return false;
-			}
-		}
-		
-		return true;
+		return s_hm.equals(t_hm);
 		
 	}
 
