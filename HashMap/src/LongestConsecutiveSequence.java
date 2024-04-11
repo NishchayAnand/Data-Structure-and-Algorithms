@@ -52,11 +52,11 @@ import java.util.HashSet;
  * 
  *  	- Algorithm:
  *  		
- *  		- Create a HashSet to store all the elements of the 'nums' array.
+ *  		- Create a HashSet to store all the elements of the 'nums' array. (#1)
  *  
  *  		- Initialize longest_length = 0.
  *  
- *  		- Loop from i = [1, n) to iterate over the 'nums' array:
+ *  		- Loop from i = [1, n) to iterate over the 'nums' array: (#2)
  *  			- If HashSet contains (nums[i]-1):
  *  				- Do nothing, since, nums[i] is part of a subsequence which would surely be explored in the else section.
  *  			- Else:
@@ -71,9 +71,17 @@ import java.util.HashSet;
  *  	- Time Complexity Analysis:
  *  		
  *  		- We are iterating over the input 'nums' array two times:
- *  			- first, to fill the HashSet.
- *  			- second, to find the length of the longest consecutive subsequence. 
+ *  			- first, to fill the HashSet. --> O(n)
+ *  			- second, to find the length of the longest consecutive subsequence. --> O(n)
  *  
+ *  		- In worst case scenario, i.e., when the entire array is a consecutive sequence, the while
+ *  		  loop in (#2) will explore:
+ *  			- all the (n-1) elements for the first iteration of (#2).
+ *  			- no elements for the remaining iterations of (#3).
+ *  
+ *  		- The time complexity for the while loop could be considered as O(1) within the context of 
+ *  		  (#2). 
+ *
  *   		- Hence, overall time complexity = O(n).
  *   
  *   	- Space Complexity Analysis:
