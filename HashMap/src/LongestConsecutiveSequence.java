@@ -1,3 +1,4 @@
+import java.util.HashSet;
 
 /* Problem Statement: Given an unsorted array of integers 'nums', return the length of the longest 
  * 					  consecutive elements sequence.
@@ -26,7 +27,7 @@
  * 			- Loop from i = [1, n) to iterate over the sorted 'nums' array:
  * 				- If nums[i] == nums[i-1] + 1:
  * 					- Increment current_length by 1;
- * 				- Otherwise:
+ * 				- Else:
  * 					- Update longest_length = max(longest_length, current_length);
  * 					- Reset current_length = 1;
  * 
@@ -46,6 +47,9 @@
  * 
  * 		- Each element can either be the "starting element of a subsequence" or "part of a subsequence".
  * 
+ * 		- If we know the starting element of each consecutive subsequence, we can easily figure out 
+ * 		  the longest consecutive subsequence. 
+ * 
  *  	- Algorithm:
  *  		
  *  		- Create a HashSet to store all the elements of the 'nums' array.
@@ -54,8 +58,8 @@
  *  
  *  		- Loop from i = [1, n) to iterate over the 'nums' array:
  *  			- If HashSet contains (nums[i]-1):
- *  				- Do nothing, since, nums[i] is part of a subsequence.
- *  			- Otherwise:
+ *  				- Do nothing, since, nums[i] is part of a subsequence which would surely be explored in the else section.
+ *  			- Else:
  *  				- current_element = nums[i];
  *  				- while HashSet contains (current_element+1): // explore the consecutive sequence starting from nums[i].
  *  					- Increment current_length by 1;
@@ -79,9 +83,39 @@
  * */
 
 public class LongestConsecutiveSequence {
+	
+	private static int longestConsecutive(int[] nums) {
+		
+		HashSet<Integer> hs = new HashSet<>();
+		
+		for(int el: nums) {
+			hs.add(el);
+		}
+		
+		int longest_length = 0;
+		
+		for(int el: nums) {
+			// el marks the start of a subsequence.
+			if(!hs.contains(el-1)) {
+				int current_length = 1;
+				int current_element = el;
+				while(hs.contains(current_element+1)) {
+					current_length++;
+					current_element++;
+				}
+				longest_length = Math.max(longest_length, current_length);
+			}
+		}
+		
+		return longest_length;
+		
+	}
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+		
+		int[] nums = {100, 4, 200, 1, 3, 2};
+		
+		System.out.println("Length of the longest consecutive elements subsequence: " + longestConsecutive(nums));
 
 	}
 
