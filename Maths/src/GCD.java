@@ -42,24 +42,32 @@
         
         	- Hypothesis: 
         		
-        		- GCD(A,B) will return the GCD of A and B.
+        		- GCD(a,b) will return the GCD of a and b, where b = min(A,B).
         	
         	- Recursive Steps:
         	
-        		- Find the GCD of B and (A%B) and return it (since it will be the GCD of A and B). 
-        			- return GCD(B, A%B);
+        		- Find the GCD of b and (a%b) and return it (since it will be the GCD of a and b). 
+        			- return GCD(a, a%b);
         	
         	- Base Condition:
         	
-        	 		- If B becomes 0, A is the required GCD. 
-        	 		 	- If B == 0:
-        	 		 		- return A;
-        	 		 		
-        	- NOTE: The algorithm will make sure that A remains greater than B. 
+        	 		- If b becomes 0, a is the required GCD. 
+        	 		 	- If b == 0:
+        	 		 		- return a;
+        	 		 	 
+        	- Time Complexity Analysis:
+        		
+        		- The Euclidean algorithm has a proven time complexity of O(log(b)) = O(log(min(A,B))).
+        		
+        		- The logarithmic complexity holds because the size of the problem (represented by b) is 
+        		  demonstrably reduced with each iteration, even if not by half in each step.  
+        		        	
+        	- Space Complexity Analysis:
         	
-        	- Time Complexity: ?
-        	
-        	- Space Complexity: ?
+        		- The space complexity is related to the number of recursive calls on the stack.
+        		
+        		- Since, the number of recursive calls is proportional to the logarithm of min(A, B), 
+        		  space complexity = O(log(min(A,B))).
         	
         - Iterative Algorithm:
         
@@ -67,15 +75,12 @@
         		- make a = b and b = a%b.
         			- int temp = b;
         			- b = a%b;
-        			- a = temp;
-        			
+        			- a = temp;	
         	- return a;
-        	
-        	- NOTE: The algorithm will make sure that A remains greater than B.
         			
-        	- Time Complexity = ?
+        	- Time Complexity = O(log(min(A,B))).
         	
-        	- Space Complexity = ?
+        	- Space Complexity = O(1).
     
     - GCD has the following property: GCD(a,b,c) = GCD(GCD(a,b),c). Since, the GCD can be calculated 
       "two at a time", almost all algorithms focus on the simplest case of determining the GCD of two 
@@ -94,14 +99,12 @@ public class GCD {
 	}
 	
 	private static int getGCDIterative(int a, int b) {
-		
 		while(b!=0) {
 			int temp = b;
 			b = a%b;
 			a = temp;
 		}
 		return a;
-		
 	}
 
 	public static void main(String[] args) {
