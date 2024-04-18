@@ -1,3 +1,14 @@
+/CoinChangeCombination.class
+/CoinChangePermutation.class
+/CombinationSum.class
+/CrosswordPuzzle.class
+/CryptArithmetic.class
+/Factorial.class
+/Insertion.class
+/KSubsetsWithEqualSum.class
+/PalindromePartitioning.class
+/Permutations.class
+/PermutationsWithSpaces.class
 /SolveSudoku.class
 /SolveSudokuOptimized.class
 /Sorting.class
@@ -5,6 +16,3 @@
 /TowerOfHanoi.class
 /getAllIndices.class
 /printNQueens.class
-/CombinationSum.class
-/Permutations.class
-/PalindromePartitioning.class
