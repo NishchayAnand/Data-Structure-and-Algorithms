@@ -82,7 +82,9 @@ public class Test1 {
 		boolean isRightValdIndex = (i+1)<A.length && isAvailable[i+1];
 		
 		if( isLeftValidIndex && isRightValdIndex ) {
-			profit += A[i-1]^A[i+1] - gcd(A[i-1], A[i+1]);
+			int xor = A[i-1]^A[i+1];
+			//System.out.println("XOR of " + A[i-1] + " and " + A[i+1] + ": " + xor);
+			profit += xor - gcd(A[i-1], A[i+1]);
 		}
 		
 		return profit;
@@ -102,7 +104,10 @@ public class Test1 {
 				isAvailable[i] = false;
 				deletedElementCount++;
 				
-				int profit = getProfit(A, i) + getMaximumProfit(A);
+				int currElementProfit = getProfit(A, i);
+				// System.out.println(currElementProfit);
+				
+				int profit = currElementProfit + getMaximumProfit(A);
 				maxProfit = Math.max(maxProfit, profit);
 				
 				isAvailable[i] = true;
