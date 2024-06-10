@@ -2,6 +2,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /* Problem Statement: Given an integer array 'nums', return all the triplets [nums[i], nums[j], nums[k]]
  * 					  such that i != j, i != k, and j != k, and nums[i] + nums[j] + nums[k] == 0.
@@ -16,10 +18,10 @@ import java.util.List;
  * 
  * 		- Time Complexity: O(n^3).
  * 
- * 		- Space Complexity: O(1). 
+ * 		- Space Complexity: O(m), where m represents the number of resultant triplets.  
  * 
- * 		- NOTE: Duplicate integers in the input array can lead to duplicate triplets (if order of integers
- * 			    in the triplet does not matter). 
+ * 		- NOTE: Duplicate integers in the input array can lead to duplicate triplets (if order of 
+ * 			    integers in the triplet does not matter). 
  * 
  * 				Example, for nums = [-1, 0, 1, 2, -1, 4, 1], the below mentioned triplets are all 
  * 				duplicates. 
@@ -33,16 +35,32 @@ import java.util.List;
  * 		- If the input array is sorted,
  *  
  * 			- we can skip finding the triplets whose first element = nums[i] if nums[i] == nums[i-1] 
- *            (considering nums[i-1] exists) since those would have been explored in the previous ith iteration.
+ *            (considering nums[i-1] exists) since those would have been explored in the previous ith 
+ *            iteration.
  * 
  * 			- we can skip finding the triplets whose middle element = nums[j] if nums[j] == nums[j-1] 
  * 			  (considering nums[j-1] exists) since those would have been explored in the previous jth 
  * 			  iterations. 
  * 
  * 			- we can skip finding the triplets whose last element = nums[k] if nums[k] = nums[k-1]
- * 			  considering nums[k-1] exists) since those would have been explored in the previous kth
+ * 			  (considering nums[k-1] exists) since those would have been explored in the previous kth
  * 			  iterations. 
  * 			
+ * 
+ * 			OR
+ * 
+ * 			- we can use a HashSet to store the triplets (would be less efficient in comparison to above
+ * 			  filtering logic).**
+ * 
+ *  - Optimized Approach:
+ *  
+ *  	- We can modify the inner nested loops {j,k} to use two pointers approach.
+ *  
+ *  	- Time Complexity = O(n^2)
+ *  
+ *  	- Space Complexity = O(m), where m represents the number of resultant triplets.
+ *  
+ *  	
  * 			  
  * 
  */
@@ -51,61 +69,90 @@ public class ThreeSum {
 	
 	private static List<List<Integer>> threeSumBruteForce(int[] nums) {
 		
-		List<List<Integer>> output = new ArrayList<>();
-		
-		return output;
-		
-	}
-	
-	private static List<List<Integer>> threeSum(int[] nums) {
-		
-		List<List<Integer>> output = new ArrayList<>();
-		
+		int n = nums.length;
 		Arrays.sort(nums);
 		
-		int n = nums.length;
+		List<List<Integer>> triplets = new ArrayList<>();
 		
 		for(int i=0; i<n; i++) {
 			
-			if(i>0 && nums[i] == nums[i-1]) continue;
+			// Skip duplicate elements (i.e., only consider the first occurrence)
+			if(i>0 && nums[i]==nums[i-1]) {
+				continue;
+			}
+			
+			for(int j=i+1; j<n; j++) {
+				
+				// Skip duplicate elements (i.e., only consider the first occurrence)
+				if(j>i+1 && nums[j]==nums[j-1]) {
+					continue;
+				}
+				
+				for(int k=j+1; k<n; k++) {
+					
+					// Skip duplicate elements (i.e., only consider the first occurrence)
+					if(k>j+1 && nums[k]==nums[k-1]) {
+						continue;
+					}
+					
+					if (nums[i]+nums[j]+nums[k]==0) {
+						triplets.add(Arrays.asList(nums[i], nums[j], nums[k]));
+					}
+				}
+			}
+		}
+		
+		return triplets;
+		
+	}
+	
+	
+	private static List<List<Integer>> threeSum(int[] nums) {
+		
+		int n = nums.length;
+		Arrays.sort(nums);
+		
+		List<List<Integer>> triplets = new ArrayList<>();	
+		
+		for(int i=0; i<n-2; i++) {
+			
+			// Skip duplicate elements (i.e., only consider the first occurrence)
+			if(i>0 && nums[i]==nums[i-1]) continue;
 			
 			int j = i+1;
 			int k = n-1;
 			
 			while(j<k) {
 				
-				int sum = nums[i] + nums[j] + nums[k];
+				// Skip duplicate elements (i.e., only consider the first occurrence).
+				if(j>i+1 && nums[j]==nums[j-1]) {
+					j++;
+					continue;
+				}
 				
-				if(sum == 0) {
-					
-					List<Integer> triplet = new ArrayList<>();
-					triplet.add(nums[i]);
-					triplet.add(nums[j]);
-					triplet.add(nums[k]);
-					output.add(triplet);
-					
-					j++;
-					while(j<k && nums[j] == nums[j-1]) {
-						j++;
-					}
-					
+				// Skip duplicate elements (i.e., only consider the first occurrence).
+				if(k<n-1 && nums[k]==nums[k+1]) {
 					k--;
-					while(nums[k] == nums[k-1]) {
-						k--;
-					}
-					
-				} 
-				else if (sum < 0) {
+					continue;
+				}
+				
+				// Two pointers logic.
+				int sum = nums[i] + nums[j] + nums[k];
+				if(sum == 0) {
+					triplets.add(Arrays.asList(nums[i], nums[j], nums[k]));
 					j++;
-				} 
-				else {
+					k--;
+				} else if (sum < 0) {
+					j++;
+				} else {
 					k--;
 				}
+				
 			}
 			
 		}
 		
-		return output;
+		return triplets;
         
     }
 
@@ -113,7 +160,7 @@ public class ThreeSum {
 		
 		int[] nums = {-1,0,1,2,-1,-4};
 		
-		System.out.println("Triplets having sum = 0 using brute force approach: " + threeSumBruteForce(nums));	
+		System.out.println("Triplets having sum = 0 using brute force approach: " + threeSum(nums));	
 
 	}
 
