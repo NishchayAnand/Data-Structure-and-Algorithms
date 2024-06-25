@@ -1,5 +1,5 @@
 
-/* Problem Statement: Given an array "height" containing n integers, each representing wall heights. Find 
+/* Problem Statement: Given an array "Height" containing n integers, each representing wall heights. Find 
  * 					  two walls that together with the x-axis form a container, such that the container 
  * 					  contains the most water.
  * 
@@ -18,18 +18,56 @@
  * 
  * 		- Space Complexity: O(1).
  * 
- * 	- 
+ * 	- For a pair of walls {L, R} such that Height[R] <= Height[L], the area of a container formed using 
+ *    any wall M between L and R would always be less than the area of the container formed using L and R. 
  * 
  * 	- Two Pointers Approach:
  * 
- * 		- 
+ * 		- Algorithm:
+ * 
+ * 			- left = 0;
+ * 			- right = length of height - 1;
+ * 			- max_area = -1;
+ * 			- while (left < right):
+ * 				- current_area = min(Height[left], Height[right])*(right-left);
+ * 				- max_area = max(max_area, current_area);
+ * 				- if(height[left]<=Height[right]):
+ * 					- left++;
+ * 				- else:
+ * 					- right--;
+ * 
+ * 		- Time Complexity: O(n).
+ * 		
+ * 		- Space Complexity: O(1).
  * 
  * */
 
 public class ContainerWithMostWater {
+	
+	private static int maxArea(int[] height) {
+		
+		int left = 0;
+		int right = height.length-1;
+		int globalMax = -1;
+		
+		while(left<right) {
+			int localMax = Math.min(height[left], height[right])*(right-left);
+			globalMax = Math.max(globalMax, localMax);
+			if(height[left]<=height[right]) {
+				left++;
+			} else {
+				right--;
+			}
+		}
+		
+		return globalMax;
+	}
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+		
+		int[] height = {1,8,6,2,5,4,8,3,7};
+		int maximumArea = maxArea(height);
+		System.out.println("Maximum Area: " + maximumArea);
 
 	}
 
