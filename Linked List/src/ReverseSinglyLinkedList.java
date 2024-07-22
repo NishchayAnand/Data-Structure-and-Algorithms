@@ -1,27 +1,16 @@
 
-/* Problem Statement: Given the head of a linked list, reverse the linked list and return the new head.
+/* Problem Statement: Given the head of a singly linked list, reverse the linked list and return the new 
+ * 					  head.
  * 
  * General Observations:
  * 
- * 	- Ideology:
+ * 	- In a singly linked list, every node is connected to at most one neighbor. 
  * 
- * 		- Iterate over linked list:
- * 			- point each node's next property to its previous node. 
+ *  - We need to reverse every node-neighbor connection. 
  * 
- * 	- Algorithm:
+ * 	- Algorithm Time Complexity: O(n).
  * 		
- * 		- curr = head;
- * 		- prev = null;
- * 		- while curr != null:
- * 			- ahead = curr.next; 	// a temp pointer used to point curr to the next node. 
- * 			- curr.next = prev;
- * 			- prev = curr;
- * 			- curr = ahead;
- * 		- head = prev; 				// point the head to the start of the reversed linked list.	
- * 
- * 		- Time Complexity: O(n).
- * 		
- * 		- Space Complexity: O(1).
+ * 	- Algorithm Space Complexity: O(1).
  * 
  * */
 
@@ -30,7 +19,9 @@ public class ReverseSinglyLinkedList {
 	
 	private static Node reverse(Node head) {
 		
-		Node curr=head, prev=null, ahead=null;
+		Node prev=null;
+		Node curr=head;
+		Node ahead=null;
 		
 		while(curr!=null) {
 			ahead = curr.next;
@@ -39,7 +30,7 @@ public class ReverseSinglyLinkedList {
 			curr = ahead;
 		}
 		
-		return head = prev;
+		return prev;
 		
 	}
 
@@ -51,10 +42,12 @@ public class ReverseSinglyLinkedList {
 			linkedList.addAtTail(i);
 		}
 		
-		System.out.println("Original Linked List: "+linkedList);
+		System.out.println("Original Linked List: " + linkedList);
 		
 		// reverse the linked list.
-		reverse(linkedList.head);
+		Node newHead = reverse(linkedList.head);
+		linkedList.tail = linkedList.head;
+		linkedList.head = newHead;
 		
 		System.out.println("Reversed Linked List: "+linkedList);
 
