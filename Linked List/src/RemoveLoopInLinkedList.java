@@ -6,6 +6,7 @@
 
 public class RemoveLoopInLinkedList {
 	
+	/*
 	public static void removeLoop(Node head) {
 		
 		Node loopStart = FindLoopStartInLinkedList.getLoopStartNode(head);
@@ -22,6 +23,7 @@ public class RemoveLoopInLinkedList {
 		temp.next = null;
 		
 	}
+	*/
 
 	public static void main(String[] args) {
 		

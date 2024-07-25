@@ -57,6 +57,7 @@
 
 public class FindLoopStartInLinkedList {
 	
+	/*
 	public static Node getLoopStartNode(Node head) {
 
         Node collisionNode = DetectLoopInLinkedList.detectCycle(head);
@@ -76,6 +77,7 @@ public class FindLoopStartInLinkedList {
         return LoopStart;
         
     }
+    */
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
