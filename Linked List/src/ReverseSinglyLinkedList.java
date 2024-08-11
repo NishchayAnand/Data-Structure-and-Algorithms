@@ -7,6 +7,9 @@
  * 	- In a singly linked list, every node is connected to at most one neighbor. 
  * 
  *  - We need to reverse every node-neighbor connection. 
+ *  
+ *  - For every curr node, we need to point curr.next to its prev element and we need to make sure we
+ *    have a way to curr node to the next node to perform the same steps again. 
  * 
  * 	- Algorithm Time Complexity: O(n).
  * 		
