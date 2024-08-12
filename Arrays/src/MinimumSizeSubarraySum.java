@@ -65,13 +65,13 @@ public class MinimumSizeSubarraySum {
 	public static int minSubArrayLen(int target, int[] nums) {
 		
 		int minLength = Integer.MAX_VALUE;
-		
 		int i=0;
 		int currSubarraySum = 0;
+		
 		for(int j=0; j<nums.length; j++) {
 			currSubarraySum += nums[j];
-			if(currSubarraySum >= target) {
-				minLength = Math.min(minLength, (j-i+1));
+			while(currSubarraySum >= target) {
+				minLength = Math.min(minLength, j-i+1);
 				currSubarraySum -= nums[i];
 				i++;
 			}
