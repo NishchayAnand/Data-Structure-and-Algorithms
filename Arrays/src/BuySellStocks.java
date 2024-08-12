@@ -26,6 +26,8 @@
  *  
  *  - The maximum profit one can generate by selling at prices[j] would be by buying at the minimum
  *    prices[i] in the range [0,..j]. 
+ *    
+ *  - The idea to iterate over the prices array and maintain the minimum buying price seen so far.
  * 
  * 	- Two Pointers Approach:
  * 
