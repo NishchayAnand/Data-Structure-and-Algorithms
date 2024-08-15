@@ -13,6 +13,7 @@
 /MeetingRooms.class
 /MergeIntervals$Pair.class
 /MergeIntervals.class
+/MinimumSizeSubarraySum.class
 /RemoveDuplicate.class
 /ReverseArrayInGroups.class
 /RotateArray.class
@@ -28,4 +29,3 @@
 /TwoSum2.class
 /slidingWindow/
 /twoPointer/
-/MinimumSizeSubarraySum.class

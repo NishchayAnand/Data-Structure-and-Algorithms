@@ -35,6 +35,9 @@
  *    less than 'target'. Hence, for finding the smallest subarray starting from index 'i+1', we can start
  *    exploring the subarrays from 'j+1' rather than starting from j=i. This approach is known as dynamic
  *    sliding window approach.
+ *    
+ *  - CRUX: Increment 'j' pointer will currSubarraySum < target. Increment 'i' pointer will 
+ *   	    currSubarraySum >= target. 
  * 
  * */
 
