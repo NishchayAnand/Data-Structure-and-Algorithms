@@ -14,27 +14,7 @@
  *    
  *  - The Include-Exclude technique would not work over here since the exclude condition would always 
  *    give us minimum coins.
- * 
- * 	- 
- * 
- *  - The problem is recursive in nature. 
- * 
- *  - Hypothesis: F(coins, n, amount) will return the minimum number of coins that can be included from
- *  			  the first n coins to achieve the combined denomination = amount. 
  *  
- *  - Recursive Steps:
- *  	- exc = F(coins, n-1, amount);
- *  	- if coins[n-1] <= amount:
- *  		- inc = 1 + F(coins, n, amount-coins[n-1]);
- *  	- return min(exc, inc);
- *  
- *  - Base Condition:
- *  	- if n==0:
- *  		- return 0; -> no coin remaining that can be added.
- *  	- if amount==0;
- *  		- return 0; -> amount already satisfied, no coin can be added.
- *  
- * 
  * */
 
 public class CoinChange {
