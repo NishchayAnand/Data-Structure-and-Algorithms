@@ -1,20 +1,6 @@
-/BalanceArray.class
-/BarChart.class
-/BuySellStockInfinite.class
-/BuySellStocks.class
-/BuySellStocks2.class
-/ContainerWithMostWater.class
-/InsertInterval.class
-/IntervalListIntersection.class
-/KadaneAlgorithm.class
-/LastAndFirstIndexBInarySearch.class
-/MatrixMultiplication.class
-/MaxSumSubarray.class
-/MeetingRooms.class
-/MergeIntervals$Pair.class
-/MergeIntervals.class
-/MinimumSizeSubarraySum.class
+/MergeIntervals$Interval.class
 /RemoveDuplicate.class
+/RemoveDuplicatesSortedArray.class
 /ReverseArrayInGroups.class
 /RotateArray.class
 /RotateBy90.class
@@ -29,4 +15,3 @@
 /TwoSum2.class
 /slidingWindow/
 /twoPointer/
-/RemoveDuplicatesSortedArray.class

@@ -1,61 +1,64 @@
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
-public class MergeIntervals {
-    
-    class Pair implements Comparable<Pair> {
-        
-        int sp, ep;
-        
-        public Pair(int sp, int ep){
-            this.sp = sp;
-            this.ep = ep;
+/* Problem Statement: Given an array of intervals where intervals[i] = [starti, endi], merge all 
+ * 					  overlapping intervals, and return an array of the non-overlapping intervals that 
+ * 					  cover all the intervals in the input.
+ *  
+ * General Observations:
+ * 
+ * 	- 
+ *  
+ * */
+
+
+class MergeIntervals {
+
+    class Interval {
+
+        int start;
+        int end;
+
+        Interval(int start, int end) {
+            this.start = start;
+            this.end = end;
         }
-        
-        public int compareTo(Pair o){
-            return this.sp - o.sp;
-        }
-        
+
     }
-    
+
     public int[][] merge(int[][] intervals) {
-        
-        Pair[] int_vals = new Pair[intervals.length];
-        for(int i=0; i<intervals.length; i++){
-            int_vals[i] = new Pair(intervals[i][0], intervals[i][1]);
+
+        List<Interval> intervalList = new ArrayList<>();
+        for(int[] interval: intervals) {
+            intervalList.add(new Interval(interval[0], interval[1]));
         }
-        Arrays.sort(int_vals);
-        
-        // Arrays.sort(intervals, (a,b) -> {return a[0]-b[0];} );
-        
-        ArrayList<Pair> ans = new ArrayList<>();
-        ans.add(int_vals[0]);
-        // ans.add(intervals[0]);
-        
-        for(int i=1; i<int_vals.length; i++){
-            
-            Pair last_interval_in_ans = ans.get(ans.size()-1);
-            // int[] last_interval_in_ans = ans.get(ans.size()-1);
-            
-            if(last_interval_in_ans.ep >= int_vals[i].sp){ //if(last_interval_in_ans[1] >= intervals[i][0]){
-                
-                last_interval_in_ans.ep = Math.max(last_interval_in_ans.ep, int_vals[i].ep);
-                // last_interval_in_ans[1] = Math.max(last_interval_in_ans[1], intervals[i][0]);
-                
+
+        Collections.sort(intervalList, (obj1, obj2) -> Integer.compare(obj1.start, obj2.start));
+
+        List<Interval> mergedList = new ArrayList<>();
+        mergedList.add(intervalList.get(0));
+
+        for(int i=1; i<intervalList.size(); i++) {
+
+            Interval currInterval = intervalList.get(i);
+            Interval lastMerged = mergedList.get(mergedList.size()-1);
+
+            if(lastMerged.end >= currInterval.start) {
+                lastMerged.end = Math.max(lastMerged.end, currInterval.end);
             } else {
-                ans.add(int_vals[i]);
-                // ans.add(intervals[i]);
+                mergedList.add(currInterval);
             }
+
         }
-        
-        int[][] finalAns = new int[ans.size()][2];
-        for(int i=0; i<ans.size(); i++){
-            finalAns[i][0] = ans.get(i).sp;
-            finalAns[i][1] = ans.get(i).ep;
+
+        int[][] output = new int[mergedList.size()][2];
+        for(int i=0; i<mergedList.size(); i++) {
+            output[i][0] = mergedList.get(i).start;
+            output[i][1] = mergedList.get(i).end;
         }
-        
-        return finalAns;
-        // return ans.toArray(new int[ans.size()][]);
-        
+
+        return output;
+
     }
-} 
+}

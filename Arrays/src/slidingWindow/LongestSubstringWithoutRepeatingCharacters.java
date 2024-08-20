@@ -1,7 +1,9 @@
 package slidingWindow;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 /* Problem Statement: Given a string 'S', find the length of the longest substring without repeating 
  * 					  characters.
@@ -55,6 +57,36 @@ import java.util.Map;
 
 public class LongestSubstringWithoutRepeatingCharacters {
 	
+	private static int lengthOfLongestSubstringBF(String str) {
+		
+		int n = str.length();
+		int maxLength = 0;
+		
+		for(int start=0; start<n; start++) {
+			
+			Set<Character> hs = new HashSet<>();
+			int currLength = 0;
+			
+			for(int end=start; end<n; end++) {
+				
+				char ch = str.charAt(end);
+				
+				if(hs.contains(ch)) {
+					break;
+				}
+				
+				hs.add(ch);
+				currLength = end-start+1;
+			
+			}
+			
+			maxLength = Math.max(maxLength, currLength);
+		}
+		
+		return maxLength;
+		
+	}
+	
 	private static int lengthOfLongestSubstring(String s) {
 		
 		Map<Character, Integer> hm = new HashMap<>();
@@ -79,7 +111,7 @@ public class LongestSubstringWithoutRepeatingCharacters {
 	public static void main(String[] args) {
 		
 		String s = "tmmzuxt"; //abcbcabb
-		int len = lengthOfLongestSubstring(s);
+		int len = lengthOfLongestSubstringBF(s);
 		System.out.println("Length of longest substring in " + s + " without duplicate character: " + len);
 
 	}
