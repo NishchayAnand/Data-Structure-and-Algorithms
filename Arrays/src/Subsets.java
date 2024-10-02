@@ -15,7 +15,7 @@ public class Subsets {
 			A[i] = scn.nextInt();
 		}
 		
-		System.out.println("\nSubsets of the array are:");
+		System.out.println("\nSubsets1 of the array are:");
 		int rows = (int) Math.pow(2, size);
 		int temp, rem;
 		String str;

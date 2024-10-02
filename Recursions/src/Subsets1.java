@@ -7,7 +7,7 @@ import java.util.ArrayList;
  * 
  * General Observations:
  * 
- * 	- Subsets represent all possible combinations of integers that can be formed from the given array.
+ * 	- Subsets1 represent all possible combinations of integers that can be formed from the given array.
  * 
  *  - The empty set and the array itself are always included in the subsets.
  * 
@@ -69,7 +69,7 @@ import java.util.ArrayList;
 
 
 
-public class Subsets {
+public class Subsets1 {
 	
 	private static ArrayList<ArrayList<Integer>> powerSet;
 	
