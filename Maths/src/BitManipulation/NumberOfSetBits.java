@@ -11,7 +11,7 @@ package BitManipulation;
 
             - Divide the input 'n' by 2 and capture the remainder till 'n' becomes 0.
 
-            - Time Complexity: In worst case scenario - O(32) = O(1).
+            - Time Complexity: O(logn) -> O(32) in worst case scenario -> O(1).
 
             - Space Complexity: O(1).
 
