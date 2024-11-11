@@ -48,7 +48,7 @@
 
         - Greedy Approach: Binary Search
 
-            - Perform a binary search on minLargestSubarraySum in the range [max(nums), sum(nums)].
+                - Perform a binary search on minLargestSubarraySum in the range [max(nums), sum(nums)].
 
             - Take 'mid = (left+right)/2' as LargestPossibleSubarraySum and try to split 'nums'
               into 'm' subarrays such that no SubarraySum exceeds 'mid':
