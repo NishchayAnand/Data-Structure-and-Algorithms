@@ -70,9 +70,10 @@ import java.util.List;
  *
  *  - Minor Optimizations:
  *
- * 		- The exclusion calls are kind of redundant.
+ * 		- In the above inclusion-exclusion approach, the exclusion calls are redundant. The
+ *  	  exclusion calls essentially skip an element, but this can be achieved by iterating over
+ * 		  the elements in the range [index, arr.length-1] in a loop in each recursive call.
  *
- * 
  * */
 
 public class Subsets {
