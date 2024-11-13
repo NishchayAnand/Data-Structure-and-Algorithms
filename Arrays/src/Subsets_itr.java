@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-public class Subsets {
+public class Subsets_itr {
 
 	public static void main(String[] args) {
 
