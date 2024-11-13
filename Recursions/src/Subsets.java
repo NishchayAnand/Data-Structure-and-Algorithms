@@ -58,8 +58,8 @@ import java.util.List;
  *  
  *  				Summing all the equations, we get:
  *  
- *  				-> o(n) = C + 2.C + 2^2.C + 2^3.C + 2^4.C + .... + 2^(n-1).C
- *  						= 2^n.C
+ *  				-> o(n) = C + 2.C + 2^2.C + 2^3.C + 2^4.C + .... + 2^(n-1).C + 2^(n).C
+ *  						= 2^(n+1).C
  *  
  *  	- Since total number of operations is order of 2^n, Time Complexity = O(2^n).
  *  
@@ -67,6 +67,11 @@ import java.util.List;
  *  
  *  	- Maximum 'n' stack frames will exist in the call stack simultaneously. In each stack frame,
  *        we are using a constant space. Hence, Space Complexity: O(n).
+ *
+ *  - Minor Optimizations:
+ *
+ * 		- The exclusion calls are kind of redundant.
+ *
  * 
  * */
 
@@ -89,9 +94,18 @@ public class Subsets {
 
 	}
 
+	private static void getAllSubsetsOptimized(int[] nums, int index, List<Integer> subset, List<List<Integer>> subsets) {
+		subsets.add(new ArrayList<>(subset));
+		for(int i = index; i<nums.length; i++) {
+			subset.add(nums[i]);
+			getAllSubsetsOptimized(nums, i+1, subset, subsets);
+			subset.removeLast();
+		}
+	}
+
 	private static List<List<Integer>> subsets(int[] nums) {
 		List<List<Integer>> subsets = new ArrayList<>();
-		getAllSubsets(nums, 0, new ArrayList<>(), subsets);
+		getAllSubsetsOptimized(nums, 0, new ArrayList<>(), subsets);
 		return subsets;
 	}
 
