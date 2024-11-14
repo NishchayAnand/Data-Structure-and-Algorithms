@@ -9,52 +9,44 @@ import java.util.List;
  * 
  * General Observations:
  * 
- * 	- Find the number of ways of filling 'n' spaces with 'n' integers of the input array.  
- * 
- *  - Considering we start filling the spaces from 'right to left':
- *  	- for filling the 'nth' space, we have 'n' choices, i.e., can choose any integer out of the n 
- *  	  integers.
- *  	- for filling the '(n-1)th' space, we have 'n-1' choices, i.e., can choose any integer out of the 
- *        n-1 available integers.
- *  	- .
- *  	- .
- *  	- .
- *  	- for filling the '2nd' space, we have '2' choices, i.e., the last 2 unchosen integers.
- *  	- for filling the '1st' space, we have only '1' choice, i.e., the last unchosen integer.
+ * 	- Find all ways of filling 'n' spaces with 'n' integers of the input array 'nums'.
  *  
- *  - The choices of filling a space is dependent on the choices made for filling the previous space. 
- *  
- *  - The problem is naturally recursive in nature, i.e., you only have to worry about filling the space 
- *    under-consideration and trust the algorithm to do the same for the remaining spaces.
+ *  - The problem is naturally recursive in nature, i.e., you only need to fill the space
+ *    under-consideration and trust the recursive function to do the same for the remaining spaces.
+ *
+ *  - Brute Force Approach:
  *    
- *  - Hypothesis:
- *  
- *  	- F(arr, n, chosen) will explore all possible ways of filling the first 'n' spaces.
- *  
- *   	NOTE: - Since we don't have an idea what would be the values of the integers in the input array,
- *   			it is better use a hashset than a boolean array to mark the integers that have been 
- *   		    'chosen' in the previous recurive calls. 
+ *  	- Hypothesis: F(nums, isSelected, permutation, permutations) will find all possible
+ *        permutations of filling spaces 'n' spaces.
+ *
+ * 		- NOTE: 'isSelected' could be a boolean array or a HashSet, required to keep track of the
+ * 			    integers that are currently selected in 'permutation'.
  *  
  *  - Recursive Steps:
  *  	
- *  	- Loop 'num' in arr:
- *  		- if !chosen.contains(num):
- *  			- permutation[n-1] = num;  // --> the permutation will be overridden in each branch in 
- *  											  such a way that we will always get a unique permutation
- *  											  when all spaces are filled.								
- *  			- chosen.add(num);
- *  			- F(arr, n-1, chosen);
- *  			- chosen.remove(num);
+ *  	- For index = [0, nums.length):
+ *
+ *  		- if !isSelected[index]:
+ *
+ *  			- permutation.add(nums[index]);
+ *  			- isSelected[index] = true;
+ *
+ *  			- F(nums, isSelected, permutation, permutations);
+ *
+ * 				- permutation.removeLast();
+ *  			- isSelected[index] = false;
+ *
+ * 		- NOTE: For generating permutations, exclusion calls are not relevant.
  *  
  *  - Base Condition:
  *  
- *  	- if n==0: 	
- *  		- output.append(Arrays.asList(permutation)); 
+ *  	- if permutation.size() == nums.length, i.e., we have a valid permutation:
+ *  		- permutations.add(permutations.clone());
  *  		- return; 
  *  
  *  - Time Complexity Analysis:
  *  
- *   	- Let total number of operations performed by the above alogorithm be o(n), such that:
+ *   	- Let total number of operations performed by the above algorithm be o(n), such that:
  *  
  *   		- o(n) = n.o(n-1) + n.C
  *   		- n.o(n-1) = n.(n-1).o(n-2) + n.(n-1).C
@@ -90,60 +82,36 @@ import java.util.List;
 
 
 public class Permutations {
-	
-	private static List<List<Integer>> output;
-	private static Integer[] permutation;
-	
-	private static void getPermutations(int[] arr, int n, HashSet<Integer> chosen) {
-		
-		if(n==0) {
-			List<Integer> ans = new ArrayList<>(Arrays.asList(permutation));
-			output.add(ans);
+
+	private static void getAllPermutations(int[] nums, boolean[] isSelected, List<Integer> permutation, List<List<Integer>> permutations) {
+
+		if(permutation.size() == nums.length) {
+			permutations.add(new ArrayList<>(permutation));
 			return;
 		}
-		
-		for(int num: arr) {
-			if(!chosen.contains(num)) {
-				permutation[n-1] = num;		// --> override the value at nth place of permutation array.				
-				chosen.add(num);
-				getPermutations(arr, n-1, chosen);
-				chosen.remove(num);				
-			}	
+
+		for(int i=0; i<nums.length; i++) {
+			if(!isSelected[i]) {
+				permutation.add(nums[i]);
+				isSelected[i] = true;
+				getAllPermutations(nums, isSelected, permutation, permutations);
+				permutation.removeLast();
+				isSelected[i] = false;
+			}
 		}
-			
+
 	}
-	
-	/* TODO: to be explored further...
-	private static void getPermutationsWithoutChosenHashSet(ArrayList<Integer> arr) {
-		
-		if(perm.size() == arr.size()) {
-			List<Integer> ans = (ArrayList<Integer>) perm.clone();
-			output.add(ans);
-			return;
-		}
-		
-		for(int i=0; i<arr.size(); i++) {	
-			int num = arr.remove(0);
-			perm.add(num);
-			getPermutationsWithoutChosenHashSet(arr);
-			num = perm.remove(perm.size()-1);
-			arr.add(num);	
-		}
-			
+
+	public static List<List<Integer>> permute(int[] nums) {
+		List<List<Integer>> permutations = new ArrayList<>();
+		boolean[] isSelected = new boolean[nums.length];
+		getAllPermutations(nums, isSelected, new ArrayList<>(), permutations);
+		return permutations;
 	}
-	*/
 
 	public static void main(String[] args) {
-		
-		int[] input = {1,2,3};
-		
-		permutation = new Integer[input.length];
-		output = new ArrayList<>();
-		
-		HashSet<Integer> chosen = new HashSet<>();		
-		getPermutations(input, input.length, chosen);
-		System.out.println(output);
-
+		int[] nums = {1,2,3};
+		System.out.println(permute(nums));
 	}
 
 }
