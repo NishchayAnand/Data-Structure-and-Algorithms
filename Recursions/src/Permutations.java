@@ -14,7 +14,7 @@ import java.util.List;
  *  - The problem is naturally recursive in nature, i.e., you only need to fill the space
  *    under-consideration and trust the recursive function to do the same for the remaining spaces.
  *
- *  - Brute Force Approach:
+ *  - Approach 1: Using Cache Memory
  *    
  *  	- Hypothesis: F(nums, isSelected, permutation, permutations) will find all possible
  *        permutations of filling spaces 'n' spaces.
@@ -22,31 +22,31 @@ import java.util.List;
  * 		- NOTE: 'isSelected' could be a boolean array or a HashSet, required to keep track of the
  * 			    integers that are currently selected in 'permutation'.
  *  
- *  - Recursive Steps:
+ *  	- Recursive Steps:
  *  	
- *  	- For index = [0, nums.length):
+ *  		- For index = [0, nums.length):
  *
- *  		- if !isSelected[index]:
+ *  			- if !isSelected[index]:
  *
- *  			- permutation.add(nums[index]);
- *  			- isSelected[index] = true;
+ *  				- permutation.add(nums[index]);
+ *  				- isSelected[index] = true;
  *
- *  			- F(nums, isSelected, permutation, permutations);
+ *  				- F(nums, isSelected, permutation, permutations);
  *
- * 				- permutation.removeLast();
- *  			- isSelected[index] = false;
+ * 					- permutation.removeLast();
+ *  				- isSelected[index] = false;
  *
- * 		- NOTE: For generating permutations, exclusion calls are not relevant.
+ * 			- NOTE: For generating permutations, exclusion calls are not relevant.
  *  
- *  - Base Condition:
+ *  	- Base Condition:
  *  
- *  	- if permutation.size() == nums.length, i.e., we have a valid permutation:
- *  		- permutations.add(permutations.clone());
- *  		- return; 
+ *  		- if permutation.size() == nums.length, i.e., we have a valid permutation:
+ *  			- permutations.add(permutations.clone());
+ *  			- return;
  *  
- *  - Time Complexity Analysis:
+ *  	- Time Complexity Analysis:
  *  
- *   	- Let total number of operations performed to fill 'n' spaces be o(n). Then:
+ *   		- Let total number of operations performed to fill 'n' spaces be o(n). Then:
  *  
  *   		- o(n) = n.o(n-1) + n.C
  *   		- n.o(n-1) = n.(n-1).o(n-2) + n.(n-1).C
@@ -64,12 +64,35 @@ import java.util.List;
  *   				~ C.n! + C1.n!.n
  * 					~ n!(C + C1.n)
  *   
- *   	- Since, the total operations is of the order 'n!', Time Complexity = O(n!).
+ *   		- Since, the total operations is of the order 'n!', Time Complexity = O(n!).
  *  
- *  - Space Complexity Analysis:
+ *  	- Space Complexity Analysis:
  *  
- *  	- The maximum recursion depth would be 'n'. Both 'permutation' and 'isSelected' require
- *        'n' space. Hence, Space Complexity = O(n).
+ *  		- The maximum recursion depth would be 'n'. Both 'permutation' and 'isSelected'
+ * 			  require 'n' space. Hence, Space Complexity = O(n).
+ *
+ *	- At each recursive level, we are basically filling a space.
+ *
+ * 	- Approach 2: Using Swapping Logic
+ *
+ * 		- Hypothesis: F(nums, index, permutations) will find all possible permutations of
+ * 					  filling spaces 'n' spaces.
+ *
+ * 		- Recursive Steps:
+ *
+ * 			- For i = [index, nums.length):
+ * 				1. swap(nums, index, i); // will place 'ith' element at 'index' space
+ * 				2. F(nums, index, permutations) // will generate all permutations with nums[i] placed at 'index' space
+ * 				3. swap(nums, index, i); // will revert the swapping done at step 1
+ *
+ * 		- Base Conditions:
+ *
+ * 			- if index == nums.length, i.e., all spaces have been filled:
+ * 				- permutations.add(nums.clone());
+ *
+ * 		- Time Complexity: O(n!).
+ *
+ * 		- Space Complexity: O(n).
  * 
  * */
 
@@ -94,10 +117,35 @@ public class Permutations {
 
 	}
 
+	private static void swap(int[] nums, int i, int j) {
+		int temp = nums[i];
+		nums[i] = nums[j];
+		nums[j] = temp;
+	}
+
+	private static void getAllPermutations2(int[] nums, int index, List<List<Integer>> permutations) {
+
+		if(index == nums.length) {
+			List<Integer> permutation = new ArrayList<>();
+			for(int num: nums) permutation.add(num);
+			permutations.add(new ArrayList<>(permutation));
+			return;
+		}
+
+		// filling the 'index' space
+		for(int i=index; i<nums.length; i++) {
+			swap(nums, index, i);
+			getAllPermutations2(nums, index+1, permutations);
+			swap(nums, index, i);
+		}
+
+	}
+
 	public static List<List<Integer>> permute(int[] nums) {
 		List<List<Integer>> permutations = new ArrayList<>();
-		boolean[] isSelected = new boolean[nums.length];
-		getAllPermutations(nums, isSelected, new ArrayList<>(), permutations);
+		//boolean[] isSelected = new boolean[nums.length];
+		//getAllPermutations(nums, isSelected, new ArrayList<>(), permutations);
+		getAllPermutations2(nums, 0, permutations);
 		return permutations;
 	}
 
