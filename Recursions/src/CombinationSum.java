@@ -53,9 +53,14 @@ import java.util.List;
  			- if target < 0, i.e., negative target cannot be achieved using positive integers:
  				- return;
 
- 		- Time Complexity Analysis: ?
+ 		- Time Complexity Analysis:
 
-	 	- Space Complexity Analysis: ?
+ 			- In worst case scenario, the sum of all possible combinations is less than 'target'.
+ 			  Hence, Time Complexity = O(2^n).
+
+	 	- Space Complexity Analysis:
+
+	 		- Space Complexity: O(target/min(candidates));
 
 */
 

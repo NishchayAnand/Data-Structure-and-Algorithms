@@ -68,11 +68,40 @@ import java.util.List;
  *  	- Maximum 'n' stack frames will exist in the call stack simultaneously. In each stack frame,
  *        we are using a constant space. Hence, Space Complexity: O(n).
  *
- *  - Minor Optimizations:
+ *  - Optimized Approach:
  *
  * 		- In the above inclusion-exclusion approach, the exclusion calls are redundant. The
  *  	  exclusion calls essentially skip an element, but this can be achieved by iterating over
  * 		  the elements in the range [index, arr.length-1] in a loop in each recursive call.
+ *
+ * 		- Hypothesis: F(arr, index, subset, subsets) will add all possible subsets that can be
+ * 					  generated using the integers in range[index, arr.length-1] in 'subsets'.
+ *
+ * 		- Recursive Steps:
+ *
+ * 			- subsets.add(subset);
+ * 			- Loop from i = [index, arr.length):
+ * 				- subset.add(arr[i]);
+ * 				- F(arr, i+1, subset, subsets);
+ * 				- subset.removeLast();
+ *
+ * 		- Base Conditions: All base conditions would implicitly be handled by the recursive steps.
+ *
+ * 		- Time Complexity Analysis:
+ *
+ * 			- Let total number of operations performed by the above algorithm be o(n), such that:
+ *
+ * 				- o(n) = o(n-1) + C + o(n-2) + C + o(n-3) + C + ... + o(1) + C + o(0) + C.
+ * 					   = o(n-1) + c1 + [o(n-2) + C + o(n-3) + C + ... + o(1) + C + o(0) + C].
+ * 					   = o(n-1) + C + o(n-1)
+ * 					   = 2.(n-1) + C
+ *
+ * 			- Total number of operations would be of the order of 2^n, Time Complexity = O(2^n).
+ *
+ * 		- Space Complexity Analysis:
+ *
+ * 			- Maximum Auxiliary recursive stack space consumed would be of the order 'n'. Hence,
+ *            Space Complexity = O(n).
  *
  * */
 
