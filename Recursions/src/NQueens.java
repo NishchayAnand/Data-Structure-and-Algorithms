@@ -1,6 +1,7 @@
-import java.util.Scanner;
 
-/*Problem Statement: Given a chess board, i.e, a matrix of dimensions n*n, we are required to print 
+/*
+
+	Problem Statement: Given a chess board, i.e, a matrix of dimensions n*n, we are required to print
  * 					 all possible configurations where n queens can be placed on the chess board
  * 
  * General Observations:
@@ -14,7 +15,10 @@ import java.util.Scanner;
  * 
  * */
 
-public class printNQueens {
+import java.util.ArrayList;
+import java.util.List;
+
+public class NQueens {
 	
 	public static boolean isSafe(int[][] chess, int row, int col) {
 		
@@ -37,36 +41,12 @@ public class printNQueens {
 		
 	}
 	
-	public static void printNQueensFunc(int[][] chess, int row, String psf) {
-		
-		if(row==chess.length) {
-			System.out.println(psf+".");
-			return;
-		}
-		
-		for(int j=0; j<chess[0].length; j++) {
-			if(isSafe(chess, row, j)) {
-				chess[row][j] = 1;
-				printNQueensFunc(chess, row+1, psf+row+"-"+j+", ");
-				chess[row][j] = 0;
-			}
-		}
-		
+	public static List<List<String>> solveNQueens(int n) {
+		List<List<String>> output = new ArrayList<>();
+		return output;
 	}
 
 	public static void main(String[] args) {
-		
-		Scanner scn = new Scanner(System.in);
-		System.out.print("Enter the size of chess board: ");
-		int size = scn.nextInt();
-		
-		int[][] chess = new int[size][size];
-		
-		System.out.println("All possible configurations to place "+size+" queens in a chess board of size "+size+":");
-		printNQueensFunc(chess, 0, "");
-		
-		scn.close();
-
 	}
 
 }
