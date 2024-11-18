@@ -21,8 +21,8 @@ import java.util.List;
 
 		- In simple terms, no two queens can be in the same row, column, or diagonal.
 
-		- The task is to place 'n' queens in 'n' rows/columns such that no two queens attack each
-		  other.
+		- The task is to find all possible permutations of placing 'n' queens on an 'n x n'
+		  chessboard such that no two queens attack each other.
 
 		- The problem is naturally recursive in nature, i.e., we only need to place a queen at a
 		  feasible cell in a row and trust the recursive function to place the remaining 'n-1' queens
@@ -53,11 +53,12 @@ import java.util.List;
 
 	 	- Time Complexity Analysis:
 
-	 		-
+	 		- We are exploring different ways of filling 'n' spaces. Hence, Time Complexity = O(n!).
 
 	 	- Space Complexity Analysis:
 
-	 		-
+	 		- The depth of auxiliary recursive stack would reach at max 'n'. Hence, Space
+	 		  Complexity = O(n).
 
  */
 
