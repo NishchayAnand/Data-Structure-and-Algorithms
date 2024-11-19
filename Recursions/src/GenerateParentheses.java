@@ -36,13 +36,6 @@
                 - F(openParenthesesCount, closeParenthesesCount-1, combination, combinations)
                 - combination.removeLast();
 
-            NOTE:
-
-                - We don't need to perform combination.removeLast(): During each recursive call, we
-                  directly overwrite the position 'index' in the 'combination' with either '(' or ')'.
-                  Since 'combination' is reused for every path in the recursion tree, no "stale"
-                  values persist as they are replaced in subsequent calls.
-
         - Base Conditions:
 
             - if openParenthesesCount = closeParenthesesCount = 0, i.e., all '2n' spaces have been filled:
@@ -75,6 +68,9 @@ public class GenerateParentheses {
         if(openCount>0) {
             combination[index] = '(';
             getAllCombinations(openCount-1, closeCount, index+1, combination, combinations);
+            // We don't need to perform combination.removeLast(): we directly overwrite the position 'index'
+            // in the 'combination' with either '(' or ')'. Since 'combination' is reused for every path in
+            // the recursion tree, no "stale" values persist as they are replaced in subsequent calls.
         }
 
         if(closeCount > openCount) {
