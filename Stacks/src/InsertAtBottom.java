@@ -26,7 +26,7 @@
               of 'nums' in base condition, i.e., when 'nums' become empty, and re-add the elements
               back in 'nums' in post order.
 
-            - Time Complexity: O(n).
+            - Time Complexity: O(2*n) ~ O(n).
 
             - Space Complexity: O(n). // using recursive stack space
 
