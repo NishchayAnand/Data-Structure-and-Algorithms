@@ -30,14 +30,11 @@
 
 */
 
-import java.net.Inet4Address;
-import java.util.ArrayDeque;
 import java.util.Stack;
 
 public class SortStack {
 
     private static void insertAtPosition(Stack<Integer> stack, int num) {
-
         if(!stack.isEmpty() && num < stack.peek()) {
             int top = stack.pop();
             insertAtPosition(stack, num);
@@ -45,19 +42,15 @@ public class SortStack {
         } else {
             stack.push(num);
         }
-
     }
 
     public static void sortStack(Stack<Integer> stack) {
-
         if(stack.size() == 1) {
             return;
         }
-
         int top = stack.pop();
         sortStack(stack);
         insertAtPosition(stack, top);
-
     }
 
     public static void main(String[] args) {
@@ -67,6 +60,5 @@ public class SortStack {
         System.out.println(stack);
         sortStack(stack);
         System.out.println(stack);
-
     }
 }
