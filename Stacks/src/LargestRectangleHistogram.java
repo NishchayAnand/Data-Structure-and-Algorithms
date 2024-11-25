@@ -44,9 +44,39 @@ import java.util.Stack;
 
 			- Space Complexity: O(n).
 
+		- While computing the index of the nearest smaller element to the left, we maintain a
+		  monotonically increasing stack from left (bottom) to right (top).
+
+		- For any 'ith' bar, if heights[i] < heights[stack.top], it means:
+		  	- 'ith' bar is the NSR of 'stack.top' bar,
+		  	- 'stack.(top-1)' is the NSL of 'stack.top' bar,
+		  	- width of the largest rectangle with height heights[stack.top] can be calculated as
+		  	  (i-stack.(top-1)-1).
+
+		- NOTE: After processing the entire histogram, some bars may remain in the stack. Treat the
+		 	    histogram's end (n) as the NSR for these bars and calculate their areas.
+
 		- Single Stack Approach:
 
+			- Algorithm:
 
+				- Loop from i = [0, n-1]:
+					- while stack is not empty and heights[stack.top] > heights[i]:
+						- height = heights[stack.pop()];
+						- width = if stack is not empty: i - stack.top - 1 : i;
+						- maxArea = max(maxArea, width*height);
+						- stack.push(i);
+
+				- while stack is not empty:
+					- height = heights[stack.pop()];
+					- width = if stack is not empty: n - stack.top - 1: n;
+					- maxArea = max(maxArea, width*height);
+
+				- return maxArea;
+
+			- Time Complexity: O(n+n) in worst case ~ O(n).
+
+			- Space Complexity: O(n).
 
 */
 
@@ -57,7 +87,7 @@ public class LargestRectangleHistogram {
 		int n = heights.length;
 		int[] NSR = new int[n];
 		
-		Stack<Integer> stack = new Stack<>(); // monotonically decreasing
+		Stack<Integer> stack = new Stack<>(); // monotonically decreasing from left (top) to right (bottom)
 		for(int i=n-1; i>=0; i--) {
 			while(!stack.isEmpty() && heights[stack.peek()] >= heights[i]) stack.pop();
 			if(stack.isEmpty()) NSR[i] = n;
@@ -74,7 +104,7 @@ public class LargestRectangleHistogram {
 		int n = heights.length;
 		int[] NSL = new int[n];
 		
-		Stack<Integer> stack = new Stack<>();
+		Stack<Integer> stack = new Stack<>(); // monotonically increasing from left (bottom) to right (top)
 		for(int i=0; i<n; i++) {
 			while(!stack.isEmpty() && heights[stack.peek()] >= heights[i]) stack.pop();
 			if(stack.isEmpty()) NSL[i] = -1;
@@ -99,10 +129,35 @@ public class LargestRectangleHistogram {
 
 		return maxArea;
 	}
+
+	public static int getLargestRectangleSingleStack(int[] heights) {
+
+		int n = heights.length;
+		int maxArea = 0;
+
+		Stack<Integer> stack = new Stack<>();
+		for(int i=0; i<n; i++) {
+			while(!stack.isEmpty() && heights[stack.peek()] > heights[i]) {
+				int height = heights[stack.pop()];
+				int width = stack.isEmpty() ? i : i-stack.peek()-1;
+				maxArea = Math.max(maxArea, height*width);
+			}
+			stack.push(i);
+		}
+
+		while(!stack.isEmpty()) {
+			int height = heights[stack.pop()];
+			int width = stack.isEmpty() ? n : n - stack.peek() - 1;
+			maxArea = Math.max(maxArea, height*width);
+		}
+
+		return maxArea;
+
+	}
 	
 	public static void main(String[] args) {
 		int[] heights = {2,1,5,6,2,3};
-		int result = getLargestRectangle(heights);
+		int result = getLargestRectangleSingleStack(heights);
 		System.out.println("Area of largest possible rectangle: "+result);
 	}
 
