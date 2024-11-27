@@ -48,10 +48,37 @@ import java.util.Stack;
 
 public class EvaluateReversePolishNotation {
 
+    private static boolean isOperator(String token) {
+        return token.equals("+") ||
+                token.equals("-") ||
+                token.equals("*") ||
+                token.equals("/");
+    }
+
+    private static int applyOperation(int a, int b, String operator) {
+        return switch (operator) {
+            case "+" -> a + b;
+            case "-" -> a - b;
+            case "*" -> a * b;
+            case "/" -> a / b;
+            default -> throw new IllegalArgumentException("Invalid Operator: " + operator);
+        };
+    }
+
     public static int evalRPN(String[] tokens) {
-        int output = 0;
         Stack<Integer> stack = new Stack<>();
-        return output;
+        for(String token: tokens) {
+            if(isOperator(token)) {
+                // Pop two elements
+                int b = stack.pop();
+                int a = stack.pop();
+                int c = applyOperation(a, b, token);
+                stack.push(c);
+            } else {
+                stack.push(Integer.parseInt(token));
+            }
+        }
+        return stack.pop();
     }
 
     public static void main(String[] args) {
