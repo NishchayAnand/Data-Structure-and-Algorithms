@@ -3,12 +3,12 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/BinarySearch/BinarySearch.iml" filepath="$PROJECT_DIR$/BinarySearch/BinarySearch.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Data-Structure-and-Algorithms.iml" filepath="$PROJECT_DIR$/Data-Structure-and-Algorithms.iml" />
       <module fileurl="file://$PROJECT_DIR$/Dynamic Programming/Dynamic Programming.iml" filepath="$PROJECT_DIR$/Dynamic Programming/Dynamic Programming.iml" />
       <module fileurl="file://$PROJECT_DIR$/Greedy/Greedy.iml" filepath="$PROJECT_DIR$/Greedy/Greedy.iml" />
       <module fileurl="file://$PROJECT_DIR$/HashMap/HashMap.iml" filepath="$PROJECT_DIR$/HashMap/HashMap.iml" />
       <module fileurl="file://$PROJECT_DIR$/LinkedList/LinkedList.iml" filepath="$PROJECT_DIR$/LinkedList/LinkedList.iml" />
       <module fileurl="file://$PROJECT_DIR$/Maths/Maths.iml" filepath="$PROJECT_DIR$/Maths/Maths.iml" />
-      <module fileurl="file://$PROJECT_DIR$/Patterns.iml" filepath="$PROJECT_DIR$/Patterns.iml" />
       <module fileurl="file://$PROJECT_DIR$/Stacks/Stacks.iml" filepath="$PROJECT_DIR$/Stacks/Stacks.iml" />
     </modules>
   </component>

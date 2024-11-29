@@ -1,20 +1,17 @@
 import java.util.ArrayDeque;
 
-/* Problem Statement: Design a stack that supports push, pop, top, and retrieving the minimum element in 
- * 					  constant time.
- * 
- * General Observations:
- * 
- * 	- Each operation should have a time complexity of O(1).
- * 
- * 	- We need to build a data structure that combines the functionality of a regular stack with the 
- *    ability to find the minimum element in the stack efficiently. 
- *    
- *  - A core principle of a stack is the Last-In-First-Out (LIFO) behavior, where the element added last 
- *    is the first one retrieved during pop. Storing the minimum element at the top would indeed break 
- *    this principle.
- *    
- *  - Brute Force Approach:
+/*
+
+	Problem Statement: Design a stack that supports push, pop, top, and retrieving the minimum
+					   element in constant time.
+
+					   NOTE: Implement a solution with O(1) time complexity for each function.
+
+	General Observations:
+
+		- Brute Force Approach:
+
+			-
  *  	
  *  	- Use 2 stacks:
  *  		- first to hold the actual elements, and

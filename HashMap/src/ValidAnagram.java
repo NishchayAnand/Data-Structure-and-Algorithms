@@ -5,8 +5,8 @@ import java.util.HashMap;
  * 
  * General Observations:
  * 
- * 	- An Anagram is a word or phrase formed by rearranging the letters of a different word or phrase, with
- * 	  a condition that, "All Original Letters Must Be Used Exactly Once" to create the anagram. 
+ * 	- Anagrams are strings that contain the same characters with the exact same frequencies, but
+ *    possibly in a different order.
  * 
  * 	  For Example: 't' = "nagaram" is an anagram of 's' = "anagram". 
  * 
