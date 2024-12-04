@@ -58,7 +58,7 @@ public class IntersectionLinkedList {
         }
     }
 
-    public static ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+    public static ListNode getIntersectionNodeUnderstanding(ListNode headA, ListNode headB) {
 
         ListNode currentListANode = headA;
         ListNode currentListBNode = headB;
@@ -83,6 +83,20 @@ public class IntersectionLinkedList {
         }
 
         return null;
+
+    }
+
+    public static ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+
+        ListNode p1 = headA;
+        ListNode p2 = headB;
+
+        while(p1 != p2) {
+            p1 = p1 == null ? headB : p1.next;
+            p2 = p2 == null ? headA : p2.next;
+        }
+
+        return p1; // Either the intersection node or null
 
     }
 
