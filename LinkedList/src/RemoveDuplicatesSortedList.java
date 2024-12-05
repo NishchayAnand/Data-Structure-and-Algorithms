@@ -25,9 +25,12 @@
         - Algorithm:
 
             - Traverse each currentNode (except the last node) in linked list:
-                - while currentNode.val == currentNode.next.val:
+                - if currentNode.val == currentNode.next.val:
                     - currentNode.next = currentNode.next.next;
-                - current = current.next;
+                - else:
+                    - currentNode = currentNode.next; // Do not increment the currentNode pointer
+                                                         until all duplicate nodes matching
+                                                         currentNode have been removed.
 
             - Time Complexity: O(n).
 
