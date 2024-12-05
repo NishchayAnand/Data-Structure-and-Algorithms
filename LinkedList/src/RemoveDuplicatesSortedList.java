@@ -9,14 +9,23 @@
 
         - Brute Force Approach:
 
-            - Use a HashMap
+            - Use a HashSet to store values of all the unique nodes.
 
-        - For a sorted linked list, all duplicate elements will be adjacent to each other.
+            - Algorithm:
+                - Traverse each currentNode in the linked list:
+                    - if currentNode.val not in HashSet:
+                        - HashSet.add(currentNode.val);
+                    - else:
+                        - prev.next = current.next;
+                    - prev = current;
+                    - current = current.next;
+
+        - In a sorted linked list, all duplicate elements are adjacent to each other.
 
         - Algorithm:
 
-            - Traverse each currentNode except the last node in linked list:
-                - if currentNode.val == currentNode.next.val:
+            - Traverse each currentNode (except the last node) in linked list:
+                - while currentNode.val == currentNode.next.val:
                     - currentNode.next = currentNode.next.next;
                 - current = current.next;
 
@@ -50,8 +59,14 @@ public class RemoveDuplicatesSortedList {
     public static ListNode deleteDuplicates(ListNode head) {
         ListNode curr = head;
         while(curr != null && curr.next != null) {
-            if(curr.val == curr.next.val) curr.next = curr.next.next;
-            curr = curr.next;
+            if(curr.val == curr.next.val) {
+                // Skip the duplicate node
+                curr.next = curr.next.next;
+            }
+            else {
+                // Move to the next node
+                curr = curr.next;
+            }
         }
         return head;
     }
