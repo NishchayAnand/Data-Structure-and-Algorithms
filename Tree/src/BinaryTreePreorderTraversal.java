@@ -34,11 +34,36 @@
 
             - Space Complexity: O(h) = O(n) in worst case scenario (skewed binary tree).
 
+        - Iterative Approach:
+
+            - Explicitly manage the traversal using a Stack to simulate the function call stack
+              of a recursive solution.
+
+            - NOTE: This approach is particularly useful for trees with significant depth, where
+                    recursion may cause stack overflow.
+
+            - Algorithm:
+                - stack.push(root);
+                - while stack is not empty:
+                    - node = stack.pop();
+                    - output.add(node);
+                    - if node.right != null: stack.push(node.right);
+                    - if node.left != null: stack.push(node.left);
+
+            - NOTE: Pushing the right child first (if it exists), then the left child (if it exists)
+                    ensures the left child is processed before the right child since the stack is
+                    LIFO (Last In, First Out).
+
+            - Time Complexity: O(n).
+
+            - Space Complexity: O(h) ~ O(n) in worst case scenario (skewed binary tree).
+
 */
 
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
 
 public class BinaryTreePreorderTraversal {
 
@@ -53,19 +78,38 @@ public class BinaryTreePreorderTraversal {
     }
 
     private static void helper(TreeNode root, List<Integer> output) {
-
         if(root == null) return;
-
         output.add(root.val);
         helper(root.left, output);
         helper(root.right, output);
-
     }
 
     public static List<Integer> preorderTraversal(TreeNode root) {
         List<Integer> output = new ArrayList<>();
-        helper(root, output);
+        //helper(root, output);
+
+        Stack<TreeNode> stack = new Stack<>();
+        stack.push(root);
+
+        while(!stack.isEmpty()) {
+            TreeNode node = stack.pop();
+            output.add(node.val);
+            if (node.right != null) stack.push(node.right);
+            if (node.left != null) stack.push(node.left);
+        }
+
         return output;
+    }
+
+    public static void main(String[] args) {
+        TreeNode node1 = new TreeNode(1);
+        TreeNode node2 = new TreeNode(2);
+        TreeNode node3 = new TreeNode(3);
+
+        node1.right = node2;
+        node2.left = node3;
+
+        System.out.println(preorderTraversal(node1));
     }
 
 }
