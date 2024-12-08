@@ -38,6 +38,24 @@
 
            - Space Complexity = O(1).
 
+    - Recursive Approach:
+
+        - Hypotheses: F(list1, list2) will merge the two linked list starting at list1 and list2
+                      and return the head of the merged linked list.
+
+        - Recursive Steps:
+
+            - if list1.val <= list2.val:
+                - list1.next = F(list1.next, list2);
+            - '
+
+Recursive Steps:
+
+    - leftTreeHeight = F(root.left);
+    - rightTreeHeight = G(root.right);
+    - if
+    - return 1 + max(leftTreeHeight, rightTreeHeight);
+
 */
 
 
