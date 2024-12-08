@@ -42,6 +42,9 @@
             - NOTE: This approach is particularly useful for trees with significant depth, where
                     recursion may cause stack overflow.
 
+            - Stack processes the last visited (Last In) node first (First Out). Hence, push nodes
+              onto the stack in reverse order of how they need to be processed.
+
             - Algorithm:
                 - stack.push(root);
                 - while stack is not empty:
@@ -49,10 +52,6 @@
                     - output.add(node);
                     - if node.right != null: stack.push(node.right);
                     - if node.left != null: stack.push(node.left);
-
-            - NOTE: Pushing the right child first (if it exists), then the left child (if it exists)
-                    ensures the left child is processed before the right child since the stack is
-                    LIFO (Last In, First Out).
 
             - Time Complexity: O(n).
 
