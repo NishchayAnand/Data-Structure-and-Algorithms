@@ -36,22 +36,26 @@
 
         - Iterative Approach:
 
-            - Explicitly manage the traversal using a Stack to simulate the function call stack
-              of a recursive solution.
+            - Use 2 stacks:
+                - stack1: to explicitly simulate the function call stack of a recursive solution.
+                - stack2: to store the order in which the nodes will be processed.
+
+            - Since, stack processes the last visited (Last In) node first (First Out), push nodes
+              onto stack1 in reverse order of how they need to be processed.
 
             - NOTE: This approach is particularly useful for trees with significant depth, where
                     recursion may cause stack overflow.
 
-            - Stack processes the last visited (Last In) node first (First Out). Hence, push nodes
-              onto the stack in reverse order of how they need to be processed.
-
             - Algorithm:
-                - stack.push(root);
-                - while stack is not empty:
-                    - node = stack.pop();
-                    - output.add(node);
-                    - if node.right != null: stack.push(node.right);
-                    - if node.left != null: stack.push(node.left);
+                - stack1.push(root);
+                - while stack1 is not empty:
+                    - node = stack1.pop();
+                    - stack2.add(node);
+                    - if node.right != null: stack1.push(node.right);
+                    - if node.left != null: stack1.push(node.left);
+
+            - NOTE: Here, the output (represents the order of processing) can simply be stored in an
+                    arraylist, considering that the result is required as a list.
 
             - Time Complexity: O(n).
 
