@@ -34,30 +34,32 @@
 
             - Space Complexity: O(h) = O(n) in worst case scenario (skewed binary tree).
 
+        - In inorder traversal, a tree node is processed when it is visited the second time.
+
         - Iterative Approach:
 
-            - Use 2 stacks:
-                - stack1: to explicitly simulate the function call stack of a recursive solution.
-                - stack2: to store the order in which the nodes will be processed.
-
-            - NOTE: This approach is particularly useful for trees with significant depth, where
-                    recursion may cause stack overflow.
+            - Use a stack to explicitly simulate the function call stack of the recursive solution.
 
             - Algorithm:
-                - currentNode = root;
-                - while currentNode exists and stack1 is not empty:
-                    - traverse to the leftmost node of the currentNode and store all encountered
-                      nodes in stack1;
-                    - When currentNode becomes NULL, point currentNode = stack.pop();
-                    - Process the currentNode, i.e., stack2.push(currentNode.val);
-                    - To visit the right subtree, point currentNode = currentNode.right;
 
-            - NOTE: The output (represents the order of processing) can simply be stored in an
-                    arraylist, considering that the result is required as a list.
+                - stack = [];
+                - currentNode = root;
+                - while currentNode exists or stack is not empty:
+
+                    - if currentNode exists:
+                        - stack.push(currentNode);
+                        - currentNode = currentNode.left;
+                    else:
+                        - currentNode = stack.pop(); // Backtrack to the most recent node
+                        - stack.push(currentNode.val); // Process the currentNode
+                        - currentNode = currentNode.right; // Move to the right subtree
 
             - Time Complexity: O(n).
 
             - Space Complexity: O(h) = O(n) in worst case scenario (skewed binary tree).
+
+        - NOTE: This approach is particularly useful for trees with significant depth, where
+                recursion may cause stack overflow.
 
 */
 
@@ -77,27 +79,46 @@ public class BinaryTreeInorderTraversal {
         }
     }
 
-    public List<Integer> inorderTraversal(TreeNode root) {
+    public static List<Integer> inorderTraversal(TreeNode root) {
         List<Integer> output = new ArrayList<>();
 
         Stack<TreeNode> stack = new Stack<>();
         TreeNode currentNode = root;
+
         while(currentNode!=null || !stack.isEmpty()) {
-            // Reach the leftmost node of the current node
-            while(currentNode != null) {
+
+            if (currentNode != null) {
                 stack.push(currentNode);
                 currentNode = currentNode.left;
+            } else {
+                currentNode = stack.pop(); // Backtrack to the most recent node
+                output.add(currentNode.val); // Process the node
+                currentNode = currentNode.right; // Visit the right subtree
             }
 
-            // Current must be NULL at this point
-            currentNode = stack.pop();
-            // Process the node
-            output.add(currentNode.val);
-
-            // Visit the right subtree
-            currentNode = currentNode.right;
         }
 
         return output;
+    }
+
+    public static void main(String[] args) {
+        TreeNode node1 = new TreeNode(1);
+        TreeNode node2 = new TreeNode(2);
+        TreeNode node3 = new TreeNode(3);
+        TreeNode node4 = new TreeNode(4);
+        TreeNode node5 = new TreeNode(5);
+        TreeNode node6 = new TreeNode(6);
+        TreeNode node7 = new TreeNode(7);
+
+        node1.left = node2;
+        node1.right = node3;
+
+        node2.left = node4;
+        node2.right = node5;
+
+        node3.left = node6;
+        node3.right = node7;
+
+        System.out.println(inorderTraversal(node1));
     }
 }
