@@ -51,7 +51,7 @@
                         - currentNode = currentNode.left;
                     else:
                         - currentNode = stack.pop(); // Backtrack to the most recent node
-                        - stack.push(currentNode.val); // Process the currentNode
+                        - output.add(currentNode.val); // Process the currentNode
                         - currentNode = currentNode.right; // Move to the right subtree
 
             - Time Complexity: O(n).

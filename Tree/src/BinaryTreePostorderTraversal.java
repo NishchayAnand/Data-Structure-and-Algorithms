@@ -42,23 +42,23 @@
 
             - Algorithm:
 
-                - map<TreeNode.val, visitedCount> = {};
+                - map<TreeNode, visitedCount> = {};
                 - stack = []
                 - currentNode = root;
                 - while currentNode exists or stack is not empty:
 
                     - if currentNode exists:
-                        - map.put(currentNode.val, map.get(currentNode.val)+1);
+                        - map.put(currentNode, 1); // currentNode visited for the first time
                         - stack.push(currentNode);
                         - currentNode = currentNode.left;
                     else:
                         - currentNode = stack.top();
-                        - map.put(currentNode.val, map.get(currentNode.val)+1);
 
-                        - if map.get(currentNode.val) == 3:
+                        - map.put(currentNode, map.get(currentNode)+1);
+                        - if map.get(currentNode) == 3:
                             - output.add(stack.pop());
-                        - else:
-                            - currentNode = currentNode.right;
+
+                        - currentNode = currentNode.right;
 
                 - return output;
 
@@ -77,5 +77,71 @@
 
 */
 
+import java.util.*;
+
 public class BinaryTreePostorderTraversal {
+
+    static class TreeNode {
+        int val;
+        TreeNode left;
+        TreeNode right;
+
+        TreeNode(int val) {
+            this.val = val;
+        }
+    }
+
+    public static List<Integer> postorderTraversalIntuitive(TreeNode root) {
+
+        List<Integer> output = new ArrayList<>();
+
+        Map<TreeNode, Integer> map = new HashMap<>();
+        Stack<TreeNode> stack = new Stack<>();
+        TreeNode currentNode = root;
+
+        while(currentNode!=null || !stack.isEmpty()) {
+
+            if(currentNode != null) {
+                stack.push(currentNode);
+                map.put(currentNode, 1);
+                currentNode = currentNode.left;
+            } else {
+                currentNode = stack.peek();
+
+                map.put(currentNode, map.get(currentNode)+1);
+                if(map.get(currentNode)==3) {
+                    output.add(stack.pop().val);
+                }
+
+                currentNode = currentNode.right; // Visit the right subtree
+            }
+
+        }
+
+        return output;
+
+    }
+
+    public static void main(String[] args) {
+        TreeNode node1 = new TreeNode(1);
+        TreeNode node2 = new TreeNode(2);
+        TreeNode node3 = new TreeNode(3);
+        TreeNode node4 = new TreeNode(4);
+        TreeNode node5 = new TreeNode(5);
+        TreeNode node6 = new TreeNode(6);
+        TreeNode node7 = new TreeNode(7);
+
+        node1.left = node2;
+        node1.right = node3;
+
+        node2.left = node4;
+        node2.right = node5;
+
+        node3.left = node6;
+        node3.right = node7;
+
+        System.out.println(postorderTraversalIntuitive(node1));
+    }
+
+
 }
