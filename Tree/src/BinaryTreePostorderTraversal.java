@@ -53,14 +53,19 @@
                         - currentNode = currentNode.left;
                     else:
                         - currentNode = stack.top();
-
                         - map.put(currentNode, map.get(currentNode)+1);
                         - if map.get(currentNode) == 3:
                             - output.add(stack.pop());
-
-                        - currentNode = currentNode.right;
+                            - currentNode = null;
+                        - else:
+                            - currentNode = currentNode.right;
 
                 - return output;
+
+            - NOTE: A node's third visit occurs after returning from its right subtree. Instead of
+                    maintaining a counter, we can use a pointer 'lastVisited' to remember the most
+                    recently visited node. If the currentNode.right = lastVisited, we know the
+                    right subtree has been processed.
 
             - Time Complexity: O(n).
 
@@ -95,25 +100,25 @@ public class BinaryTreePostorderTraversal {
 
         List<Integer> output = new ArrayList<>();
 
-        Map<TreeNode, Integer> map = new HashMap<>();
         Stack<TreeNode> stack = new Stack<>();
         TreeNode currentNode = root;
+        TreeNode lastVisited = null;
 
         while(currentNode!=null || !stack.isEmpty()) {
 
             if(currentNode != null) {
                 stack.push(currentNode);
-                map.put(currentNode, 1);
                 currentNode = currentNode.left;
             } else {
                 currentNode = stack.peek();
-
-                map.put(currentNode, map.get(currentNode)+1);
-                if(map.get(currentNode)==3) {
+                if(currentNode.right == null || currentNode.right == lastVisited) {
                     output.add(stack.pop().val);
+                    lastVisited = currentNode;
+                    currentNode = null;
+                } else {
+                    currentNode = currentNode.right; // Visit the right subtree
                 }
 
-                currentNode = currentNode.right; // Visit the right subtree
             }
 
         }
