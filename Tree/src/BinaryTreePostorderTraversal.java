@@ -69,16 +69,7 @@
 
             - Time Complexity: O(n).
 
-            - Space Complexity: O(n) -> due to the visited node count map.
-
-        - Tricky Iterative Approach:
-
-            - Use 2 stacks:
-                - stack1: to explicitly simulate the function call stack of a recursive solution.
-                - stack2: to store the order in which the nodes will be processed.
-
-        - NOTE: Iterative approaches is particularly useful for trees with significant depth, where
-                recursion may cause stack overflow.
+            - Space Complexity: O(h) = O(n) in worst case scenario (skewed binary tree).
 
 */
 

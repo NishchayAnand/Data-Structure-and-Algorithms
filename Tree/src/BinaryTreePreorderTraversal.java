@@ -62,8 +62,10 @@
 
         - Tricky Iterative Approach:
 
-            - Since, stack processes the last visited (Last In) node first (First Out), push nodes
-              onto stack1 in reverse order of how they need to be processed.
+            - Since, stack processes the last visited (Last In) node first (First Out), a stack can
+              be used to store child nodes in reverse order of how they need to be processed, i.e,
+              we push the right child first, then the left child. This ensures that the left child
+              is processed before the right child.
 
             - Algorithm:
 
