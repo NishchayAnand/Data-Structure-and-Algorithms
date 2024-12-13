@@ -8,8 +8,8 @@
 
     General Observations:
 
-        - The problem is naturally recursive in nature, i.e., maxDepthRecursive(node) = max(maxDepthRecursive(node.left),
-          maxDepthRecursive(node.right)) + 1;
+        - The problem is naturally recursive in nature, i.e., maxDepth(node) = max(maxDepth(node.left),
+          maxDepth(node.right)) + 1;
 
         - Recursive Algorithm:
 
@@ -27,7 +27,7 @@
 
             - Space Complexity: O(h = logn) ~ O(n) for skewed tree.
 
-        - Can perform Level-order traversal to calculate the number of levels processed a.k.a
+        - Can perform level-order traversal to calculate the number of levels processed a.k.a
           the maximum depth of the binary tree.
 
         - Iterative Algorithm:
