@@ -16,7 +16,7 @@
 
         - The problem is naturally recursive in nature.
 
-        - Algorithm:
+        - Brute Force Algorithm:
 
             - Hypothesis: F(node) will return true if binary tree rooted at 'node' is balanced, else
                           false.
@@ -29,6 +29,58 @@
 
             - Base Conditions:
                 - if node == null: return true; // empty tree is balanced
+
+            - Time Complexity Analysis (Worst-Case Scenario - Skewed Binary Tree):
+
+                - Let o(n) be the total number of operations performed by the above algorithm for
+                  a left skewed tree. Then,
+
+                    1. o(n) = o(n-1) + (n-1) + C
+                    2. o(n-1) = o(n-2) + (n-2) + C
+                    3. o(n-2) = o(n-3) + (n-3) + C
+                     .
+                     .
+                     .
+                    n. o(1) = o(0) + 0 + C
+
+                    -> o(n) = (n-1) + (n-2) + (n-3) + ... + 1 + 0 + [C+C+C+C+.....n times]
+                            = n(n+1)/2 + n.C
+
+                - Since, the total number of operations performed in worst-case scenario is of the
+                  order n^2, Time Complexity = O(n^2).
+
+            - Space Complexity (Worst-Case Scenario): O(n) for a skewed binary tree.
+
+        - Optimized Approach:
+
+            - Instead of calculating the height repeatedly, return both the height and balance
+              status in a single recursive function.
+
+            - Hypotheses: F(node) will return an object representing (i) height of binary tree
+                          rooted at 'node' and (ii) whether the binary tree rooted at 'node' is
+                          balanced or not.
+
+            - Recursive Steps:
+                - leftSubtreeInfo = F(node.left);
+                - rightSubtreeInfo = F(node.right);
+
+                // compute height of binary tree rooted at 'node'
+                - currentNodeInfo.height = max(rightSubtreeInfo.height, leftSubtreeInfo.height) + 1;
+
+                // compute if binary tree rooted at 'node' is balanced or not
+                - isNodeBalanced = abs(rightSubtreeInfo.height- leftSubtreeInfo.height) <= 1;
+                - currentNodeInfo.isBalanced = rightSubtreeInfo.isBalanced &
+                                               leftSubtreeInfo.isBalanced &
+                                               isNodeBalanced;
+
+                - return currentNodeInfo;
+
+            - Base Conditions:
+                - if node == null: return new currentNodeInfo(0, true);
+
+            - Time Complexity: O(n).
+
+            - Space Complexity: O(n) in worst-case scenario (skewed binary tree).
 
 */
 
@@ -44,6 +96,18 @@ public class BalancedBinaryTree {
         }
     }
 
+    static class TreeNodeInfo {
+        int height;
+        boolean isBalanced;
+
+        TreeNodeInfo() {}
+
+        TreeNodeInfo(int height, boolean isBalanced){
+            this.height = height;
+            this.isBalanced = isBalanced;
+        }
+    }
+
     private static int getHeight(TreeNode root) {
         if(root == null) return 0;
         int leftHeight = getHeight(root.left);
@@ -51,12 +115,31 @@ public class BalancedBinaryTree {
         return Math.max(leftHeight, rightHeight) + 1;
     }
 
-    public static boolean isBalanced(TreeNode root) {
+    public static boolean isBalancedBruteForce(TreeNode root) {
         if (root == null) return true;
-        boolean isLeftBalanced = isBalanced(root.left);
-        boolean isRightBalanced = isBalanced(root.right);
+        boolean isLeftBalanced = isBalancedBruteForce(root.left);
+        boolean isRightBalanced = isBalancedBruteForce(root.right);
         boolean isRootBalanced = Math.abs(getHeight(root.right) - getHeight(root.left)) <= 1;
         return isLeftBalanced && isRightBalanced && isRootBalanced;
+    }
+
+    public static TreeNodeInfo isBalanced(TreeNode root) {
+        if (root == null) return new TreeNodeInfo(0, true);
+
+        TreeNodeInfo leftSubtreeInfo = isBalanced(root.left);
+        TreeNodeInfo rightSubtreeInfo = isBalanced(root.right);
+
+        TreeNodeInfo currentNodeInfo = new TreeNodeInfo();
+
+        // compute height of current binary tree
+        currentNodeInfo.height = Math.max(leftSubtreeInfo.height, rightSubtreeInfo.height) + 1;
+
+        // check if binary tree is balanced or not
+        boolean isRootBalanced = Math.abs(rightSubtreeInfo.height - leftSubtreeInfo.height) <= 1;
+        currentNodeInfo.isBalanced = leftSubtreeInfo.isBalanced && rightSubtreeInfo.isBalanced &&
+                                        isRootBalanced;
+
+        return currentNodeInfo;
     }
 
     public static void main(String[] args) {
@@ -77,6 +160,6 @@ public class BalancedBinaryTree {
         node3.left = node6;
         node3.right = node7;
 
-        System.out.println(isBalanced(node1));
+        System.out.println(isBalanced(node1).isBalanced);
     }
 }
