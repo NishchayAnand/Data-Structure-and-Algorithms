@@ -9,6 +9,14 @@
         - Trees are inherently recursive data structures, where each node's children can be seen as smaller subtrees,
           making recursion a straightforward and intuitive approach.
 
+        - Intuition:
+
+            - Use recursion to traverse the tree and reduce the 'targetSum' by the value of the current node (process
+              the current node) as we go deeper.
+
+            - Once we reach a leaf node, check if the remaining targetSum equals the leaf node's value. If yes, the
+              path exists.
+
         - Algorithm:
 
             - Hypotheses: F(node, targetSum) will explore all root-to-leaf paths in the binary tree rooted at 'node'
