@@ -29,13 +29,39 @@
 
             - Base Conditions:
 
-                - if root == null: return false;
+                - if root == null: return false; // cannot achieve targetSum in an empty binary tree
 
-                - if root.left == null and root.right == null: return root.val == targetSum;
+                - if root.left == null and root.right == null: return root.val == targetSum; // leaf node encountered
 
+            - Time Complexity: O(n).
 
+            - Space Complexity: O(logn) ~ O(n) in case of skewed binary tree.
 
 */
 
 public class PathSum {
+
+    static class TreeNode {
+        int val;
+        TreeNode left;
+        TreeNode right;
+
+        TreeNode(int val) {
+            this.val = val;
+        }
+    }
+
+    public boolean hasPathSum(TreeNode root, int targetSum) {
+
+        // Base Conditions:
+        if(root == null) return false; // cannot achieve targetSum in an empty binary tree
+        if(root.left == null && root.right == null) return root.val == targetSum; // leaf node encountered
+
+        // Recursive Steps:
+        return hasPathSum(root.left, targetSum-root.val) ||
+                hasPathSum(root.right, targetSum-root.val);
+
+    }
+
+
 }
