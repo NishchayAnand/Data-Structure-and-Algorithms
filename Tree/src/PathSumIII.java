@@ -10,31 +10,28 @@
 
     General Observations:
 
-        - Intuition:
+        - Brute Force Approach:
 
             - Use DFS to traverse over each node and count all possible paths starting from the current node whose
               aggregated sum of nodes' values = 'targetSum'.
 
-        - Algorithm:
+            - Algorithm:
 
-            - Hypothesis: F(node, targetSum) will return count of all possible paths from the current 'node' whose
-                          nodes' values' sum = 'targetSum'.
+                - Hypothesis: F(node, targetSum) will return count of all possible paths from the current 'node' whose
+                              nodes' values' sum = 'targetSum'.
 
-            - Recursive Steps:
-                - int count = 0;
-                // Step 1: Process the current node
-                - pathsFromNode = countPathsFromNode(node, targetSum);
-                // Step 2: Process the left subtree
-                - pathsFromLeft = F(root.left, targetSum);
-                //Step 3: Process the right subtree
-                - pathsFromRight = F(root.right, targetSum);
+                - Recursive Steps:
+                    - int count = 0;
+                    - pathsFromNode = countPathsFromNode(node, targetSum); // Step 1: Process the current node
+                    - pathsFromLeft = F(root.left, targetSum); // Step 2: Process the left subtree
+                    - pathsFromRight = F(root.right, targetSum); // Step 3: Process the right subtree
 
-            - Base Conditions:
-                - if root == null: return 0; // no paths possible in an empty tree
+                - Base Conditions:
+                    - if root == null: return 0; // no paths possible in an empty tree
 
-            - Time Complexity: O(n^2).
+                - Time Complexity: O(n^2).
 
-            - Space Complexity: O(n).
+                - Space Complexity: O(n).
 
 */
 
