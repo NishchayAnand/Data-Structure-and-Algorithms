@@ -65,7 +65,7 @@
 
             - Time Complexity: O(n).
 
-            - Space Complexity: O(2n) ~ O(n) for balanced binary tree, O(1) for skewed binary tree.
+            - Space Complexity: O(2n) ~ O(n).
 
         - Mirror Check Recursive Approach:
 
@@ -82,7 +82,7 @@
 
             - Time Complexity: O(n).
 
-            - Space Complexity: O(logn) for balanced binary tree, O(n) for skewed binary tree.
+            - Space Complexity: O(logn).
 
 */
 
