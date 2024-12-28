@@ -67,8 +67,8 @@
 
         - Iterative Approach:
 
-            - Use iteration to we fill the cache (or memoization array) from the smallest sub-problems f(0) and f(1)
-              up to f(n).
+            - Use iteration to we fill the cache (or memoization array) from the smallest sub-problems F(0) and F(1)
+              up to F(n).
 
             - Algorithm:
 
@@ -78,7 +78,7 @@
 
                 // Backtracking:
                 for i = [2, n]:
-                    - dp[n] = dp[n-1] + dp[n-2];
+                    - dp[i] = dp[i-1] + dp[i-2];
 
                 return dp[n];
 
@@ -86,7 +86,7 @@
 
             - Space Complexity: O(n).
 
-        - For any n (n>=2), f(n) is only dependent on the last two computed values: f(n−1) & f(n−2).
+        - For n>=2, F(n) is only dependent on the last two computed values: F(n−1) & F(n−2).
 
         - Optimized Iterative Approach:
 
