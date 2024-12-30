@@ -1,11 +1,10 @@
 import java.util.ArrayList;
-//import java.util.Stack;
 
 /* Problem Statement: Given a "connected" undirected graph, perform a Depth First Traversal of the graph.
  * 
  * General Observations:
  * 
- * 	- Graphs can contain cycles. Hence, to avoid processing a vertex more than once, we must use a 
+ * 	- Graphs may can contain cycles. Hence, to avoid processing a vertex more than once, we must use a
  *    boolean "visited" array (to maintain metadata for visited vertex).
  *    
  *  - The core idea is to visit a vertex, mark it as visited and tell the procedure to do the same for
