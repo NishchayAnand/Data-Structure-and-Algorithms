@@ -67,7 +67,7 @@
 
         - Iterative Approach:
 
-            - Use iteration to we fill the cache (or memoization array) from the smallest sub-problems F(0) and F(1)
+            - Use iteration to fill the cache (or memoization array) from the smallest sub-problems F(0) and F(1)
               up to F(n).
 
             - Algorithm:
