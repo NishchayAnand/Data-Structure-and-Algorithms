@@ -1,5 +1,7 @@
 
-/* Problem Statement: Given a Knapsack (bag) with "W" weight capacity and a list of N items each having some value: "vi" and weight: 
+/*
+
+	Problem Statement: Given a bag  (knapsack) with "W" weight capacity and a list of N items each having some value: "vi" and weight:
  * 					  "wi", return the maximum value that can be attained by placing certain items in the knapsack without exceeding 
  * 					  the weight capacity of the Knapsack.
  * 
@@ -25,7 +27,7 @@
  *
  * 	- The problem is naturally recursive in nature. 
  * 
- * 	- We don't need to make calls to subproblems where including the Nth item will make the weight of knapsack > W (weight capacity 
+ * 	- We don't need to make calls to sub-problems where including the Nth item will make the weight of knapsack > W (weight capacity
  * 	  of knapsack). For example, for W = 5, we can't perform include(3,1) when we already have items (1,3) and (2,2) in the knapsack.
  * 
  * 
