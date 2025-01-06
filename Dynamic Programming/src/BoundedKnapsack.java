@@ -76,15 +76,73 @@
                 - At max 'n' recursive calls will exist in the recursive call stack simultaneously. Hence, Space
                   Complexity = O(n).
 
+        - Overlapping Sub-problems:
+
+            - Consider val = [1,1,1], wt = [1,1,1], capacity = 3:
+
+                Level 1: F(3,3)
+                           |
+                Level 2: F(2,2)-------------------------------F(2,3)
+                           |                                    |
+                Level 3: F(1,1)-------------F(1,2)            F(1,2)-------------F(1,3)
+                           |                  |                 |                  |
+                Level 4: F(0,0)---F(0,1)    F(0,1)---F(0,2)   F(0,1)---F(0,2)    F(0,2)---F(0,3)
+
+            - Sub-problem F(1,2) is solved multiple times in the above recursive algorithm.
+
+        - Memoization Approach:
+
+            - Each combination of 'n' and 'capacity' in F(val, n, wt, capacity) forms a unique sub-problem.
+
+            - We can store the results of previously computed sub-problems in a cache (e.g., a map or a 2-D array). This
+              would allow us to reuse the result of previously computed sub-problems instead of recalculating it.
+
+            - Time Complexity: O(n*capacity).
+
+            - Space Complexity: O(n*capacity).
+
+
 */
 
 public class BoundedKnapsack {
 
-    private static int knapSack(int capacity, int[] val, int[] wt) {
-        return -1;
+    private static int helper(int[] val, int n, int[] wt, int capacity, int[][] memo) {
+        // Base Conditions:
+        if(n == 0 || capacity == 0) return 0;
+
+        // Optimizations:
+        if(memo[n][capacity] != -1) return memo[n][capacity];
+
+        // Recursive Steps:
+
+        // Option 1: Include the 'nth' item
+        int includeMaxValue = -1;
+        if(wt[n-1] <= capacity) {
+            includeMaxValue = val[n-1] + helper(val, n-1, wt, capacity - wt[n-1], memo);
+        }
+
+        // Option 2: Exclude the 'nth' item
+        int excludeMaxValue = helper(val, n-1, wt, capacity, memo);
+
+        return memo[n][capacity] = Math.max(includeMaxValue, excludeMaxValue);
+
+    }
+
+    private static int knapSackRecursive(int capacity, int[] val, int[] wt) {
+        int n = val.length;
+        int[][] memo = new int[n+1][capacity+1];
+        for(int i=0; i<=n; i++) {
+            for(int j=0; j<=capacity; j++) {
+                memo[i][j] = -1;
+            }
+        }
+        return helper(val, n, wt, capacity, memo);
     }
 
     public static void main(String[] args) {
-
+        int[] val = {60, 100, 120};
+        int[] wt = {10, 20, 30};
+        int capacity = 50;
+        System.out.println(knapSackRecursive(capacity, val, wt));
     }
 }
