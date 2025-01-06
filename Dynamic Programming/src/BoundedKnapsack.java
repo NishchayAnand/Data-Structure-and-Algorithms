@@ -101,6 +101,75 @@
 
             - Space Complexity: O(n*capacity).
 
+        - In the memoized solution, the cache is getting filled while backtracking from n = [1, n] & capacity = [1, capacity].
+
+        - Iterative Approach:
+
+            - Use iteration to fill the cache from the smallest sub-problems up to F(n, capacity).
+
+            - Algorithm:
+
+                // Base Conditions:
+                - memo[0][0:capacity] = 0; // no items left
+                - memo[0:n][0] = 0; // knapsack has no capacity, i.e., is full
+
+                // Backtracking:
+                - for i = [1, n]:
+                    - for j = [1, capacity]:
+
+                        // Option 1: Include the 'ith' item
+                        - includeMaxVal = -1;
+                        - if wt[i-1] <= j:
+                            - includeMaxVal = vals[i-1] + memo[i-1][j - wt[i-1]];
+
+                        // Option 2: Exclude the 'ith' item
+                        - excludeMaxVal = memo[i-1][j];
+
+                        - memo[i][j] = (includeMaxVal, excludeMaxVal);
+
+                - return memo[n][capacity];
+
+            - Time Complexity: O(n*capacity).
+
+            - Space Complexity: O(n*capacity).
+
+        - In the iterative approach, we only need the results from the previous row: memo[i-1][j-wt[i-1]] & memo[i-1][j]
+          while calculating the current row: memo[i][j] in the 2-D cache array.
+
+        - Optimized Iterative Approach:
+
+            - Rather than maintaining a full 2-D array, use a single array of size: 'capacity + 1' to store the results
+              from the previous row.
+
+            - Algorithm:
+
+                // Base Conditions:
+                - prev = [0]*capacity;
+
+                // Backtracking:
+                - for i = [1, n]:
+
+                    - curr = []*capacity;
+
+                    - for j = [1:capacity]:
+
+                        // Option 1: Include the 'ith' item
+                        - includeMaxVal = -1;
+                        - if wt[i-1] <= j:
+                            - includeMaxVal = vals[i-1] + prev[j - wt[i-1]];
+
+                        // Option 2: Exclude the 'ith' item
+                        - excludeMaxVal = prev[j];
+
+                        - current[j] = (includeMaxVal, excludeMaxVal);
+
+                    - prev = current;
+
+                - return prev[capacity];
+
+            - Time Complexity: O(n*capacity).
+
+            - Space Complexity: O(capacity).
 
 */
 
@@ -139,10 +208,63 @@ public class BoundedKnapsack {
         return helper(val, n, wt, capacity, memo);
     }
 
+    private static int knapSackIterative(int capacity, int[] val, int[] wt) {
+
+        int n = val.length;
+        int[][] memo = new int[n+1][capacity+1];
+        for(int i=0; i<=n; i++) {
+            for(int j=0; j<=capacity; j++) {
+                memo[i][j] = -1;
+            }
+        }
+
+        // Base Conditions:
+        for(int i=0; i<=n; i++) memo[i][0] = 0; // knapsack has no capacity, i.e., is full
+        for(int j=0; j<=capacity; j++) memo[0][j] = 0; // no items left
+
+        // Backtracking:
+        for(int i=1; i<=n; i++) {
+            for(int j=1; j<=capacity; j++) {
+                // Option 1: Include the 'ith' item
+                if(wt[i-1] <= j) {
+                    memo[i][j] = val[i-1] + memo[i-1][j - wt[i-1]];
+                }
+                // Option 2: Exclude the 'ith' item
+                memo[i][j] = Math.max(memo[i][j], memo[i-1][j]);
+            }
+        }
+
+        return memo[n][capacity];
+
+    }
+
+    private static int knapSack(int capacity, int[] val, int[] wt) {
+
+        int n = val.length;
+        int[] prev = new int[capacity+1]; // by default initialized with 0, i.e., base condition already fulfilled.
+
+        // Backtracking:
+        for(int i=1; i<=n; i++) {
+            int[] curr = new int[capacity+1];
+            for(int j=1; j<=capacity; j++) {
+                // Option 1: Include the 'ith' item
+                if(wt[i-1] <= j) {
+                    curr[j] = val[i-1] + prev[j - wt[i-1]];
+                }
+                // Option 2: Exclude the 'ith' item
+                curr[j] = Math.max(curr[j], prev[j]);
+            }
+            prev = curr.clone();
+        }
+
+        return prev[capacity];
+
+    }
+
     public static void main(String[] args) {
         int[] val = {60, 100, 120};
         int[] wt = {10, 20, 30};
         int capacity = 50;
-        System.out.println(knapSackRecursive(capacity, val, wt));
+        System.out.println(knapSack(capacity, val, wt));
     }
 }
