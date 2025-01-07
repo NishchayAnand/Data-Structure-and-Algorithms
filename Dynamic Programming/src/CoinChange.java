@@ -1,56 +1,43 @@
 
 /*
 
-	Given: An integer array 'coins' representing coins of different denominations and an integer 'amount' representing a
-		   total amount of money.
+	Problem Statement: Given an integer array 'coins' representing coins of different denominations and an integer 'amount'
+	 				   representing a total amount of money, return the fewest (minimum) number of coins that you need to
+	 				   make up 'amount'.
 
- 	Output: Return the fewest (minimum) number of coins that you need to make up 'amount'. If 'amount' cannot be made
- 			up by any combination of the coins, return -1.
-
-	NOTE: You may assume that you have an infinite number of each kind of coin.
+	 				   NOTE:
+	 				   		- If 'amount' cannot be made up by any combination of the coins, return -1.
+							- You may assume that you have an infinite number of each kind of coin.
 
 	General Observations:
 
-		- We need to iterate over all possible combination of coins and find the combination whose combined value =
-		  'amount' and count of selected coins is minimum.
+		- The task involves exploring all possible combination of coins whose combined value = 'amount'.
 
-		- Brute Force Approach:
+		- The problem is naturally recursive in nature, i.e., for any given 'amount', include each available coin,
+		  subtract its value from the 'amount' and recursively solve for the reduced 'amount'.
 
-			- The problem can be broken down into smaller sub-problems, i.e, the problem is naturally recursive.
+		- Recursive Approach:
 
-	    	- Hypothesis: F(coins, n, amount) will return the minimum number of coins that you can select from the first
-	    			      'n' denominations to reach the target sum of 'amount'.
-
-	    	- For each coin, we can either include it in the selection (if the denomination <= targeted amount) or exclude
-	    	  it from the selection.
+	    	- Hypotheses: F(coins, amount) will return the minimum number of coins that you need to make up 'amount'.
 
 	    	- Recursive Steps:
-
-	    		- exclude = F(coins, n-1, amount);
-
-	    		- if coins[n-1] <= amount:
-	    			- include = 1 + F(coins, n, amount-coins[n-1]);
-
-				- return min(exclude, include);
-
-			- If amount == 0, we don't need any coins, i.e., 0 coins, since we have already reached the targeted
-			  amount.
-
-			- If n == 0, we don't have enough coins, i.e., we may require infinite coins to reach the targeted sum.
+	    		- minCount = Infinity; // assume it is impossible to achieve 'amount' with the available coins
+	    		- for each coin in 'coins':
+	    			- if coin <= 'amount':
+	    				- count = F(coins, amount-coin);
+	    				- if count != Infinity: minCount = min(minCount, 1 + count);
+	    		- return minCount;
 
 			- Base Conditions:
+				- if 'amount' == 0: return 0; // no coins needed to achieve 'amount' = 0.
 
-				- if amount == 0: return 0;
+			- Time Complexity Analysis:
 
-				- if n == 0: return Integer.MAX_VALUE;
+			- Space Complexity Analysis: O(n).
 
-			- Time Complexity: Exponential.
+		- We may encounter overlapping sub-problems in the above recursive approach.
 
-			- Space Complexity: O(n).
-
-		- We may encounter overlapping sub-problems in the recursive brute-force approach.
-
-		- Optimization - Memoization Approach:
+		- Memoization Approach:
 
 			- Each sub-problem can be represented using 2 varying parameters: 'n' and 'amount'.
 
@@ -64,7 +51,7 @@
 		- The 2D memoization array is getting fill from bottom to top, i.e., from smallest
 		  sub-problem to the largest sub-problem.
 
-		- Optimization - 2D Tabulation Approach:
+		- Tabulation (Iterative) Approach:
 
 			- We can use a nested loop and the recursive steps to fill the 2D memoization array.
 
@@ -181,7 +168,7 @@ public class CoinChange {
 		return mem[amount];
 	}
 
-	public static int coinChange(int[] coins, int amount) {
+	private static int coinChange(int[] coins, int amount) {
 		int n = coins.length;
 
 		// Brute Force - Simple Recursion
@@ -219,7 +206,7 @@ public class CoinChange {
 	public static void main(String[] args) {
 		int[] coins = {1,2,5};
 		int amount = 11;
-		System.out.println(coinChange(coins, amount));
+		System.out.println(coinChange(coins, amount)); // output = 3
 	}
 
 }
