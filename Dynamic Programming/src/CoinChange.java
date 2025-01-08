@@ -65,7 +65,7 @@
 
 		- Memoization Approach:
 
-			- Storing the results of already-solved sub-problems in a cache (e.g., a map or an array) and reuse them
+			- Store the results of already-solved sub-problems in a cache (e.g., a map or an array) and reuse them
 			  when the same sub-problem is encountered again.
 
 			- Time Complexity Analysis:
