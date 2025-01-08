@@ -21,9 +21,11 @@
 	    	- Hypotheses: F(coins, amount) will return the minimum number of coins that you need to make up 'amount'.
 
 	    	- Recursive Steps:
+
 	    		- minCount = Infinity; // assume it is impossible to achieve 'amount' with the available coins
+
 	    		- for each coin in 'coins':
-	    			- if coin <= 'amount':
+	    			- if coin <= 'amount': // Explore only the available coins
 	    				- count = F(coins, amount-coin);
 	    				- if count != Infinity: minCount = min(minCount, 1 + count);
 	    		- return minCount;
@@ -31,176 +33,123 @@
 			- Base Conditions:
 				- if 'amount' == 0: return 0; // no coins needed to achieve 'amount' = 0.
 
+
+			- Space Complexity Analysis:
+
+				- In worst-case scenario (when the smallest coin is 1), each recursive call reduces the 'amount' by at
+				  least one. At max 'amount' recursive calls will exist in the recursive call stack simultaneously.
+
+				- Hence, Space Complexity = O(amount).
+
 			- Time Complexity Analysis:
 
-			- Space Complexity Analysis: O(n).
+				- The time complexity is dependent on the total number of operations, which is dependent on the total
+				  number of sub-problems.
+
+					- At level 0: There is 1 sub-problem.
+					- At level 1: There are n sub-problems (one for each coin).
+					- At level 2: There are n^2 sub-problems.
+					- .
+					- .
+					- .
+					- At level d: There will be n^d sub-problems
+
+				- Since, max depth 'd' of the recursive tree is proportional to the 'amount', the number of
+				  sub-problems = n^amount.
+
+				- Total sub-problems = n^0 + n^1 + n^2 + ..... + n^amount ~ n^amount (for large 'amount').
+
+				- Hence, Time Complexity = O(n^amount).
 
 		- We may encounter overlapping sub-problems in the above recursive approach.
 
 		- Memoization Approach:
 
-			- Each sub-problem can be represented using 2 varying parameters: 'n' and 'amount'.
+			- Storing the results of already-solved sub-problems in a cache (e.g., a map or an array) and reuse them
+			  when the same sub-problem is encountered again.
 
-			- We can use a 2D array (matrix): mem[n+1][amount+1] to cache the result of each sub-problem,
-			  where each cell represents a unique sub-problem.
+			- Time Complexity Analysis:
 
-			- Time Complexity: O(n*amount).
+				- There is one unique sub-problem for each 'amount' (from 0 to 'amount'). For each sub-problem, we try
+				  all n coins.
 
-			- Space Complexity: O(n*amount).
-
-		- The 2D memoization array is getting fill from bottom to top, i.e., from smallest
-		  sub-problem to the largest sub-problem.
-
-		- Tabulation (Iterative) Approach:
-
-			- We can use a nested loop and the recursive steps to fill the 2D memoization array.
-
-			- Every mem[0][amount] = Integer.MAX_VALUE;
-
-			- Every mem[n][0] = 0;
-
-			- mem[0][0] = 0;
-
-			- Time Complexity: O(n*amount).
-
-			- Space Complexity: O(n^amount) -> We won't have the overhead associated with
-											   recursive call stack.
-
-		- For any mem[r][c], we only need to know mem[r-1][c] and mem[r][c-coins[r-1]], mem[r-1][c]
-		  and mem[r][c-coins[r-1]] has already been computed in the previous iteration.
-
-		- Optimization - 1D Tabulation Approach:
-
-			- Use two 1D arrays to keep track of the mem[r-1][c] and mem[r][c-coins[r-1]]
-			  sub-problem.
-
-			- Time Complexity: O(n*amount).
+				- Hence, Time Complexity = O(n*amount).
 
 			- Space Complexity: O(amount).
 
+		- In the memoized solution, the cache is getting filled from bottom to top, i.e., while backtracking from
+		  amount = [1, amount].
+
+		- Tabulation (Iterative) Approach:
+
+			- Use iteration to fill the cache.
+
+			- Algorithm:
+
+				// Base Conditions:
+				- memo[0] = 0; // no coins needed to achieve 'amount' = 0.
+
+				// Backtracking:
+				- for i = [1, amount]:
+					- minCount = Infinity; // assume it is impossible to achieve 'amount = i' with the available coins
+	    			- for each coin in 'coins':
+	    				- if coin <= i: // Explore only the available coins
+	    					- count = memo[i-coin];
+	    					- if count != Infinity: minCount = min(minCount, 1 + count);
+	    					- memo[i] = minCount;
+
+	    		- return minCount;
+
 */
+
+import java.util.Arrays;
 
 public class CoinChange {
 	
-	private static int coinChangeRecursive(int[] coins, int n, int amount) {
+	private static int helper(int[] coins, int amount, int[] memo) {
 
-		if(amount == 0) return 0;
+		// Base Conditions
+		if(amount == 0) return 0; // no coins needed to achieve 'amount' = 0.
 
-		if(n == 0) return Integer.MAX_VALUE;
+		// Optimization
+		if(memo[amount] != -1) return memo[amount];
 
-		// Exclude Condition
-		int exclude = coinChangeRecursive(coins, n-1, amount);
-
-		// Include Condition
-		int include = Integer.MAX_VALUE;
-		if (coins[n - 1] <= amount) {
-			int res = coinChangeRecursive(coins, n, amount - coins[n - 1]);
-			// to make sure res does not give incorrect result due to overflow.
-			if (res != Integer.MAX_VALUE) {
-				include = 1 + res;
+		// Recursive Steps
+		int minCount = Integer.MAX_VALUE; // assume it is impossible to achieve 'amount' with the available coins
+		for(int coin: coins) {
+			if(coin <= amount) { // Explore only the available coins
+				int count = helper(coins, amount-coin, memo);
+				if(count != Integer.MAX_VALUE) minCount = Math.min(minCount, count+1);
 			}
 		}
-
-		return Math.min(exclude, include);
+		return memo[amount] = minCount;
 
 	}
 
-	private static int coinChangeMemoized(int[] coins, int n, int amount, int[][] mem) {
-
-		if(amount == 0) return 0;
-
-		if(n == 0) return Integer.MAX_VALUE;
-
-		if(mem[n][amount] != -1) {
-			return mem[n][amount];
-		}
-
-		// Exclude Condition
-		int exclude = coinChangeMemoized(coins, n-1, amount, mem);
-
-		// Include Condition
-		int include = Integer.MAX_VALUE;
-		if (coins[n - 1] <= amount) {
-			int res = coinChangeMemoized(coins, n, amount - coins[n - 1], mem);
-			// to make sure res does not give incorrect result due to overflow.
-			if (res != Integer.MAX_VALUE) {
-				include = 1 + res;
-			}
-		}
-
-		return mem[n][amount] = Math.min(exclude, include);
-
-	}
-
-	private static int coinChangeTabulation(int[] coins, int n, int amount, int[][] mem) {
-		for(int r=1; r<=n; r++) {
-			for(int c=1; c<=amount; c++) {
-				int exclude = mem[r-1][c];
-				int include = Integer.MAX_VALUE;
-				if(coins[r-1]<=c){
-					include = mem[r][c-coins[r-1]];
-					if(include != Integer.MAX_VALUE) {
-						include+=1;
-					}
-				}
-				mem[r][c] = Math.min(exclude, include);
-			}
-		}
-		return mem[n][amount];
-	}
-
-	private static int coinChange1DTabulation(int[] coins, int n, int amount, int[] mem) {
-		int[] curr = new int[amount+1];
-		for(int r=1; r<=n; r++) {
-			for(int c=1; c<=amount; c++) {
-				int exclude = mem[c];
-				int include = Integer.MAX_VALUE;
-				if(coins[r-1]<=c){
-					include = curr[c-coins[r-1]];
-					if(include != Integer.MAX_VALUE) {
-						include+=1;
-					}
-				}
-				curr[c] = Math.min(exclude, include);
-			}
-			mem = curr.clone();
-		}
-		return mem[amount];
+	private static int coinChangeMemoized(int[] coins, int amount) {
+		int[] memo = new int[amount+1];
+		Arrays.fill(memo, -1);
+		int result = helper(coins, amount, memo);
+		return result == Integer.MAX_VALUE ? -1 : result;
 	}
 
 	private static int coinChange(int[] coins, int amount) {
-		int n = coins.length;
 
-		// Brute Force - Simple Recursion
-		//int result = coinChangeRecursive(coins, n, amount);
+		int[] memo = new int[amount+1]; // by default, base condition: memo[0] = 0 is already fulfilled.
 
-		// Optimized - Memoization
-		int[][] mem2D = new int[n+1][amount+1];
-		for(int r=0; r<=n; r++){
-			for(int c=0; c<=amount; c++) {
-				mem2D[r][c] = -1;
+		// Backtracking:
+		for(int i=1; i<=amount; i++) {
+			memo[i] = Integer.MAX_VALUE; // assume it is impossible to achieve 'amount = i' with the available coins
+			for(int coin: coins) {
+				if(coin <= i) {
+					int count = memo[i-coin];
+					if(count != Integer.MAX_VALUE) memo[i] = Math.min(memo[i], count+1);
+				}
 			}
 		}
-		//int result = coinChangeMemoized(coins, n, amount, mem2D);
 
-		// Optimized - 2D Tabulation
-		for(int c=0; c<=amount; c++) {
-			mem2D[0][c] = Integer.MAX_VALUE;
-		}
-		for(int r=0; r<=n; r++) {
-			mem2D[r][0] = 0;
-		}
-		//int result = coinChangeTabulation(coins, n, amount, mem2D);
+		return memo[amount] == Integer.MAX_VALUE ? -1 : memo[amount];
 
-		// Optimized - 1D Tabulation
-		int[] mem1D = new int[amount+1];
-		//curr[0] = 0; will be set by default.
-		for(int c=1; c<=amount; c++) {
-			mem1D[c] = Integer.MAX_VALUE;
-		}
-		int result = coinChange1DTabulation(coins, n, amount, mem1D);
-
-		return result == Integer.MAX_VALUE ? -1 : result;
 	}
 	
 	public static void main(String[] args) {
