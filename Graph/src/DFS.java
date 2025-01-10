@@ -18,21 +18,22 @@
         - Graphs may can contain cycles. To avoid processing a vertex more than once, we must maintain a cache (e.g. a
           set or a boolean array) to keep track of the visited vertices.
 
+        - The problem involves fully exploring one branch before trying others (naturally recursive in nature).
+
         - Intuition:
             - Visit a vertex, mark it as visited and tell the procedure to do the same for all its unvisited neighbours.
 
-        - The problem is naturally recursive in nature.
-
-        - Recursive Approach:
+        - Algorithm:
 
             - Hypotheses:
                 - F(graph, vertex, visited) will traverse all the direct / indirect neighbours of 'vertex'.
 
             - Recursive Steps:
 
+                - visited[vertex] = true; // mark the vertex as visited once it is added to the recursive stack
+
                 // Step 1: Process the current 'vertex'
                 - dfs.add(vertex);
-                - visited[vertex] = true;
 
                 // Step 2: Visit all the unvisited neighbours of 'vertex'
                 - for each neighbour in graph.get(vertex):
@@ -63,9 +64,10 @@ public class DFS {
 
     private static void helper(ArrayList<ArrayList<Integer>> graph, int vertex, boolean[] visited, ArrayList<Integer> dfs) {
 
+        visited[vertex] = true; // mark the vertex as visited once it is added to the recursive stack
+
         // Step 1: Process the current 'vertex'
         dfs.add(vertex);
-        visited[vertex] = true;
 
         // Step 2: Visit all the unvisited neighbours of 'vertex'
         for(int neighbour : graph.get(vertex)) {
