@@ -1,128 +1,125 @@
 
-/* Problem Statement: Given an m x n 2D binary grid which represents a map of '1's (land) and '0's (water), 
- *  				  return the number of islands.
- * 
- * 					  NOTE: - An island is surrounded by water and is formed by connecting adjacent lands 
- * 							  horizontally or vertically. 
- * 							- You may assume all four edges of the grid are all surrounded by water.
- * 
- * General Observations:
- * 
- * 	- The input matrix can be thought as a graph where:
- * 		- each cell containing '1' represent a vertex.
- * 		- each vertex (cell containing '1') is connected to its adjacent vertices (cell containing '1') by
- *  	  edges.
- *    
- *  - Core Problem: Find the number of connected subgraphs in the provided graph. 
- *  
- *  - Approach 1 (using "Depth-First-Search"):
- *  
- *  	1. Loop over the input graph to search for an unvisited vertex (part of an unvisited subgraph):
- *  
- *  		2. If found:
- *  			3. Increase count of subgraphs by 1.
- *  			4. Start Depth-First-Search from the unvisited vertex and mark all its neighbouring 
- *                (direct/indirect) as visited. 
- *              5. Continue looping over the input graph (Step 1).
- *              
- *         	6. If not found:
- *         		7. End the algorithm.
- *         
- *     - Time Complexity Analysis:
- *     
- *     		- In worst-case scenario, all cells of the input array contains '1'. The algorithm will 
- *      	  visit all m*n cells and mark them as visited. Hence, time complexity = O(m*n).
- *     
- *     - Space Complexity Analysis:
- *     
- *     		- In worst-case scenario, i.e., all cells of the input array containing '1', the call stack 
- *     		  will hold 'm*n' stack frames simultaneously. 
- *     
- *     		- Also, we would be maintaining a 2-D array of size 'm*n' to keep account of the visited 
- *     		  vertices. 
- *     
- *     		- Hence, Space Complexity = O(m*n).
- *         		
- * */
+/*
+
+	Problem Statement: Given a 2D grid of '1's (land) and '0's (water), count the number of islands.
+
+					   NOTE:
+					   		- An island is a group of adjacent lands connected either horizontally or vertically (not diagonally).
+					   		- The grid's boundaries are surrounded by water.
+
+ 	General Observations:
+
+ 		- Consider the given 2D grid to be a graph where each cell containing '1' represent a graph vertex.
+
+ 		- An edge (undirected) exists between two vertices if they are adjacent cells containing '1'.
+
+ 		- Each connected component of '1's in the graph corresponds to an island.
+
+		- Primary Problem: Find all connected components in the given connected undirected graph (represented as an
+		                   adjacency matrix).
+
+		- Intuition:
+			- Loop through the grid. For each cell containing '1' that hasn’t been visited, treat it as the starting
+			  point for a graph traversal (DFS or BFS).
+
+		- GCC Algorithm:
+			- count = 0;
+			- for each row_index in grid:
+				- for each column_index in grid:
+					- if graph[row_index][column_index] == '1' and visited[row_index][column_index] == false:
+						- count = count + 1;
+						// Mark all cells (vertices) connected to current cell (vertex) as visited
+						- DFS(graph, row_index, column_index, visited);
+
+		- DFS Algorithm:
+
+			- Hypotheses:
+				- F(graph, row_index, column_index, visited) will traverse all the direct / indirect neighbours
+						  of vertex = [row_index, column_index] and mark them as visited.
+
+			- Recursive Steps:
+
+				// Step 1: Process the current vertex
+				visited[row_index][column_index] = true;
+
+				// Step 2: Visit all the unvisited neighbours of the current vertex
+				- F(graph, row_index, column_index-1, visited); // Left
+				- F(graph, row_index-1, column_index, visited); // Top
+				- F(graph, row_index, column_index+1, visited); // Right
+				- F(graph, row_index+1, column_index, visited); // Down
+
+			- Base Conditions:
+
+				- isInvalidCell = (column_index < 0) or (column_index >= n) or (row_index < 0) or (row_index >= m);
+				- isInvalidVertex = graph[row_index][column_index] == '0';
+
+				- if isInvalidCell or isInvalidVertex or visited[row_index][column_index]:
+				     - return; // do nothing if the vertex does not exist or is already visited
+
+		- Time Complexity Analysis:
+
+			- In worst-case scenario, all cells will be visited twice (grid containing all '1's). Hence, time
+			  complexity = O(m*n).
+
+		- Space Complexity Analysis:
+
+			- Maintaining a 2D array of size m x n to keep account of the visited vertices. Hence, space complexity = O(m*n).
+
+*/
 
 public class NumberOfIslands {
     
-    public static void DFS(char[][] graph, boolean[][] visited, int i, int j){
-        
-        visited[i][j] = true;
-        
-        // (if there is a cell to the "left") & (its a valid vertex, i.e., contains 1) & (it hasn't been
-        //  visited before): 
-        if(j-1 >= 0 && graph[i][j-1] == '1' && !visited[i][j-1]){
-            DFS(graph, visited, i, j-1);
-        }
-        
-        // (if there is a cell "above") & (its a valid vertex, i.e., contains 1) & (it hasn't been
-        //  visited before):
-        if(i-1 >= 0 && graph[i-1][j] == '1' && !visited[i-1][j]){
-            DFS(graph, visited, i-1, j);
-        }
-        
-        // (if there is a cell to the "right") & (its a valid vertex, i.e., contains 1) & (it hasn't been
-        //  visited before):
-        if(j+1<graph[0].length && graph[i][j+1] == '1' && !visited[i][j+1]){
-            DFS(graph, visited, i, j+1);
-        }
-        
-        // (if there is a cell "below") & (its a valid vertex, i.e., contains 1) & (it hasn't been
-        //  visited before):
-        if(i+1<graph.length && graph[i+1][j] == '1' && !visited[i+1][j]){
-            DFS(graph, visited, i+1, j);
-        }
+    private static void DFS(char[][] graph, int r, int c, boolean[][] visited){
+
+		//Base Conditions: do nothing if the vertex does not exist or is already visited
+		if ((c<0) || (r<0) || (c>=graph[0].length) || (r>=graph.length) || (graph[r][c]=='0') || visited[r][c]) return;
+
+		// Step 1: Process the current vertex
+		visited[r][c] = true;
+
+		// Step 2: Visit all the unvisited neighbours of the current vertex
+		DFS(graph, r, c-1, visited); // Left
+		DFS(graph, r-1, c, visited); // Top
+		DFS(graph, r, c+1, visited); // Right
+		DFS(graph, r+1, c, visited); // Down
         
     }
     
-    private static int getConnectedComponents(char[][] graph, int m, int n) {
+    private static int getConnectedComponents(char[][] graph) {
     	
     	int count = 0;
-    	
+		int m = graph.length;
+		int n = graph[0].length;
     	boolean[][] visited = new boolean[m][n];
     	
     	for(int r=0; r<m; r++) {
     		for(int c=0; c<n; c++) {
     			if(graph[r][c] == '1' && !visited[r][c]) {
     				count++;
-    				DFS(graph, visited, r, c);
+					// Mark all cells (vertices) connected to current cell (vertex) as visited
+    				DFS(graph, r, c, visited);
     			}
     		}
     	}
-    	
     	return count;
+
     }
-    
-   public static void main(String[] args) {
-	   
-	   int m = 4; // rows
-	   int n = 5; // columns
-	   
-	   char[][] graph = new char[m][n];
-	   
-	   for(int r=0; r<m; r++) {
-		   for(int c=0; c<n; c++) {
-			   graph[r][c] = '0';
-		   }
-	   }
-	   
-	   graph[0][0] = graph[0][1] = graph[0][2] = graph[0][3] = '1';
-	   graph[1][0] = graph[1][1] = graph[0][3] = '1';
-	   graph[1][0] = graph[1][1] = '1';
-	   
-	   /*
-	    * graph = [ [1 1 1 1 0],
-	    * 			[1 1 0 1 0],
-	    * 			[1 1 0 0 0],
-	    * 			[0 0 0 0 0] ]
-	    * 
-	    * */
-	   
-	   	int count = getConnectedComponents(graph, m, n);
-	   	System.out.println("Number of islands: " + count);
-      
-   }
+
+	private static int numIslands(char[][] grid) {
+		return getConnectedComponents(grid);
+	}
+
+	public static void main(String[] args) {
+
+		char[][] grid = {
+				{'1','1','0','0','0'},
+				{'1','1','0','0','0'},
+				{'0','0','1','0','0'},
+				{'0','0','0','1','1'}
+		};
+
+	   	System.out.println("Number of islands: " + numIslands(grid));
+
+	}
 
 }
