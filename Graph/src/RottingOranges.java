@@ -3,161 +3,146 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
-/* Problem Statement: 
- * 
- * 	- You are given a 'm x n' grid where each cell can have one of three values:
- * 
- * 		- 0 representing an empty cell,
- * 		- 1 representing a fresh orange,
- * 		- 2 representing a rotten orange.
- * 
- * 	- Every minute, any fresh orange that is 4-directionally adjacent to a rotten orange becomes rotten.
- * 
- * 	- Return the minimum number of minutes that must elapse until no cell has a fresh orange. If this is 
- * 	  impossible, return -1.
- * 
- * General Observations:
- * 
- * 	- From each cell with value = 2 (rotten orange), we can visit all ajdacent cells ("left", "up", 
- *    "right", "down") with value = 1 (fresh orange).  
- * 
- * 	- All cells:
- * 		- with value = 2 (rotten oranges) can be treated as "Level 1" of a graph.
- * 		- with value = 1 (fresh oranges) adjacent to cells in "Level 1" can be treated as "Level 2" of the
- * 		  graph.
- * 		- and so on.
- * 
- *  - We can traverse a "Rotten Level" and mark all cells in the next "Fresh Level" as rotten.
- *  
- *  - (Minutes required to spoil all "Fresh Levels") = (Minutes required to traverse all "Levels") - 1.
- * 
- *  - Approach:
- *  
- *  	- Perform BFS algorithm on the graph treating all cells with value = 2 (rotten oranges) as 
- *  	  "Level 1". 
- *  
- *  	- Algorithm:
- *  
- *  		// preparing Level 1 of the graph.
- *  		- Add all cells with value = 2 in a Queue;
- *  		
- *  		- While Queue is not empty:
- *  
- *  			// traversing a Level.
- *  			- Run a loop to empty the Queue, i.e., for Queue.size();
- *  				- rotten_cell = Queue.remove();
- *  				- Loop over neighbors of rotten_cell, i.e., cells adjacent to rotten_cell with value = 1:
- *  					- If a neighbor is not marked as rotten, i.e., a fresh orange:
- *  
- *  						// preparing the next Level.
- *  						- Add neighbor to the Queue;
- *  						- Mark neighbor as rotten;
- *  
- *  			// finished traversing a Level.
- *  			- minutes++;
- *  
- *  		- return minutes-1; 
- *  
- *  	- Time Complexity Analysis:
- *  
- *  		- In worst case scenario, we would be traversing over the entire input array of size 'm x n'.
- *  		- Hence, time complexity = O(m*n).
- *  
- *  
- *  	- Space Complexity Analysis:
- *  
- *  		- We are using a boolean visited array of size 'm x n'. 
- *  		- Queue would at max store m*n coordinates, only in case all cells have value = 2.
- *  		- Hence, overall space complexity = O(m*n).
- *  
- * */
+/*
+
+	Problem Statement: Given a mXn grid where:
+	 						- '0' represents an empty cell,
+	 				   		- '1' represents a fresh orange
+	 				   		- '2' represents a rotten orange.
+
+ 					   Every minute, any fresh orange that is 4-directionally adjacent to a rotten orange becomes rotten.
+ 					   Return the minimum number of minutes that must elapse until no cell has a fresh orange.
+
+ 					   NOTE: If this is impossible, return -1.
+
+	General Observations:
+
+		- The rotten oranges act as starting points or "sources" of the rot. The problem involves spreading the rot to
+		  adjacent fresh oranges in the shortest possible time.
+
+		- The 2D grid can be interpreted as a graph, where cells are vertices, and adjacency determine edges.
+
+		- We can use BFS algorithm to process nodes in a graph layer-by-layer.
+
+		- Algorithm:
+
+			// Step 1: Prepare the first rotten level of the graph
+			- Loop over each cell in graph:
+				- queue.add(cell);
+
+			- minutes = 0; // time to rot the first (already rotten layer) = 0
+
+			// Step 2: Process the cells containing fresh oranges layer by layer
+			- while(queue is not empty)
+
+				// Get count of rotten oranges in the current layer
+				- layerSize = queue.size();
+				- hasRottenAny = false;
+
+				// Process each rotten orange in the current layer to prepare the next rotten layer
+				- for count = [1, layerSize]:
+					- rottenCell = queue.poll();
+					- for each neighbour (adjacent) fresh cell of rottenCell:
+						- hasRottenAny = true;
+						- graph[cell.x][cell.y] = 2; // mark neighbour as rotten
+						- queue.add(cell);
+
+				- if hasRottenAny: minutes++; // if condition will help us while processing the last layer, i.e., when no oranges will get rotten.
+
+			- return minutes;
+
+		- Time Complexity: O(m*n).
+
+		- Space Complexity: O(m*n) in worst-case scenario (when all cells have value = 2).
+
+*/
 
 public class RottingOranges {
-	
-	private static int[][] directions = { {0,-1}, {-1,0}, {0,1}, {1,0} };
-	
-	private static List<Integer> getCoordinate(int r, int c) {
-		List<Integer> coordinate = new ArrayList<>();
-		coordinate.add(r);
-		coordinate.add(c);
-		return coordinate;
+
+	static class Cell {
+		int x;
+		int y;
+
+		Cell(int x, int y) {
+			this.x = x;
+			this.y = y;
+		}
 	}
-	
-	private static int BFS(int[][] grid, int m, int n, boolean[][] rotten) {
-		
-		Queue<List<Integer>> queue = new LinkedList<>();
-		boolean hasRottenOranges = false;
-		int minutes = 0;
-		
-		for(int r=0; r<m; r++) {
-			for(int c=0; c<n; c++) {
-				if(grid[r][c] == 2) {
-					hasRottenOranges = true;
-					queue.add(getCoordinate(r, c));
-				}
+
+	public static int orangesRotting(int[][] grid) {
+
+		int m = grid.length;
+		int n = grid[0].length;
+
+		Queue<Cell> queue = new LinkedList<>();
+		int freshCount = 0;
+
+		// Step 1: Prepare the first rotten level of the graph
+		for(int i=0; i<m; i++) {
+			for(int j=0; j<n; j++) {
+				if(grid[i][j] == 2) queue.add(new Cell(i, j));
+				else if(grid[i][j] == 1) freshCount++;
 			}
 		}
-		
-		if(!hasRottenOranges) {
-			return minutes;
-		}
-		
-		while(!queue.isEmpty()) {
-			
-			int cellsInLayer = queue.size();
-			
-			for(int i=0; i<cellsInLayer; i++) {
-				
-				List<Integer> coordinate = queue.remove();
-				int r = coordinate.get(0);
-				int c = coordinate.get(1);
-				
-				for(int[] direction: directions) {
-					
-					// neighbor's coordinate.
-					int nr = r + direction[0];
-					int nc = c + direction[1];
-					
-					boolean isBound = (nr>=0) && (nr<m) && (nc>=0) && (nc<n);
-					
-					if(isBound && grid[nr][nc]==1 && !rotten[nr][nc]) {
-						queue.add(getCoordinate(nr, nc));
-						rotten[nr][nc] = true;
+
+		if(queue.isEmpty() || freshCount == 0) return 0; // edge cases: no rotten orange or no fresh orange
+
+		int minutes = 0; // time to rot the first (already rotten layer) = 0
+
+		int[][] directions = {
+				{-1, 0},	// left
+				{0, -1},	// Up
+				{1, 0},		// Right
+				{0, 1} 	// Down
+		};
+
+		// Step 2: Process the cells containing fresh oranges layer by layer
+		while(!queue.isEmpty() && freshCount!=0) { // freshCount != 0 will help us handle the last layer, i.e., when no oranges will get rotten.
+
+			// Get count of rotten oranges in the current layer
+			int layerSize = queue.size();
+
+			// Process each rotten orange in the current layer to prepare the next rotten layer
+			for(int i=0; i<layerSize; i++) {
+
+				Cell rottenCell = queue.poll();
+
+				// Explore each adjacent neighbour (cell) of the rottenCell
+				for(int[] dir : directions) {
+					int nr = rottenCell.x + dir[1];
+					int nc = rottenCell.y + dir[0];
+					boolean isBounded = (nr >=0) && (nr < m) && (nc >=0) && (nc < n);
+					if(isBounded && (grid[nr][nc]==1)) { // if the adjacent cell is fresh
+						grid[nr][nc] = 2; // mark the adjacent cell as rotten
+						queue.add(new Cell(nr, nc));
+						freshCount--;
 					}
-					
 				}
-				
+
 			}
-			
+
 			minutes++;
-			
+
 		}
-		
-		return minutes-1;
-		
+
+		return freshCount == 0 ? minutes : -1;
+
 	}
 
 	public static void main(String[] args) {
 		
-		int[][] grid = {{0}}; //{{2,1,1,2}, {1,1,0,1}, {0,1,1,1}};
+//		int[][] grid = {
+//				{2,1,1}, // [rotten, fresh, fresh]
+//				{1,1,0}, // [fresh,  fresh, empty]
+//				{0,1,1}  // [empty,  fresh, fresh]
+//		};
+
+		int[][] grid = {
+				{1},
+				{2}
+		};
 		
-		int m = grid.length;
-		int n = grid[0].length;
-		
-		boolean[][] rotten = new boolean[m][n];
-		
-		int minutes = BFS(grid, m, n, rotten);
-		
-		for(int r=0; r<m; r++) {
-			for(int c=0; c<n; c++) {
-				if(grid[r][c]==1 && !rotten[r][c]) {
-					System.out.println("All oranges cannot be rotten.");
-					return;
-				}
-			}
-		}
-		
-		System.out.println("Minutes required to spoil all oranges: " + minutes);
+		System.out.println("Minutes required to rot all fresh oranges: " + orangesRotting(grid));
 
 	}
 
