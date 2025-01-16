@@ -25,7 +25,7 @@
 
     General Observations:
 
-        - The 2D board can be interpreted as a graph, where all cells containing '0' are vertices (adjacency determine edges).
+        - The 2D board can be interpreted as a graph, where all cells containing 'O' are vertices (adjacency determine edges).
 
         - The problem involves finding all regions (i.e., connected components of 'O') connected to the boundary.
 
