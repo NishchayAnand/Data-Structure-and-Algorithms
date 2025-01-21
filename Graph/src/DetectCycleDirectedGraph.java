@@ -20,7 +20,7 @@
 
             - Perform DFS and keep track of the "state" of each node during traversal:
 
-                - Not Visited (0): The node hasn't been explored yet.
+                - Unvisited (0): The node hasn't been explored yet.
 
                 - Being Visited (1): The node is currently in the recursion stack or is part of the current DFS path.
 
