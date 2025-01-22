@@ -24,7 +24,11 @@
             2. Each prerequisite pair [ai, bi] is a directed edge (bi → ai), indicating that course 'ai' depends on
                course 'bi'.
 
-        - The problem involves detecting if the graph has a cycle. If a cycle exists, it's impossible to finish all courses.
+        - If we can perform a topological sort of the course dependency graph, then all courses can be finished.
+
+        - If the graph contains a cycle, a topological sort is not possible, and it's impossible to finish all the courses.
+
+        - Primary Problem: Detect if the graph has a cycle.
 
         - DFS Approach:
 
