@@ -5,7 +5,7 @@
                        vertices 'v' such that there exists a directed edge (u -> v). Return topological sort for the
                        given graph.
 
-                       NOTE: As there are multiple Topological orders possible, you may return any of them.
+                       NOTE: As there are multiple topological orders possible, you may return any of them.
 
     General Observations:
 
@@ -14,19 +14,60 @@
 
         - NOTE: Topological sorting only works for Directed Acyclic Graphs (DAGs).
 
+        - Analogy:
+            - Think of each vertex as a task and edges as dependencies (u → v implies 'u' is a dependency for 'v').
+            - A task 'v' cannot be processed until all tasks 'u' pointing to 'v' are completed.
+
         - Intuition:
+            - The number of incoming edges (indegree) to a vertex represents the number of dependencies (prerequisites) it has.
+            - If a vertex has an indegree of 0, it means all its dependencies are already resolved, and it can be safely
+              added to the topological order.
 
-            - Think of each vertex as a task and edges as dependencies (a vertex 'u' connected to neighbor 'v' represents
-              that 'u' is a dependency for 'v').
+        - BFS Approach (Kahn's Algorithm):
 
-            - A task 'v' cannot be processed until all tasks 'u' that point to 'v' (u → v) are completed.
+            - A queue can be used to maintain all vertices that have no unresolved dependencies (indegree = 0). These
+              vertices are "ready" to be processed since they can be added to the topological order without violating
+              any dependency constraints.
+
+            - Once a vertex is processed (dequeued from the queue a vertex), its outgoing edges can be removed reducing
+              the indegree of its neighbors (dependent vertices).
+
+            - If any neighbor's indegree becomes 0, it can be added to the queue, meaning it is now ready to be processed.
+
+            - NOTE: BFS processes the vertices in layers, where each layer corresponds to vertices with indegree = 0.
+
+            - Algorithm:
+
+                // Step 1: Calculate indegree for each vertex
+                - indegree = [vertices];
+                - for each vertex in graph:
+                    - for each neighbour in graph[vertex]:
+                        - indegree[neighbour]++; // there is an incoming edge from 'vertex' to 'neighbour'
+
+                // Step 2: Generate topological sort by dynamically processing the vertices with indegree = 0
+                - for each vertex in graph:
+                    - if indegree[vertex] == 0:
+                        - queue.add(vertex);
+
+                - while queue is not empty:
+                    - vertex = queue.poll();
+                    - order.add(vertex);
+                    - for each neighbour in graph[vertex]:
+                        - indegree[neighbour]--;
+                        - if indegree[neighbour] == 0: queue.add(neighbour);
+
+                - return order;
+
+            - Time Complexity: O(V+E).
+
+            - Space Complexity: O(V).
 
         - DFS Approach:
 
             - Perform DFS traversal. While backtracking, add the current vertex 'u' to a stack.
 
-            - NOTE: The stack will hold the vertices in the reverse topological order, i.e., all dependencies 'u' of any
-                    vertex 'v' will lie above vertex 'v' in the stack.
+            - NOTE: The stack will hold the vertices in the reverse topological order, i.e., all vertices 'v' dependent on
+                    vertex 'u' will lie below vertex 'u' in the stack.
 
             - Time Complexity: O(V+E).
 
@@ -35,6 +76,8 @@
 */
 
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Stack;
 
 public class TopologicalSort {
@@ -47,14 +90,14 @@ public class TopologicalSort {
         reverseOrder.add(vertex);
     }
 
-    private static ArrayList<Integer> topologicalSort(ArrayList<ArrayList<Integer>> adj) {
+    private static ArrayList<Integer> topologicalSortDFS(ArrayList<ArrayList<Integer>> graph) {
 
-        int n = adj.size();
+        int n = graph.size();
         boolean[] visited = new boolean[n];
         Stack<Integer> stack = new Stack<>();
 
         for(int vertex = 0; vertex <n; vertex++){
-            if(!visited[vertex]) dfs(adj, vertex, visited, stack);
+            if(!visited[vertex]) dfs(graph, vertex, visited, stack);
         }
 
         ArrayList<Integer> order = new ArrayList<>();
@@ -62,6 +105,40 @@ public class TopologicalSort {
 
         return order;
 
+    }
+
+    private static ArrayList<Integer> topologicalSortBFS(ArrayList<ArrayList<Integer>> graph) {
+
+        // Step 1: Calculate indegree for each vertex
+        int V = graph.size();
+        int[] indegree = new int[V];
+        for(int vertex = 0; vertex < V; vertex++) {
+            for(int neighbour: graph.get(vertex)) indegree[neighbour]++; // there is an incoming edge from 'vertex' to 'neighbour'
+        }
+
+        // Step 2: Generate topological sort by dynamically processing the vertices with indegree = 0
+        Queue<Integer> queue = new LinkedList<>();
+        for(int vertex = 0; vertex < V; vertex++) {
+            if(indegree[vertex] == 0) queue.add(vertex);
+        }
+
+        ArrayList<Integer> order = new ArrayList<>();
+        while(!queue.isEmpty()) {
+            int vertex = queue.poll();
+            order.add(vertex);
+            for(int neighbour: graph.get(vertex)) {
+                indegree[neighbour]--;
+                if(indegree[neighbour] == 0) queue.add(neighbour);
+            }
+        }
+
+        return order;
+
+    }
+
+    public static ArrayList<Integer> topologicalSort(ArrayList<ArrayList<Integer>> adj) {
+        return topologicalSortBFS(adj); // BFS Approach
+        // return topologicalSortDFS(adj); // DFS Approach
     }
 
     public static void main(String[] args) {
