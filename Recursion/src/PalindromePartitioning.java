@@ -93,7 +93,7 @@ public class PalindromePartitioning {
 			if(isPalindrome(substring)) {
 				partition.add(substring);
 				getPalindromePartitions(s, i+1, partition, partitions);
-				partition.removeLast();
+				partition.remove(partition.size()-1);
 			}
 		}
 	}

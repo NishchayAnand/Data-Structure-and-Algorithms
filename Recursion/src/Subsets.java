@@ -117,7 +117,7 @@ public class Subsets {
 		// include
 		subset.add(nums[index]);
 		getAllSubsets(nums, index+1, subset, subsets);
-		subset.removeLast();
+		subset.remove(subset.size()-1);
 
 		// exclude
 		getAllSubsets(nums, index+1, subset, subsets);
@@ -129,7 +129,7 @@ public class Subsets {
 		for(int i = index; i<nums.length; i++) {
 			subset.add(nums[i]);
 			getAllSubsetsOptimized(nums, i+1, subset, subsets);
-			subset.removeLast();
+			subset.remove(subset.size()-1);
 		}
 	}
 

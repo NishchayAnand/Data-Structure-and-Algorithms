@@ -79,7 +79,7 @@ public class CombinationSum {
 			if(candidates[i]<=target) {
 				combination.add(candidates[i]);
 				getAllSubsets(candidates, i, target-candidates[i], combination, combinations);
-				combination.removeLast();
+				combination.remove(combination.size()-1);
 			}
 		}
 

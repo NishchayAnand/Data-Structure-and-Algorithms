@@ -110,7 +110,7 @@ public class Permutations {
 				permutation.add(nums[i]);
 				isSelected[i] = true;
 				getAllPermutations(nums, isSelected, permutation, permutations);
-				permutation.removeLast();
+				permutation.remove(permutation.size()-1);
 				isSelected[i] = false;
 			}
 		}
