@@ -46,7 +46,7 @@
 public class NetworkDelayTime {
 
     public static int networkDelayTime(int[][] times, int n, int k) {
-
+        return -1;
     }
 
     public static void main(String[] args) {
