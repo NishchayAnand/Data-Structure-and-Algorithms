@@ -3,9 +3,11 @@
 
     Problem Statement:
 
-        - Given a network of n nodes (labeled from 1 to n) and a list of travel times as directed edges times[i] = (ui, vi, wi),
-          where ui is the source node, vi is the target node, and wi is the time it takes for a signal to travel from
-          source to target.
+        - Given a network of n nodes (labeled from 1 to n) and a list of travel times as directed edges
+          times[i] = (ui, vi, wi), where:
+                - ui is the source node,
+                - vi is the target node, and
+                - wi is the time it takes for a signal to travel from source to target.
 
         - Return the minimum time it takes for all the n nodes to receive the signal sent from a given node k. If it is
           impossible for all the n nodes to receive the signal, return -1.

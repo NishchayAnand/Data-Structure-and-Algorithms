@@ -13,7 +13,7 @@
         - BFS explores nodes level by level, counting the number of edges from the source to a node (assuming each edge
           has the same weight) and treating it as the "shortest" path.
 
-        - In a weighted graph, the shortest path is based on minimum sum of edge weights, not the fewest edges.
+        - In a weighted graph, the shortest path is based on the minimum sum of edge weights, not the fewest edges.
 
         - For example, in the below graph, the shortest path to reach C = 2 (A-B) + 1 (B-C) = 3, not 5 (A-C).
 
@@ -27,7 +27,7 @@
             - Out of all the unprocessed nodes (with known distance from source node), the node which is closest to the
               source node is guaranteed to have all possible paths leading to it fully explored.
 
-        - Algorithm:
+        - Dijkstra's Algorithm:
 
             // Step 1: create an array to represent the shortest known distance from the source node to every other node.
             - let dist = [∞] * V;
@@ -36,7 +36,7 @@
             // Step 2: initialize a priority queue (min-heap) with the (source node) and its (distance from the source node).
             - pq.push([source, 0]);
 
-            // Step 3: process all nodes to find their shortest distance from source node.
+            // Step 3: process all (V) nodes to find their shortest distance from source node.
             - While pq is not empty:
                 - [X, dX] = pq.poll();
                 - For each edge [Y,W] of X:
@@ -48,7 +48,26 @@
 
         - Time Complexity:
 
-        - Space Complexity: O(V)
+            - In the worst-case scenario (a densely connected graph where each node is connected to every other node),
+              each node has V-1 edges and total number of edges (E) = V^2.
+
+            - Number of operations performed by the above algorithm = V * ( log(avg_heap_size) + (V-1) * log(avg_heap_size) )
+                                                                    = V * log(avg_heap_size) * (V)
+                                                                    = V^2 * log(avg_heap_size)
+                                                                    = E * log(avg_heap_size)
+                                                                    = E * log(V^2)
+                                                                    = E * 2 * log(V)
+
+           - Since, number of operations is of the order E*log(V), time complexity = O( E*log(V) )
+
+        - Space Complexity:
+
+            - In the worst-case scenario (a densely connected graph where each node is connected to every other node),
+              the priority queue will hold V^2 entries (number of edges - E).
+
+            - Hence, space complexity = O(V^2)
+
+        - NOTE: The Dijkstra's algorithm works for a weighted graph with non-negative edges.
 */
 
 import java.util.*;
@@ -80,7 +99,7 @@ public class Dijkstra {
             // Get the unprocessed node closest to the source node
             int[] current = pq.poll();
             int node = current[0], nodeDist = current[1];
-            if(nodeDist>dist.get(node)) continue; // skip any extra entry for already finalized node
+            if(nodeDist>dist.get(node)) continue; // skip any extra entry for already finalized node (visited check)
 
             // Update the shortest distance from source node to node's neighbours
             for(int[] edge : graph.get(node)) {
@@ -102,7 +121,7 @@ public class Dijkstra {
         for (int[] row : matrix) {
             ArrayList<Integer> tempList = new ArrayList<>();
             for (int num : row) tempList.add(num); // add elements to inner ArrayList
-            list.add(tempList); // add inner list to outer ArrayList
+            list.add(tempList); // add the inner list to outer ArrayList
         }
         return list;
     }
