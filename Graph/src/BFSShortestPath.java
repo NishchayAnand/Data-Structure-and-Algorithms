@@ -25,7 +25,7 @@
             - while queue is not empty:
                 - levelSize = queue.size();
                 - for i = [1, levelSize]:
-                    - vertex = queue.pop();
+                    - vertex = queue.poll();
                     - for each neighbour in graph[vertex]:
                         - if dist[neighbour] == -1:
                             - dist[neighbour] = dist[vertex] + 1;
