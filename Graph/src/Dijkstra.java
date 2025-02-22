@@ -10,8 +10,7 @@
 
     General Observations:
 
-        - BFS explores nodes level by level, counting the number of edges from the source to a node (assuming each edge
-          has the same weight) and treating it as the "shortest" path.
+
 
         - In a weighted graph, the shortest path is based on the minimum sum of edge weights, not the fewest edges.
 
@@ -23,7 +22,10 @@
                         |                                    |
                         |_______________3_________D_____1____|
 
-        - Greedy Intuition:
+        - Brute Force Approach:
+            - Use BFS traversal (don't use visited vertex concept since we can get the shortest path from different paths). ??
+
+        - Greedy Approach:
             - Out of all the unprocessed nodes (with known distance from source node), the node which is closest to the
               source node is guaranteed to have all possible paths leading to it fully explored.
 
