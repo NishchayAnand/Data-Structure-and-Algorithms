@@ -26,9 +26,9 @@ package slidingWindow;
         - For any nums[j], we only need to check if it was seen before within the last k indices, i.e., if there existed
           a nums[i] before nums[j] such that nums[i] == nums[j] and j-i <= k.
 
-        - Map Approach:
+        - HashMap Approach:
 
-            - Iterate over all nums[j] and use a map to keep track of the 'latest index' of each 'element'.
+            - Iterate over all nums[j] and use a HashMap to keep track of the 'latest index' of each 'element'.
 
             - Algorithm:
                 - loop from j = [0, n):
@@ -45,12 +45,30 @@ package slidingWindow;
 
         - Sliding Window Approach:
 
-            - Explore all possible windows of length = k+1. Use a set to keep track of at most k+1 recent elements.
+            - Use two pointers (i and j) to iterate over all possible windows of length = k+1 and a HashSet
+              to track elements in each window.
+
+            - Algorithm:
+                - i = 0, j = 0;
+                - while j < n:
+                    - if j - i > k:
+                        - set.remove(nums[i]);
+                        - i++;
+                    - if nums[j] in set:
+                        - return true;
+                    - set.add(nums[j]);
+                - return false;
+
+            - Time Complexity: O(n).
+
+            - Space Complexity: O(k).
 
 */
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 public class ContainsDuplicateII {
 
@@ -64,9 +82,26 @@ public class ContainsDuplicateII {
         return false;
     }
 
+    public static boolean containsNearbyDuplicate(int[] nums, int k) {
+        int n = nums.length;
+        int left = 0;
+        Set<Integer> set = new HashSet<>();
+        for(int right=0; right<n; right++) {
+            if(right-left > k) {
+                set.remove(nums[left]);
+                left++;
+            }
+            if(set.contains(nums[right])) return true;
+            set.add(nums[right]);
+        }
+        return false;
+    }
+
+
+
     public static void main(String[] args) {
         int[] nums = {1,2,3,1,2,3};
         int k = 2;
-        System.out.println(containsNearbyDuplicateMap(nums, k));
+        System.out.println(containsNearbyDuplicate(nums, k));
     }
 }
