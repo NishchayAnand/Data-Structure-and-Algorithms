@@ -38,9 +38,8 @@ package slidingWindow;
 
         - Sliding Window Approach:
 
-            - Use two pointers (left and right) to track a moving window representing the substrings of size = s1.length()
-              inside s2. Instead of recalculating the frequency map for each substring from scratch, dynamically update
-              the frequency map as the window slides forward.
+            - Use two pointers (left and right) to over each substring of s2 of size = s1.length() and dynamically update
+              the frequency map of each window (substring) while sliding across s2.
 
             - NOTE: Since we are dealing with strings containing lowercase English letters, we can efficiently represent
                     character frequency maps using an array of size 26 instead of a HashMap.
