@@ -32,14 +32,14 @@ package slidingWindow;
 
             - Redundant Operations:
                 - For each substring, we are recalculating the frequency map from scratch, i.e., performing O(m) operation
-                  repeated for each window in s2.
+                  repeatedly for each window in s2.
 
         - The problem involves exploring all windows (substrings) of length = size(s1).
 
         - Sliding Window Approach:
 
-            - Use two pointers (left and right) to over each substring of s2 of size = s1.length() and dynamically update
-              the frequency map of each window (substring) while sliding across s2.
+            - Use two pointers (left and right) to iterate over each substring of s2 of size = s1.length() and dynamically
+              update the frequency map of each window (substring) while sliding across s2.
 
             - NOTE: Since we are dealing with strings containing lowercase English letters, we can efficiently represent
                     character frequency maps using an array of size 26 instead of a HashMap.
