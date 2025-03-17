@@ -28,7 +28,7 @@ package slidingWindow;
 
             - Time Complexity: O(n^2).
 
-            - Space Complexity Analysis: We need to use a HashMap or an array of size 26 to efficiently track character
+            - Space Complexity Analysis: We can use a HashMap or an array of size 26 to efficiently track character
                                          frequencies for each substring window. Thus, total space complexity will be
                                          O(26) ~ O(1).
 
