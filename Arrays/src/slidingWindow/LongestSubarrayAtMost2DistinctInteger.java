@@ -86,7 +86,8 @@ public class LongestSubarrayAtMost2DistinctInteger {
             freqMap.put(arr[right], freqMap.getOrDefault(arr[right], 0)+1);
             while(freqMap.size() > 2) {
                 freqMap.put(arr[left], freqMap.get(arr[left])-1);
-                if(freqMap.get(arr[left]) == 0) freqMap.remove(arr[left++]);
+                if(freqMap.get(arr[left]) == 0) freqMap.remove(arr[left]);
+                left++;
             }
             maxLength = Math.max(maxLength, right-left+1);
         }
