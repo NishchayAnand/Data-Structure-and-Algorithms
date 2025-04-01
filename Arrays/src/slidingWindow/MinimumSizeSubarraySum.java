@@ -38,9 +38,10 @@ package slidingWindow;
             - Space Complexity: O(1).
 
             - Redundant Operations:
-                - We are recomputing overlapping sums multiple times. For example, when moving from i = 0 (valid
-                  substring = [2,3,1,2]) to i = 1 (valid substring = [3,1,2,4]), we are recomputing the subarray
-                  [3,1,2] (sum 6), even though we already calculated it before.
+                - If nums[i,j] represents the shortest subarray starting at index = i whose sum >= k, all subarrays in
+                  the range (i,j) will have sum < k. Hence, it would be redundant to explore these subarrays. For example,
+                  if [2,3,1,2] represents the shortest subarray in the range [0,3] whose sum >= 7, then all subarrays in
+                  range [1,2]: [3], [3,1] and [1] would have sum < 7.
 
         - The problem involves sliding across all possible substrings (window) whose sum >= 'target'.
 

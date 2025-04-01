@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/BinarySearch/BinarySearch.iml" filepath="$PROJECT_DIR$/BinarySearch/BinarySearch.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Binary Search/Binary Search.iml" filepath="$PROJECT_DIR$/Binary Search/Binary Search.iml" />
       <module fileurl="file://$PROJECT_DIR$/Data-Structure-and-Algorithms.iml" filepath="$PROJECT_DIR$/Data-Structure-and-Algorithms.iml" />
       <module fileurl="file://$PROJECT_DIR$/Dynamic Programming/Dynamic Programming.iml" filepath="$PROJECT_DIR$/Dynamic Programming/Dynamic Programming.iml" />
       <module fileurl="file://$PROJECT_DIR$/Graph/Graph.iml" filepath="$PROJECT_DIR$/Graph/Graph.iml" />
