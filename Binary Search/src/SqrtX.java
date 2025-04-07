@@ -51,9 +51,7 @@
 
         - Space Complexity: O(1).
 
-        - NOTE: For large values of x, mid * mid can overflow and give you the wrong results in languages like Java. Convert
-                the data type of mid from int to long to allow multiplication to happen safely.
-
+        - NOTE: For large values of x, mid * mid can overflow and give you the wrong results in languages like Java.
 */
 
 public class SqrtX {
@@ -63,12 +61,13 @@ public class SqrtX {
         if(x == 0) return 0; // base condition
 
         int result = 1;
-        long low = 1, high = x;
+        int low = 1, high = x;
         while(low <= high) {
-            long mid = (low + high) / 2;
-            if(mid*mid > x) high = mid - 1;
+            int mid = low + (high - low) / 2; // to avoid overflow
+            long square = (long) mid * mid; // to avoid overflow
+            if(square > x) high = mid - 1;
             else { // mid * mid <= x
-                result = (int) mid;
+                result = mid;
                 low = mid + 1;
             }
         }
